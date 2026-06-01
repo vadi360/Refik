@@ -85,6 +85,12 @@ model User {
   pushToken     String?   @map("push_token") // FCM push token
   whatsappNotif Boolean   @default(false) @map("whatsapp_notif") // WhatsApp bildirim aktif mi
 
+  // Telegram
+  telegramId    String?   @map("telegram_id") // Telegram kullanıcı ID'si
+
+  // Bildirim tercihleri (JSON)
+  notificationPreferences Json?   @map("notification_preferences") // { push: true, email: true, sms: false, whatsapp: true }
+
   // Zaman bilgileri
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
@@ -1072,4 +1078,65 @@ model IcraAssetHistory {
   @@index([icraFileId]) // İcra dosyası ile arama
   @@index([createdAt]) // Tarih ile arama
   @@map("icra_asset_history")
+}
+
+// ============================================================================
+// BİLDİRİM ŞABLONU (NOTIFICATION_TEMPLATES) TABLOSU
+// Açıklama: Tekrar kullanılabilir bildirim şablonları
+// ============================================================================
+model NotificationTemplate {
+  id            String    @id @default(uuid())
+  name          String    @map("name") // Şablon adı
+  title         String    @map("title") // Başlık (değişkenlerle: {{name}})
+  body          String    @map("body") // İçerik (değişkenlerle)
+  channels      Json      @map("channels") // Hangi kanallarda kullanılabilir
+  priority      String    @default("normal") @map("priority")
+  isActive      Boolean   @default(true) @map("is_active")
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@map("notification_templates")
+}
+
+// ============================================================================
+// BİLDİRİM GÖNDERİM LOG (NOTIFICATION_LOGS) TABLOSU
+// Açıklama: Gönderilen bildirimlerin geçmişini tutar
+// ============================================================================
+model NotificationLog {
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  title         String    @map("title")
+  body          String    @map("body")
+  channels      Json      @map("channels") // Gönderilen kanallar
+  
+  // Push
+  pushSent      Boolean   @default(false) @map("push_sent")
+  pushMessageId String?   @map("push_message_id")
+  pushError     String?   @map("push_error")
+  
+  // SMS
+  smsSent       Boolean   @default(false) @map("sms_sent")
+  smsMessageId  String?   @map("sms_message_id")
+  smsError      String?   @map("sms_error")
+  
+  // Email
+  emailSent     Boolean   @default(false) @map("email_sent")
+  emailError    String?   @map("email_error")
+  
+  // WhatsApp
+  whatsappSent Boolean   @default(false) @map("whatsapp_sent")
+  whatsappError String?   @map("whatsapp_error")
+  
+  // Telegram
+  telegramSent Boolean   @default(false) @map("telegram_sent")
+  telegramError String?   @map("telegram_error")
+  
+  priority      String    @default("normal") @map("priority")
+  
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("notification_logs")
 }
