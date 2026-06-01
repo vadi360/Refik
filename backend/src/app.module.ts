@@ -44,6 +44,8 @@ import { UetsModule } from './modules/uets/uets.module';
 import { FilesModule } from './modules/files/files.module';
 import { HealthModule } from './modules/health/health.module';
 import { RagModule } from './modules/rag/rag.module';
+import { UyapModule } from './modules/uyap/uyap.module';
+import { CronModule } from './modules/cron/cron.module';
 
 /**
  * Environment yapılandırma ayarları
@@ -180,6 +182,10 @@ interface EnvironmentVariables {
 
     // RAG modülü - Pinecone vektör veritabanı + similarity search
     RagModule,
+    // UYAP modülü - UYAP entegrasyonu (Chrome eklentisi)
+    UyapModule,
+    // Cron modülü - Zamanlanmış görevler (5 gün kuralı, hatırlatıcı bildirimleri)
+    CronModule,
   ],
 
   // =========================================================================
