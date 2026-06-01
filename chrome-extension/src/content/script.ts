@@ -114,7 +114,7 @@ function addHighlightButton(element: Element, text: string, action: string): voi
     button.remove();
   };
 
-  element.style.position = 'relative';
+  element.setAttribute('style', 'position: relative');
   element.appendChild(button);
 }
 

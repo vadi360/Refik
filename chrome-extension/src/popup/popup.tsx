@@ -166,7 +166,7 @@ function MainScreen({
   onSummarize,
   onCreateReminder
 }: {
-  user: User;
+  user: User | null;
   currentFile: FileData | null;
   recentFiles: FileData[];
   connectionStatus: 'connected' | 'disconnected' | 'checking';
