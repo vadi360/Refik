@@ -79,6 +79,12 @@ AvukatPro, Türkiye'deki avukatlara yönelik, mobil öncelikli yapay zekâ deste
 - SMS bildirimleri (NetGSM)
 - E-posta bildirimleri (SendGrid)
 - WhatsApp Business API
+- Telegram Bot API
+
+**Çoklu Kanal Bildirim Sistemi:**
+- Push, SMS, Email, WhatsApp, Telegram
+- Kullanıcı başına bildirim tercihleri
+- Otomatik yedekleme (bir kanal başarısız olursa diğeri)
 
 ### 📊 Tevkil Pazar Yeri
 - Yük dengeleme algoritması
