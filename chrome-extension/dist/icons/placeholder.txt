@@ -1,0 +1,13 @@
+# ICON DOSYALARI GEREKLİ
+
+Chrome Web Store için aşağıdaki ikonlar gerekiyor:
+- icon16.png (16x16 px)
+- icon32.png (32x32 px)
+- icon48.png (48x48 px)
+- icon128.png (128x128 px)
+
+Ücretsiz oluşturmak için:
+- https://favicon.io/
+- https://realfavicongenerator.net/
+
+Veya tasarımcıdan isteyin.
