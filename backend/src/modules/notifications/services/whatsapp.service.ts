@@ -235,7 +235,7 @@ Refik - Hukuk Asistanı`;
 📅 Tarih: ${dueDate}
 ${type === 'DEADLINE' ? '⚡ Kritik: Süre yaklaşıyor!' : ''}
 
-Refik uygulamasını açmak için tıklayın: https://refik.com/app`;
+Refik uygulamasını açmak için tıklayın: https://refik.app/app`;
 
     return this.sendTextMessage(to, message);
   }

@@ -226,7 +226,7 @@ export class DocumentGeneratorService {
     const timestamp = new Date().toISOString();
     
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<udf:Document xmlns:udf="http://udf.refik.com/schema/1.0">
+<udf:Document xmlns:udf="http://udf.refik.app/schema/1.0">
   <udf:Header>
     <udf:Version>1.0</udf:Version>
     <udf:CreatedAt>${timestamp}</udf:CreatedAt>

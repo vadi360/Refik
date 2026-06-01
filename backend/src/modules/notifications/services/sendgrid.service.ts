@@ -84,7 +84,7 @@ export class SendgridService {
   constructor(private configService: ConfigService) {
     // SendGrid API credentials
     this.apiKey = this.configService.get<string>('SENDGRID_API_KEY', '');
-    this.fromEmail = this.configService.get<string>('SENDGRID_FROM_EMAIL', 'noreply@refik.com');
+    this.fromEmail = this.configService.get<string>('SENDGRID_FROM_EMAIL', 'noreply@refik.app');
     this.fromName = this.configService.get<string>('SENDGRID_FROM_NAME', 'Refik');
 
     if (this.apiKey) {

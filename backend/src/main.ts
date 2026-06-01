@@ -39,8 +39,8 @@ async function bootstrap() {
         'http://localhost:3000',
         'http://localhost:3001',
         // Üretim domainleri
-        'https://refik.com',
-        'https://www.refik.com',
+        'https://refik.app',
+        'https://www.refik.app',
       ],
       credentials: true, // Cookie ve Authorization header'larının gönderilmesine izin verir
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -121,8 +121,8 @@ AI model seçimi admin panelinden yapılandırılır.
     .setVersion('1.0') // API versiyonu
     .setContact(
       'Refik Team', // İletişim bilgileri
-      'https://refik.com',
-      'support@refik.com',
+      'https://refik.app',
+      'support@refik.app',
     )
     .addBearerAuth(
       // JWT token ile kimlik doğrulama
@@ -155,7 +155,7 @@ AI model seçimi admin panelinden yapılandırılır.
   SwaggerModule.setup('api/docs', app, document, {
     // Swagger UI ayarları
     customSiteTitle: 'Refik API Dokümantasyonu',
-    customfavIcon: 'https://refik.com/favicon.ico',
+    customfavIcon: 'https://refik.app/favicon.ico',
     customCss: `
       /* Swagger UI özelleştirmesi */
       .swagger-ui .topbar { display: none }

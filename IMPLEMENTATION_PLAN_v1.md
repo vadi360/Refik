@@ -1838,7 +1838,7 @@ INSERT INTO ai_config (task_name, model, is_active) VALUES
 │  │    title: Refik API                                          │
 │  │    version: 1.0.0                                                │
 │  │    description: Türkiye'nin hukuk asistanı API                  │
-│  │    contact: support@refik.com                                │
+│  │    contact: support@refik.app                                │
 │  │    license: MIT                                                  │
 │  │                                                                 │
 │  ├─ servers:                                                        │

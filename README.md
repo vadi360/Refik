@@ -6,7 +6,7 @@
 
 **Versiyon:** 1.0 | **Tarih:** 02 Haziran 2026  
 **GitHub:** https://github.com/vadi360/Refik  
-**Website:** https://refik.com
+**Website:** https://refik.app
 
 *Mobil öncelikli, AI destekli hukuk asistanı ve tevkil pazar yeri*
 
@@ -723,10 +723,10 @@ Bu proje **MIT Lisansı** altında lisanslanmıştır.
 
 | Kanal | Değer |
 |-------|-------|
-| **Website** | https://refik.com |
+| **Website** | https://refik.app |
 | **GitHub** | https://github.com/vadi360/Refik |
-| **Email** | info@refik.com |
-| **Destek** | destek@refik.com |
+| **Email** | info@refik.app |
+| **Destek** | destek@refik.app |
 
 ### 15.3 Sosyal Medya
 
