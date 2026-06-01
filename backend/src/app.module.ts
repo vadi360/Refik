@@ -43,6 +43,7 @@ import { AdminModule } from './modules/admin/admin.module';
 import { UetsModule } from './modules/uets/uets.module';
 import { FilesModule } from './modules/files/files.module';
 import { HealthModule } from './modules/health/health.module';
+import { RagModule } from './modules/rag/rag.module';
 
 /**
  * Environment yapılandırma ayarları
@@ -176,6 +177,9 @@ interface EnvironmentVariables {
 
     // Sağlık modülü - Özel health check endpoint'leri
     HealthModule,
+
+    // RAG modülü - Pinecone vektör veritabanı + similarity search
+    RagModule,
   ],
 
   // =========================================================================
