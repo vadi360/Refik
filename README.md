@@ -287,10 +287,10 @@
 
 | Paket | Aylık | Yıllık | Token Limit | Özellikler |
 |-------|-------|--------|-------------|------------|
-| **Basic** | 199₺ | 1.990₺ | 1.000 | Temel özellikler, email destek |
-| **Standard** | 499₺ | 4.990₺ | 3.000 | + UETS, + RAG, öncelikli destek |
-| **Professional** | 999₺ | 9.990₺ | 10.000 | + Tevkil, + İcra, 7/24 destek |
-| **Enterprise** | 1.999₺ | 19.990₺ | 50.000 | + B2B, + API, özel eğitim |
+| **Basic** | 199₺ | 1.990₺ | 1.000 | Tebligat takibi (UETS), Tevkil pazarı, Takvim, Email destek |
+| **Standard** | 499₺ | 4.990₺ | 3.000 | + UYAP entegrasyonu (dosya takibi, özet), RAG tabanlı arama, Öncelikli destek |
+| **Professional** | 999₺ | 9.990₺ | 10.000 | + Dilekçe hazırlama (ihtarname, cevap dilekçesi), Belge revizyonu, 7/24 destek |
+| **Enterprise** | 1.999₺ | 19.990₺ | 50.000 | + İçtihat/emsal araştırması (derin RAG), İcra takibi, B2B API, Özel eğitim |
 
 ### 6.3 Token Paketleri
 

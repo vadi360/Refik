@@ -630,12 +630,12 @@ Ay 1-2   Ay 3-4   Ay 5-6   Ay 7-8   Gelecek
 
 ### 11.1 Fiyatlandırma Paketleri
 
-| Paket | Fiyat | Özellikler |
-|-------|-------|------------|
-| **Basic** | 199₺/ay | Tebligat takibi, Tevkil, Hatırlatıcı, Görev yönetimi |
-| **Standard** | 499₺/ay | Basic + UYAP entegrasyonu, Dosya analizi, Aleyhe/Lehe |
-| **Professional** | 999₺/ay | Standard + Dilekçe, İhtarname, Revize, Token: 10.000/ay |
-| **Enterprise** | 1.999₺/ay | Professional + İçtihat, Sınırsız RAG, Öncelik destek, Token: 50.000/ay |
+| Paket | Fiyat | Token Limit | Özellikler |
+|-------|-------|-------------|------------|
+| **Basic** | 199₺/ay | 1.000/ay | Tebligat takibi (UETS 5 gün kuralı), Tevkil pazarı, Takvim, Hatırlatıcı |
+| **Standard** | 499₺/ay | 3.000/ay | Basic + UYAP entegrasyonu (dosya takibi, özet, RAG), Öncelikli destek |
+| **Professional** | 999₺/ay | 10.000/ay | Standard + Dilekçe hazırlama (ihtarname, cevap dilekçesi), Belge revizyonu, 7/24 destek |
+| **Enterprise** | 1.999₺/ay | 50.000/ay | Professional + İçtihat/emsal araştırması (derin RAG), İcra takibi, B2B API, Özel eğitim |
 
 ### 11.2 Gelir Modeli
 
