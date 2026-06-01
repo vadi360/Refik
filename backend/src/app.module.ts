@@ -51,6 +51,7 @@ import { UserDocumentsModule } from './modules/user-documents/user-documents.mod
 import { IcraModule } from './modules/icra/icra.module';
 import { CallCenterModule } from './modules/call-center/call-center.module';
 import { CalendarModule } from './modules/calendar/calendar.module';
+import { CaseUpdateModule } from './modules/case-update/case-update.module';
 
 /**
  * Environment yapılandırma ayarları
@@ -201,6 +202,8 @@ interface EnvironmentVariables {
     CallCenterModule,
     // Takvim modülü - Tüm takvim verilerini birleştirir
     CalendarModule,
+    // Dosya güncelleme modülü - AI analiz, yapılacaklar, kronoloji
+    CaseUpdateModule,
   ],
 
   // =========================================================================

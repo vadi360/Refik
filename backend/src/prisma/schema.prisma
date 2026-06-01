@@ -200,6 +200,10 @@ model Case {
   aiSummary     String?   @map("ai_summary") // AI tarafından oluşturulan özet
   decisionAnalysis Json? @map("decision_analysis") // Karar analizi sonuçları
   decisionSide  Json?     @map("decision_side") // Aleyhte/Lehte tespiti (aleyh: [], lehte: [])
+  
+  // Yapılacaklar ve kronoloji (AI tarafından önerilen)
+  actionItems   Json?     @default("[]") @map("action_items") // AI önerili yapılacaklar [{task, deadline, priority, status}]
+  timelineUpdates Json?   @default("[]") @map("timeline_updates") // Kronolojik gelişmeler [{date, type, description}]
 
   // UYAP bilgileri (Chrome eklentisi için)
   uyapId        String?   @map("uyap_id") // UYAP'taki dosya ID'si
