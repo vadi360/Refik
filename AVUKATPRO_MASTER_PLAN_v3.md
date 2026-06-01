@@ -298,7 +298,7 @@ Avukatlar:
 ┌──────────────┐ ┌──────────┐ ┌──────────────┐
 │  Auth        │ │  Core    │ │  AI          │
 │  Service     │ │  API     │ │  Gateway     │
-│  (JWT/OAuth) │ │  (Node)  │ │  (Seçimli)   │
+│  (JWT + OTP) │ │  (Node)  │ │  (Seçimli)   │
 │  + OTP       │ │          │ │              │
 └──────────────┘ └────┬─────┘ └──────┬───────┘
                       │             │

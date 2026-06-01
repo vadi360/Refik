@@ -48,6 +48,7 @@ import { UyapModule } from './modules/uyap/uyap.module';
 import { CronModule } from './modules/cron/cron.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { UserDocumentsModule } from './modules/user-documents/user-documents.module';
+import { IcraModule } from './modules/icra/icra.module';
 
 /**
  * Environment yapılandırma ayarları
@@ -192,6 +193,8 @@ interface EnvironmentVariables {
     PaymentsModule,
     // Kullanıcı evrakları modülü - Özlük dosyası, admin onay
     UserDocumentsModule,
+    // İcra takip modülü - Otomatik icra takibi
+    IcraModule,
   ],
 
   // =========================================================================

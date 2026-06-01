@@ -904,3 +904,97 @@ enum VerificationStatus {
   REJECTED  // Reddedildi
   REVISION  // Revizyon istendi
 }
+
+// ============================================================================
+// İCRA DOSYASI (ICRA_FILES) TABLOSU
+// Açıklama: İcra takip dosyalarını saklar
+// Diğer tablolarla ilişkiler:
+// - user (N:1) - Takip sahibi avukat
+// ============================================================================
+model IcraFile {
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  takipNumarasi String    @map("takip_numarasi") // İcra takip numarası
+  alacakli      String    @map("alacakli") // Alacaklı (müvekkil)
+  borclu        String    @map("borclu") // Borçlu
+  borcluTC      String?   @map("borclu_tc") // Borçlu TC
+  borcluAdres   String?   @map("borclu_adres") // Borçlu adresi
+  takipTarihi   DateTime  @map("takip_tarihi") // Takip başlangıç tarihi
+  takipTuru     IcraTrackingType @map("takip_turu") // Takip türü
+  durum         IcraFileStatus @default(AKTIF) @map("durum") // Dosya durumu
+  takipMiktari  Decimal   @db.Decimal(15,2) @map("takip_miktari") // Takip edilen miktar
+  odemeMiktari  Decimal   @default(0) @db.Decimal(15,2) @map("odeme_miktari") // Ödenen miktar
+  kalanMiktar   Decimal   @default(0) @db.Decimal(15,2) @map("kalan_miktar") // Kalan miktar
+  satişTarihi   DateTime? @map("satis_tarihi") // Satış tarihi
+  sonrakiAsama  String?   @map("sonraki_asama") // Sonraki aşama bilgisi
+  aiAnaliz      Json?     @map("ai_analiz") // AI analiz sonucu
+  aktif         Boolean   @default(true) @map("aktif") // Takip aktif mi
+  kapatmaNedeni String?   @map("kapatma_nedeni") // Kapatma nedeni
+  closedAt      DateTime? @map("closed_at") // Kapatma tarihi
+  lastRefreshAt DateTime? @map("last_refresh_at") // Son güncelleme zamanı
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at") // Soft delete
+
+  // --------------------------------------------------------------------
+  // İLİŞKİLER
+  // --------------------------------------------------------------------
+  user          User      @relation(fields: [userId], references: [id])
+  reminders     Reminder[]
+  documents     Document[]
+  payments      IcraPayment[]
+
+  @@unique([userId, takipNumarasi]) // Aynı kullanıcıda takip numarası benzersiz
+  @@index([userId]) // Kullanıcı ID ile arama
+  @@index([durum]) // Durum ile arama
+  @@index([aktif]) // Aktif takipleri bulma
+  @@map("icra_files")
+}
+
+// İcra takip türü enum'u
+enum IcraTrackingType {
+  ALACAK      // Alacak davası icrası
+  TAKIP       // Genel icra takibi
+  İSTİHKAK   // İstihkak iddiası
+  HACİZ       // Haciz işlemleri
+  SATIŞ       // Satış işlemleri
+  TAHSİLAT    // Tahsilat takibi
+}
+
+// İcra dosya durumu enum'u
+enum IcraFileStatus {
+  AKTIF      // aktif takip
+  KESİNLEŞEN // Kesinleşmiş
+  SONA EREN   // Sona eren
+  HACİZ       // Haciz aşamasında
+  SATIŞ       // Satış aşamasında
+  TAHSİLAT    // Tahsilat aşamasında
+}
+
+// ============================================================================
+// İCRA TAHSİLAT (ICRA_PAYMENTS) TABLOSU
+// Açıklama: İcra takiplerinden yapılan tahsilatları saklar
+// Diğer tablolarla ilişkiler:
+// - icraFile (N:1) - Tahsilatın ait olduğu icra dosyası
+// ============================================================================
+model IcraPayment {
+  id            String    @id @default(uuid())
+  icraFileId    String    @map("icra_file_id")
+  amount        Decimal   @db.Decimal(15,2) @map("amount") // Tahsilat miktarı
+  paymentDate   DateTime  @map("payment_date") // Ödeme tarihi
+  description   String?   @map("description") // Açıklama
+  status        PaymentStatus @default(PENDING) @map("status") // Ödeme durumu
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // --------------------------------------------------------------------
+  // İLİŞKİLER
+  // --------------------------------------------------------------------
+  icraFile      IcraFile  @relation(fields: [icraFileId], references: [id])
+
+  @@index([icraFileId]) // İcra dosyası ile arama
+  @@index([paymentDate]) // Tarih ile arama
+  @@map("icra_payments")
+}
