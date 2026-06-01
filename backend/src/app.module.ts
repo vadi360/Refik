@@ -46,6 +46,8 @@ import { HealthModule } from './modules/health/health.module';
 import { RagModule } from './modules/rag/rag.module';
 import { UyapModule } from './modules/uyap/uyap.module';
 import { CronModule } from './modules/cron/cron.module';
+import { PaymentsModule } from './modules/payments/payments.module';
+import { UserDocumentsModule } from './modules/user-documents/user-documents.module';
 
 /**
  * Environment yapılandırma ayarları
@@ -186,6 +188,10 @@ interface EnvironmentVariables {
     UyapModule,
     // Cron modülü - Zamanlanmış görevler (5 gün kuralı, hatırlatıcı bildirimleri)
     CronModule,
+    // Ödeme modülü - iyzico, PayTR, Stripe entegrasyonu
+    PaymentsModule,
+    // Kullanıcı evrakları modülü - Özlük dosyası, admin onay
+    UserDocumentsModule,
   ],
 
   // =========================================================================

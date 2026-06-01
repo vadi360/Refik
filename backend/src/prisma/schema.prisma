@@ -72,6 +72,9 @@ model User {
   // Abonelik durumu
   subscriptionStatus String   @default("free") @map("subscription_status")
 
+  // Doğrulama durumu (Admin onayı)
+  isVerified     Boolean   @default(false) @map("is_verified") // Admin tarafından onaylandı mı
+
   // KVKK ve açık rıza
   kvkkConsent   Boolean   @default(false) @map("kvkk_consent") // KVKK metni kabul edildi mi
   kvkkConsentAt DateTime? @map("kvkk_consent_at") // KVKK kabul tarihi
@@ -798,4 +801,106 @@ model AuditLog {
   @@index([entityType, entityId]) // Belirli kayıtların geçmişini bulma
   @@index([createdAt]) // Tarih ile arama
   @@map("audit_logs")
+}
+// ============================================================================
+// ÖDEME (PAYMENTS) TABLOSU
+// Açıklama: Ödeme işlemlerini saklar
+// Diğer tablolarla ilişkiler:
+// - user (N:1) - Ödeme yapan kullanıcı
+// ============================================================================
+model Payment {
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  type          PaymentType @default(SUBSCRIPTION) @map("type") // Ödeme türü
+  status        PaymentStatus @default(PENDING) @map("status") // Ödeme durumu
+  provider      String?   // Ödeme sağlayıcısı (iyzico/paytr/stripe)
+  transactionId String?   @map("transaction_id") // Sağlayıcıdaki işlem ID
+  amount        Decimal   @db.Decimal(10,2) @map("amount") // Ödeme tutarı
+  currency      String    @default("TRY") @map("currency") // Para birimi
+  metadata      Json?     @map("metadata") // Ek veriler (paket tipi, period, vs)
+  errorMessage  String?   @map("error_message") // Hata mesajı
+  completedAt   DateTime? @map("completed_at") // Ödeme tamamlanma zamanı
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // --------------------------------------------------------------------
+  // İLİŞKİLER
+  // --------------------------------------------------------------------
+  // Kullanıcı - Çoktan bire ilişki (N Payment : 1 User)
+  user          User      @relation(fields: [userId], references: [id])
+
+  @@index([userId]) // Kullanıcı ID ile arama
+  @@index([status]) // Durum ile arama
+  @@index([provider]) // Sağlayıcı ile arama
+  @@index([createdAt]) // Tarih ile arama
+  @@map("payments")
+}
+
+// Ödeme türü enum'u
+enum PaymentType {
+  SUBSCRIPTION   // Abonelik ödemesi
+  TOKEN_PACKAGE  // Token paketi satın alma
+}
+
+// Ödeme durumu enum'u
+enum PaymentStatus {
+  PENDING      // Beklemede
+  COMPLETED    // Tamamlandı
+  FAILED       // Başarısız
+  REFUNDED     // İade edildi
+  CANCELLED    // İptal edildi
+}
+
+// ============================================================================
+// KULLANICI EVRAKLARI (USER_DOCUMENTS) TABLOSU
+// Açıklama: Avukatların özlük dosyalarını saklar
+// Kimlik, baro belgesi, vergi levhası gibi evraklar
+// Diğer tablolarla ilişkiler:
+// - user (N:1) - Evrak sahibi
+// ============================================================================
+model UserDocument {
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  category      UserDocCategory @map("category") // Evrak kategorisi
+  fileUrl       String    @map("file_url") // Dosya URL (R2'de)
+  originalName  String    @map("original_name") // Orijinal dosya adı
+  status        VerificationStatus @default(PENDING) @map("status") // Onay durumu
+  verifiedBy    String?   @map("verified_by") // Onaylayan admin ID
+  verifiedAt    DateTime? @map("verified_at") // Onay zamanı
+  adminNotes    String?   @map("admin_notes") // Admin notları
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // --------------------------------------------------------------------
+  // İLİŞKİLER
+  // --------------------------------------------------------------------
+  // Kullanıcı - Çoktan bire ilişki (N UserDocument : 1 User)
+  user          User      @relation(fields: [userId], references: [id])
+
+  @@index([userId]) // Kullanıcı ID ile arama
+  @@index([status]) // Durum ile arama
+  @@index([category]) // Kategori ile arama
+  @@map("user_documents")
+}
+
+// Evrak kategorisi enum'u
+enum UserDocCategory {
+  IDENTITY         // TC Kimlik fotokopisi
+  BARO_CERTIFICATE // Baro kayıt belgesi
+  TAX_PLAQUE       // Vergi levhası
+  SIGNATURE_CIRCLE // İmza sirküleri
+  DIPLOMA          // Diploma
+  NOTARY_CONTRACT  // Noter sözleşmesi
+  PROXY            // Vekilname
+  OTHER            // Diğer
+}
+
+// Evrak onay durumu enum'u
+enum VerificationStatus {
+  PENDING   // Beklemede
+  APPROVED  // Onaylandı
+  REJECTED  // Reddedildi
+  REVISION  // Revizyon istendi
 }
