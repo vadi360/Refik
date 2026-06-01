@@ -13,11 +13,14 @@
 
 | Durum | Değer |
 |-------|-------|
+| **Kod** | ✅ %95 Tamamlandı |
+| **İkonlar** | ⚠️ Eklenmeli |
+| **Build** | ⚠️ npm install + npm run build gerekli |
+| **Yayın** | ⏳ Chrome Web Store'a yüklenecek |
 | Manifest | Version 3 |
 | Browser | Chrome 88+ |
-| Backend | NestJS API |
-| Framework | Vanilla JS + React (Popup) |
-| Storage | Chrome Storage API |
+| Backend | NestJS API (api.refik.app) |
+| Framework | TypeScript + React (Popup) |
 
 </div>
 
