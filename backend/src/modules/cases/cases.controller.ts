@@ -48,4 +48,15 @@ export class CasesController {
   async addHearing(@Param('id') id: string, @Req() req: any, @Body() body: { hearingDate: Date; court?: string; notes?: string }) {
     return this.casesService.addHearing(id, req.user.userId, body);
   }
+
+  @Put(':id/hearings/:hearingId')
+  async updateHearing(@Param('id') id: string, @Param('hearingId') hearingId: string, @Req() req: any, @Body() body: { hearingDate?: Date; court?: string; notes?: string; status?: string }) {
+    return this.casesService.updateHearing(id, hearingId, req.user.userId, body);
+  }
+
+  @Delete(':id/hearings/:hearingId')
+  async deleteHearing(@Param('id') id: string, @Param('hearingId') hearingId: string, @Req() req: any) {
+    await this.casesService.deleteHearing(id, hearingId, req.user.userId);
+    return { success: true, message: 'Duruşma silindi' };
+  }
 }

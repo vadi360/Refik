@@ -28,6 +28,11 @@ export class RemindersController {
     return this.remindersService.markComplete(id, req.user.userId);
   }
 
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() body: { title?: string; description?: string; dueDate?: string; remindAt?: string; status?: string }, @Req() req: any) {
+    return this.remindersService.update(id, req.user.userId, body);
+  }
+
   @Delete(':id')
   async delete(@Param('id') id: string, @Req() req: any) {
     return this.remindersService.delete(id, req.user.userId);

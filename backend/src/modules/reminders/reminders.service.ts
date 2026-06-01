@@ -33,4 +33,20 @@ export class RemindersService {
     if (!reminder) throw new NotFoundException('Hatırlatıcı bulunamadı');
     return this.prisma.reminder.update({ where: { id }, data: { status: 'CANCELLED' } });
   }
+
+  async update(id: string, userId: string, data: { title?: string; description?: string; dueDate?: string; remindAt?: string; status?: string }) {
+    const reminder = await this.prisma.reminder.findFirst({ where: { id, userId } });
+    if (!reminder) throw new NotFoundException('Hatırlatıcı bulunamadı');
+    
+    return this.prisma.reminder.update({
+      where: { id },
+      data: {
+        title: data.title || reminder.title,
+        description: data.description !== undefined ? data.description : reminder.description,
+        dueDate: data.dueDate ? new Date(data.dueDate) : reminder.dueDate,
+        remindAt: data.remindAt ? new Date(data.remindAt) : reminder.remindAt,
+        status: data.status ? (data.status as any) : reminder.status,
+      },
+    });
+  }
 }

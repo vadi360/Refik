@@ -103,4 +103,32 @@ export class CasesService {
       data: { caseId, hearingDate: data.hearingDate, court: data.court, notes: data.notes },
     });
   }
+
+  async updateHearing(caseId: string, hearingId: string, userId: string, data: { hearingDate?: Date; court?: string; notes?: string; status?: string }) {
+    const caseData = await this.prisma.case.findFirst({ where: { id: caseId, userId } });
+    if (!caseData) throw new NotFoundException('Dosya bulunamadı');
+
+    const hearing = await this.prisma.hearing.findFirst({ where: { id: hearingId, caseId } });
+    if (!hearing) throw new NotFoundException('Duruşma bulunamadı');
+
+    return this.prisma.hearing.update({
+      where: { id: hearingId },
+      data: {
+        hearingDate: data.hearingDate || hearing.hearingDate,
+        court: data.court !== undefined ? data.court : hearing.court,
+        notes: data.notes !== undefined ? data.notes : hearing.notes,
+        status: data.status ? (data.status as any) : hearing.status,
+      },
+    });
+  }
+
+  async deleteHearing(caseId: string, hearingId: string, userId: string) {
+    const caseData = await this.prisma.case.findFirst({ where: { id: caseId, userId } });
+    if (!caseData) throw new NotFoundException('Dosya bulunamadı');
+
+    const hearing = await this.prisma.hearing.findFirst({ where: { id: hearingId, caseId } });
+    if (!hearing) throw new NotFoundException('Duruşma bulunamadı');
+
+    await this.prisma.hearing.delete({ where: { id: hearingId } });
+  }
 }

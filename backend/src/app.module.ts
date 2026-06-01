@@ -50,6 +50,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
 import { UserDocumentsModule } from './modules/user-documents/user-documents.module';
 import { IcraModule } from './modules/icra/icra.module';
 import { CallCenterModule } from './modules/call-center/call-center.module';
+import { CalendarModule } from './modules/calendar/calendar.module';
 
 /**
  * Environment yapılandırma ayarları
@@ -198,6 +199,8 @@ interface EnvironmentVariables {
     IcraModule,
     // Call Center modülü - Borçlu arama ve takip
     CallCenterModule,
+    // Takvim modülü - Tüm takvim verilerini birleştirir
+    CalendarModule,
   ],
 
   // =========================================================================
