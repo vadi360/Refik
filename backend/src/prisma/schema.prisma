@@ -998,3 +998,78 @@ model IcraPayment {
   @@index([paymentDate]) // Tarih ile arama
   @@map("icra_payments")
 }
+
+// ============================================================================
+// İCRA ARAMA KAYITLARI (ICRA_CALL_RECORDS) TABLOSU
+// Açıklama: Borçlu arama kayıtlarını saklar
+// Diğer tablolarla ilişkiler:
+// - icraFile (N:1) - Aramanın ait olduğu icra dosyası
+// - user (N:1) - Arayan avukat/operatör
+// ============================================================================
+model IcraCallRecord {
+  id            String    @id @default(uuid())
+  icraFileId    String    @map("icra_file_id")
+  userId        String    @map("user_id")
+  callResult    CallResult @map("call_result") // Arama sonucu
+  callDirection CallDirection @default(OUTBOUND) @map("call_direction")
+  notes         String?   @map("notes") // Görüşme notları
+  paymentPromiseDate DateTime? @map("payment_promise_date") // Ödeme sözü tarihi
+  paymentKept   Boolean   @default(false) @map("payment_kept") // Ödeme yapıldı mı
+  
+  createdAt     DateTime  @default(now()) @map("created_at")
+  deletedAt     DateTime? @map("deleted_at") // Soft delete
+
+  // --------------------------------------------------------------------
+  // İLİŞKİLER
+  // --------------------------------------------------------------------
+  icraFile      IcraFile  @relation(fields: [icraFileId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
+
+  @@index([icraFileId]) // İcra dosyası ile arama
+  @@index([userId]) // Kullanıcı ile arama
+  @@index([callResult]) // Sonuç ile arama
+  @@index([paymentPromiseDate]) // Ödeme sözü tarihi ile arama
+  @@map("icra_call_records")
+}
+
+// Arama sonucu enum'u
+enum CallResult {
+  ANSWERED           // Cevap verdi
+  NO_ANSWER          // Cevap vermedi
+  BUSY               // Meşgul
+  WRONG_NUMBER       // Yanlış numara
+  PAYMENT_PROMISE    // Ödeme sözü
+  REFUSED            // Reddetti
+  CALLBACK_REQUESTED // Geri arama istedi
+}
+
+// Arama yönü enum'u
+enum CallDirection {
+  OUTBOUND  // Çıkış araması
+  INBOUND    // Geliş araması
+}
+
+// ============================================================================
+// İCRA MAL VARLIĞI GEÇMİŞİ (ICRA_ASSET_HISTORY) TABLOSU
+// Açıklama: Mal varlığı tespit geçmişini saklar
+// Diğer tablolarla ilişkiler:
+// - icraFile (N:1) - Mal varlığının ait olduğu icra dosyası
+// ============================================================================
+model IcraAssetHistory {
+  id            String    @id @default(uuid())
+  icraFileId    String    @map("icra_file_id")
+  assets        Json      @map("assets") // Mal varlıkları listesi
+  totalValue    Decimal   @db.Decimal(15,2) @map("total_value") // Toplam değer
+  notes         String?   @map("notes") // Notlar
+  
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  // --------------------------------------------------------------------
+  // İLİŞKİLER
+  // --------------------------------------------------------------------
+  icraFile      IcraFile  @relation(fields: [icraFileId], references: [id])
+
+  @@index([icraFileId]) // İcra dosyası ile arama
+  @@index([createdAt]) // Tarih ile arama
+  @@map("icra_asset_history")
+}

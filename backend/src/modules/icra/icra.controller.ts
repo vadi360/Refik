@@ -22,6 +22,8 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { IcraService, IcraFileStatus } from './icra.service';
+import { BulkIcraService } from './services/bulk-icra.service';
+import { AssetDetectionService } from './services/asset-detection.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('İcra Takibi')
@@ -29,7 +31,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class IcraController {
-  constructor(private icraService: IcraService) {}
+  constructor(
+    private icraService: IcraService,
+    private bulkIcraService: BulkIcraService,
+    private assetDetectionService: AssetDetectionService,
+  ) {}
 
   /**
    * İcra Takibi Başlat
@@ -129,5 +135,65 @@ export class IcraController {
     @Req() req: any,
   ) {
     return this.icraService.analyzeStatus(req.user.userId, fileId);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // TOPLU İŞLEMLER
+  // ═══════════════════════════════════════════════════════════════════════
+
+  /**
+   * XML Dosyasından Toplu Takip Başlat
+   */
+  @Post('bulk/xml')
+  async bulkFromXml(
+    @Body('xmlContent') xmlContent: string,
+    @Req() req: any,
+  ) {
+    return this.bulkIcraService.processXmlFile(req.user.userId, xmlContent);
+  }
+
+  /**
+   * CSV Dosyasından Toplu Takip Başlat
+   */
+  @Post('bulk/csv')
+  async bulkFromCsv(
+    @Body('csvContent') csvContent: string,
+    @Req() req: any,
+  ) {
+    return this.bulkIcraService.processCsvFile(req.user.userId, csvContent);
+  }
+
+  /**
+   * Tüm Dosyaları Güncelle (UYAP'tan çek)
+   */
+  @Post('bulk/refresh-all')
+  async refreshAllFiles(@Req() req: any) {
+    return this.bulkIcraService.refreshAllFiles(req.user.userId);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // MAL VARLIĞI TESPİTİ
+  // ═══════════════════════════════════════════════════════════════════════
+
+  /**
+   * Borçlunun Tüm Mal Varlığını Tespit Et
+   */
+  @Post('files/:fileId/assets')
+  async detectAssets(
+    @Param('fileId') fileId: string,
+    @Req() req: any,
+  ) {
+    return this.assetDetectionService.detectAllAssets(req.user.userId, fileId);
+  }
+
+  /**
+   * Mal Varlığı Değişiklik Takibi
+   */
+  @Get('files/:fileId/assets/changes')
+  async trackAssetChanges(
+    @Param('fileId') fileId: string,
+    @Req() req: any,
+  ) {
+    return this.assetDetectionService.trackChanges(req.user.userId, fileId);
   }
 }
