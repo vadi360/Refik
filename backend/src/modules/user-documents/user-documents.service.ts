@@ -350,7 +350,7 @@ export class UserDocumentsService {
           userId,
           type: 'SYSTEM',
           title: '🎉 Hoş Geldiniz!',
-          content: 'AvukatPro hesabınız aktive edildi. Artık tüm özellikleri kullanabilirsiniz.',
+          content: 'Refik hesabınız aktive edildi. Artık tüm özellikleri kullanabilirsiniz.',
           isRead: false,
         },
       });

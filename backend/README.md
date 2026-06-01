@@ -1,11 +1,11 @@
-# AvukatPro Backend API
+# Refik Backend API
 
 <div align="center">
 
 **Versiyon:** 2.0  
 **Tarih:** 02 Haziran 2026  
-**GitHub:** https://github.com/vadi360/AvukatPro  
-**API Docs:** https://api.avukatpro.com/api/docs
+**GitHub:** https://github.com/vadi360/Refik  
+**API Docs:** https://api.refik.app/api/docs
 
 *Türkiye'nin Hukuk Asistanı - Backend API*
 
@@ -42,7 +42,7 @@
 
 ## 1. Hakkında
 
-AvukatPro Backend, avukatların kullandığı mobil öncelikli yapay zekâ destekli hukuk asistanının API katmanıdır. Tevkil pazarı, UETS entegrasyonu, AI belge üretimi ve daha fazlasını sunar.
+Refik Backend, avukatların kullandığı mobil öncelikli yapay zekâ destekli hukuk asistanının API katmanıdır. Tevkil pazarı, UETS entegrasyonu, AI belge üretimi ve daha fazlasını sunar.
 
 ### Temel Özellikler
 
@@ -822,8 +822,8 @@ enum UserRole {
 
 ```bash
 # 1. Projeyi klonlayın
-git clone https://github.com/vadi360/AvukatPro.git
-cd AvukatPro/backend
+git clone https://github.com/vadi360/Refik.git
+cd Refik/backend
 
 # 2. Bağımlılıkları yükleyin
 npm install
@@ -952,8 +952,8 @@ pm2 monit
 
 <div align="center">
 
-*AvukatPro Backend API*
+*Refik Backend API*
 
-*© 2026 AvukatPro. Tüm hakları saklıdır.*
+*© 2026 Refik. Tüm hakları saklıdır.*
 
 </div>

@@ -119,7 +119,7 @@ export class IyzicoProvider implements IPaymentProvider {
           {
             id: '1',
             name: request.paymentType === PaymentType.SUBSCRIPTION
-              ? `AvukatPro ${request.packageType} Abonelik`
+              ? `Refik ${request.packageType} Abonelik`
               : 'Token Paketi',
             category1: 'Hukuk Yazılımı',
             itemType: 'VIRTUAL',

@@ -1,11 +1,11 @@
-# AvukatPro Admin Panel
+# Refik Admin Panel
 
 <div align="center">
 
 **Versiyon:** 1.0  
 **Tarih:** 02 Haziran 2026  
-**Proje:** AvukatPro - Yönetici Paneli  
-**GitHub:** https://github.com/vadi360/AvukatPro
+**Proje:** Refik - Yönetici Paneli  
+**GitHub:** https://github.com/vadi360/Refik
 
 *Türkiye'nin Hukuk Asistanı - Yönetim Arayüzü*
 
@@ -39,7 +39,7 @@
 
 ## 1. Hakkında
 
-AvukatPro Admin Panel, sistem yöneticilerinin ve operasyon ekibinin AvukatPro platformunu yönetmek için kullandığı web tabanlı yönetim arayüzüdür. Kullanıcı yönetimi, AI yapılandırma, içerik moderation ve analitik raporlar sunar.
+Refik Admin Panel, sistem yöneticilerinin ve operasyon ekibinin Refik platformunu yönetmek için kullandığı web tabanlı yönetim arayüzüdür. Kullanıcı yönetimi, AI yapılandırma, içerik moderation ve analitik raporlar sunar.
 
 ### Temel Özellikler
 
@@ -419,7 +419,7 @@ const exportReport = async (type: 'users' | 'revenue' | 'complaints') => {
 
 ```bash
 # 1. Projeye git
-cd AvukatPro/admin
+cd Refik/admin
 
 # 2. Bağımlılıkları yükle
 npm install
@@ -436,8 +436,8 @@ npm run dev
 
 <div align="center">
 
-*AvukatPro Admin Panel*
+*Refik Admin Panel*
 
-*© 2026 AvukatPro. Tüm hakları saklıdır.*
+*© 2026 Refik. Tüm hakları saklıdır.*
 
 </div>

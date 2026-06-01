@@ -1,8 +1,8 @@
 {
-  "name": "avukatpro-backend",
+  "name": "refik-backend",
   "version": "1.0.0",
-  "description": "AvukatPro Backend API - Türkiye'nin hukuk asistanı",
-  "author": "AvukatPro Team",
+  "description": "Refik Backend API - Türkiye'nin hukuk asistanı",
+  "author": "Refik Team",
   "private": true,
   "license": "MIT",
   "scripts": {

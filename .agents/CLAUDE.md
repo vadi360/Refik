@@ -1,8 +1,8 @@
-# AvukatPro — Claude Code Kullanım Yönergeleri
+# Refik — Claude Code Kullanım Yönergeleri
 
 **Versiyon:** 1.0  
 **Tarih:** 02 Haziran 2026  
-**Proje:** AvukatPro - Türkiye Hukuk Asistanı  
+**Proje:** Refik - Türkiye Hukuk Asistanı  
 **Stack:** Node.js/NestJS, PostgreSQL/Prisma, AI (Minimax + Claude)
 
 ---
@@ -10,7 +10,7 @@
 ## 1. Proje Özeti
 
 ### 1.1 Nedir?
-AvukatPro, Türkiye'deki avukatlara yönelik:
+Refik, Türkiye'deki avukatlara yönelik:
 - Mobil öncelikli AI asistan
 - Tevkil pazarı (avukatlar arası duruşma devri)
 - UETS tebligat takibi (5 gün kuralı)

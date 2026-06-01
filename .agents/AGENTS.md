@@ -1,4 +1,4 @@
-# AvukatPro — Agent Kullanım Kılavuzu
+# Refik — Agent Kullanım Kılavuzu
 
 **Versiyon:** 1.0  
 **Tarih:** 02 Haziran 2026  
@@ -15,7 +15,7 @@ Bu proje **Craft Agent** ile geliştirilmiştir. Aşağıdaki kurallar ve yöner
 ## 2. Proje Yapısı
 
 ```
-AvukatPro/
+Refik/
 ├── backend/                    # NestJS Backend API
 │   ├── src/
 │   │   ├── modules/           # 21 modül

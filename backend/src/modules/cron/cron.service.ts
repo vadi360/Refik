@@ -232,7 +232,7 @@ export class CronService {
           if (reminder.user.email && reminder.notifyTypes?.includes('email')) {
             await this.sendgridService.sendEmail({
               to: reminder.user.email,
-              subject: `AvukatPro - Hatırlatma: ${reminder.title}`,
+              subject: `Refik - Hatırlatma: ${reminder.title}`,
               text: `${reminder.title}\n\nTarih: ${reminder.dueDate.toLocaleString('tr-TR')}\n\n${reminder.description || ''}`,
             });
           }
@@ -367,7 +367,7 @@ export class CronService {
           // E-posta gönder
           await this.sendgridService.sendEmail({
             to: subscription.user.email,
-            subject: 'AvukatPro - Token Kullanım Uyarısı',
+            subject: 'Refik - Token Kullanım Uyarısı',
             text: `Merhaba ${subscription.user.name},\n\nBu ay token kullanımınız %${percentage.toFixed(0)}'e ulaştı (${used}/${limit} token).\n\nAbonelik paketinizi yükseltmek için profil sayfanızı ziyaret edin.`,
           });
         }

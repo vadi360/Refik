@@ -1,9 +1,9 @@
-# AvukatPro Backend - Sistem Şeması ve Mimarisi
+# Refik Backend - Sistem Şeması ve Mimarisi
 
 **Versiyon:** 2.0  
 **Tarih:** 02 Haziran 2026
 **Durum:** Geliştirme Tamamlandı
-**GitHub:** https://github.com/vadi360/AvukatPro
+**GitHub:** https://github.com/vadi360/Refik
 
 ---
 

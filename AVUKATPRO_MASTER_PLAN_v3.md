@@ -1,16 +1,16 @@
-# AvukatPro — Master Ürün & Teknik Plan
+# Refik — Master Ürün & Teknik Plan
 
 **Versiyon:** 4.0  
 **Tarih:** 02 Haziran 2026
 **Durum:** FINAL - Backend Tamamlandı
-**GitHub:** https://github.com/vadi360/AvukatPro
+**GitHub:** https://github.com/vadi360/Refik
 **Gizlilik:** İç Kullanım
 
 ---
 
 ## 1. Yönetici Özeti
 
-**AvukatPro**, Türkiye'deki avukatlara yönelik, mobil öncelikli yapay zekâ destekli bir hukuk asistanı ve tevkil pazar yeridir. Dört ana modülden oluşur:
+**Refik**, Türkiye'deki avukatlara yönelik, mobil öncelikli yapay zekâ destekli bir hukuk asistanı ve tevkil pazar yeridir. Dört ana modülden oluşur:
 
 1. **Tevkil Pazar Yeri** - Avukatlar arası otomatik eşleştirme ile duruşma/işlem takibi
 2. **UETS Entegrasyonu** - PTT UETS'ten tebligat çekme ve AI ile analiz
@@ -67,7 +67,7 @@ Avukatlar:
 
 ### 2.4 Farklılaşma
 - **Rakipler:** Forvis, Legal One, İdea Teknoloji, Apilex - web ağırlıklı, parçalı çözümler
-- **AvukatPro:** Mobil öncelikli, uçtan uca AI destekli, hibrit AI seçeneği, paket bazlı
+- **Refik:** Mobil öncelikli, uçtan uca AI destekli, hibrit AI seçeneği, paket bazlı
 
 ---
 
@@ -95,7 +95,7 @@ Avukatlar:
 
 ### Senaryo 1 - Tevkil Verme (Persona A)
 1. Avukat UYAP'ta duruşma tarihini görür → gidemeyecek
-2. AvukatPro uygulamasını açar → "Tevkil Ver" butonu
+2. Refik uygulamasını açar → "Tevkil Ver" butonu
 3. Sistem otomatik olarak aynı adliyede uygun avukatları listeler
 4. Konum, uzmanlık, puan filtrelenir → öneriler sunulur
 5. Avukat tevkil talebi gönderir → diğer avukat onaylar
@@ -113,7 +113,7 @@ Avukatlar:
 6. Avukat detayları görür, gerekirse UYAP'a gider
 
 ### Senaryo 3 - UYAP Özetleme (Persona C)
-1. Avukat Chrome'da UYAP'a girer → AvukatPro eklentisi aktif
+1. Avukat Chrome'da UYAP'a girer → Refik eklentisi aktif
 2. Eklenti arka planda dosyaları çeker (avukat onayı ile)
 3. RAG sistemi belgeleri okur → özet çıkarır
 4. "Aleyhinize 2 karar, 1 bekleyen duruşma" gibi bilgi sunulur
@@ -715,7 +715,7 @@ Ay 1-2   Ay 3-4   Ay 5-6   Ay 7-8   Gelecek
 
 ## EK - Hukuki Sorumluluk Reddi Metni
 
-> **Yasal Uyarı:** AvukatPro'da üretilen tüm belgeler ve AI çıktıları yalnızca yardımcı araç olarak tasarlanmıştır. Üretilen dilekçe, ihtarname veya süre bilgisi, avukatın kendi değerlendirmesi ve onayı olmadan kullanılamaz. AvukatPro, AI kaynaklı hatalardan kaynaklanan herhangi bir hukuki sonuçtan sorumlu değildir. Tüm belgeler kullanılmadan önce avukat tarafından kontrol edilmeli ve onaylanmalıdır.
+> **Yasal Uyarı:** Refik'da üretilen tüm belgeler ve AI çıktıları yalnızca yardımcı araç olarak tasarlanmıştır. Üretilen dilekçe, ihtarname veya süre bilgisi, avukatın kendi değerlendirmesi ve onayı olmadan kullanılamaz. Refik, AI kaynaklı hatalardan kaynaklanan herhangi bir hukuki sonuçtan sorumlu değildir. Tüm belgeler kullanılmadan önce avukat tarafından kontrol edilmeli ve onaylanmalıdır.
 
 ---
 

@@ -1,11 +1,11 @@
-# AvukatPro Mobil Uygulaması
+# Refik Mobil Uygulaması
 
 <div align="center">
 
 **Versiyon:** 1.0  
 **Tarih:** 02 Haziran 2026  
-**Proje:** AvukatPro - Mobil Uygulama (iOS + Android)  
-**GitHub:** https://github.com/vadi360/AvukatPro
+**Proje:** Refik - Mobil Uygulama (iOS + Android)  
+**GitHub:** https://github.com/vadi360/Refik
 
 *Mobil öncelikli, AI destekli hukuk asistanı - iOS & Android*
 
@@ -43,7 +43,7 @@
 
 ## 1. Hakkında
 
-AvukatPro Mobil Uygulaması, avukatların iOS ve Android cihazlardan kullanabileceği native mobil uygulamadır. React Native (Expo) ile geliştirilmiş, offline çalışma desteği ve push bildirimleri sunmaktadır.
+Refik Mobil Uygulaması, avukatların iOS ve Android cihazlardan kullanabileceği native mobil uygulamadır. React Native (Expo) ile geliştirilmiş, offline çalışma desteği ve push bildirimleri sunmaktadır.
 
 ### Temel Özellikler
 
@@ -329,17 +329,17 @@ mobile/
 │       └── animations/
 │
 ├── ios/                           # iOS native kod
-│   ├── AvukatPro/
+│   ├── Refik/
 │   │   ├── AppDelegate.swift
 │   │   ├── Info.plist
-│   │   └── AvukatPro.entitlements
-│   ├── AvukatPro.xcodeproj
-│   └── AvukatPro.xcworkspace
+│   │   └── Refik.entitlements
+│   ├── Refik.xcodeproj
+│   └── Refik.xcworkspace
 │
 ├── android/                      # Android native kod
 │   └── app/
 │       ├── src/main/
-│       │   ├── java/com/avukatpro/
+│       │   ├── java/com/refik/
 │       │   │   ├── MainApplication.kt
 │       │   │   └── MainActivity.kt
 │       │   └── AndroidManifest.xml
@@ -638,7 +638,7 @@ interface CasesState {
 
 ```bash
 # 1. Projeye git
-cd AvukatPro/mobile
+cd Refik/mobile
 
 # 2. Bağımlılıkları yükle
 npm install
@@ -687,7 +687,7 @@ eas build --platform android --profile production
 ```bash
 # iOS (Xcode)
 cd ios
-xcodebuild -workspace AvukatPro.xcworkspace -scheme AvukatPro -configuration Release archive
+xcodebuild -workspace Refik.xcworkspace -scheme Refik -configuration Release archive
 
 # Android (Gradle)
 cd android
@@ -730,8 +730,8 @@ eas submit --platform android --latest
 
 <div align="center">
 
-*AvukatPro Mobil Uygulaması*
+*Refik Mobil Uygulaması*
 
-*© 2026 AvukatPro. Tüm hakları saklıdır.*
+*© 2026 Refik. Tüm hakları saklıdır.*
 
 </div>

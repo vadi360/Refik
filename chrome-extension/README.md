@@ -1,11 +1,11 @@
-# AvukatPro Chrome Eklentisi
+# Refik Chrome Eklentisi
 
 <div align="center">
 
 **Versiyon:** 1.0  
 **Tarih:** 02 Haziran 2026  
-**Proje:** AvukatPro - UYAP Tarayıcı Eklentisi  
-**GitHub:** https://github.com/vadi360/AvukatPro
+**Proje:** Refik - UYAP Tarayıcı Eklentisi  
+**GitHub:** https://github.com/vadi360/Refik
 
 *UYAP'tan otomatik dosya çekme ve özetleme*
 
@@ -39,7 +39,7 @@
 
 ## 1. Hakkında
 
-AvukatPro Chrome Eklentisi, avukatların UYAP (Ulusal Yargı Ağı Platformu) sisteminden dosya bilgilerini otomatik olarak çekmesini ve AI destekli özetleme yapmasını sağlayan tarayıcı eklentisidir.
+Refik Chrome Eklentisi, avukatların UYAP (Ulusal Yargı Ağı Platformu) sisteminden dosya bilgilerini otomatik olarak çekmesini ve AI destekli özetleme yapmasını sağlayan tarayıcı eklentisidir.
 
 ### Temel Özellikler
 
@@ -261,7 +261,7 @@ React tabanlı popup arayüzü.
 
 ```
 ┌────────────────────────────────────┐
-│  🔷 AvukatPro           [⚙️] [❌]  │
+│  🔷 Refik           [⚙️] [❌]  │
 ├────────────────────────────────────┤
 │                                    │
 │  [📋] Özet     [🔍] Ara    [⏰] Hatır│
@@ -289,7 +289,7 @@ Kullanıcı ayarları sayfası.
 
 ```
 ┌────────────────────────────────────┐
-│  AvukatPro Ayarlar                 │
+│  Refik Ayarlar                 │
 ├────────────────────────────────────┤
 │                                    │
 │  HESAP                             │
@@ -377,7 +377,7 @@ export const SELECTORS = {
 ```json
 {
   "manifest_version": 3,
-  "name": "AvukatPro - UYAP Yardımcısı",
+  "name": "Refik - UYAP Yardımcısı",
   "version": "1.0.0",
   "description": "UYAP'tan otomatik dosya çekme ve AI özetleme",
   "permissions": [
@@ -390,7 +390,7 @@ export const SELECTORS = {
   ],
   "host_permissions": [
     "https://uyap.adalet.gov.tr/*",
-    "https://api.avukatpro.com/*"
+    "https://api.refik.app/*"
   ],
   "background": {
     "service_worker": "src/background/service-worker.js"
@@ -411,7 +411,7 @@ export const SELECTORS = {
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     },
-    "default_title": "AvukatPro"
+    "default_title": "Refik"
   },
   "icons": {
     "16": "icons/icon16.png",
@@ -453,7 +453,7 @@ chrome.contextMenus.create({
 
 ```bash
 # 1. Projeye git
-cd AvukatPro/chrome-extension
+cd Refik/chrome-extension
 
 # 2. Bağımlılıkları yükle
 npm install
@@ -471,7 +471,7 @@ npm run build
 
 ```bash
 # .env dosyası
-VITE_API_URL=https://api.avukatpro.com/api/v1
+VITE_API_URL=https://api.refik.app/api/v1
 VITE_UYAP_URL=https://uyap.adalet.gov.tr
 ```
 
@@ -525,8 +525,8 @@ zip -r avocatpro-extension.zip dist/
 
 <div align="center">
 
-*AvukatPro Chrome Eklentisi*
+*Refik Chrome Eklentisi*
 
-*© 2026 AvukatPro. Tüm hakları saklıdır.*
+*© 2026 Refik. Tüm hakları saklıdır.*
 
 </div>

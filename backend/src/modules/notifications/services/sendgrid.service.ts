@@ -84,8 +84,8 @@ export class SendgridService {
   constructor(private configService: ConfigService) {
     // SendGrid API credentials
     this.apiKey = this.configService.get<string>('SENDGRID_API_KEY', '');
-    this.fromEmail = this.configService.get<string>('SENDGRID_FROM_EMAIL', 'noreply@avukatpro.com');
-    this.fromName = this.configService.get<string>('SENDGRID_FROM_NAME', 'AvukatPro');
+    this.fromEmail = this.configService.get<string>('SENDGRID_FROM_EMAIL', 'noreply@refik.com');
+    this.fromName = this.configService.get<string>('SENDGRID_FROM_NAME', 'Refik');
 
     if (this.apiKey) {
       sgMail.setApiKey(this.apiKey);
@@ -228,9 +228,9 @@ export class SendgridService {
     
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #4A90E2;">AvukatPro - E-posta Doğrulama</h1>
+        <h1 style="color: #4A90E2;">Refik - E-posta Doğrulama</h1>
         <p>Merhaba ${name},</p>
-        <p>AvukatPro hesabınızı aktifleştirmek için aşağıdaki linke tıklayın:</p>
+        <p>Refik hesabınızı aktifleştirmek için aşağıdaki linke tıklayın:</p>
         <p style="margin: 30px 0;">
           <a href="${verificationUrl}" style="background-color: #4A90E2; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px;">
             E-postamı Doğrula
@@ -239,7 +239,7 @@ export class SendgridService {
         <p>Bu link 24 saat içinde geçerlidir.</p>
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
         <p style="color: #666; font-size: 12px;">
-          AvukatPro - Türkiye'nin Hukuk Asistanı<br>
+          Refik - Türkiye'nin Hukuk Asistanı<br>
           Bu e-postayı aldıysanız, hesabınızda bir doğrulama talep edildi. Eğer bu siz değilseniz, bu maili görmezden gelin.
         </p>
       </div>
@@ -247,7 +247,7 @@ export class SendgridService {
 
     return this.sendEmail({
       to,
-      subject: 'AvukatPro - E-posta Adresinizi Doğrulayın',
+      subject: 'Refik - E-posta Adresinizi Doğrulayın',
       html,
       text: `Merhaba ${name},\n\nE-posta adresinizi doğrulamak için şu linke tıklayın: ${verificationUrl}\n\nBu link 24 saat içinde geçerlidir.`,
     });
@@ -265,7 +265,7 @@ export class SendgridService {
     
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #E24A4A;">AvukatPro - Şifre Sıfırlama</h1>
+        <h1 style="color: #E24A4A;">Refik - Şifre Sıfırlama</h1>
         <p>Merhaba ${name},</p>
         <p>Şifrenizi sıfırlamak için aşağıdaki linke tıklayın:</p>
         <p style="margin: 30px 0;">
@@ -277,14 +277,14 @@ export class SendgridService {
         <p>Eğer şifre sıfırlama talebi etmediyseniz, bu maili görmezden gelin ve hesabınızı kontrol edin.</p>
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
         <p style="color: #666; font-size: 12px;">
-          AvukatPro - Türkiye'nin Hukuk Asistanı
+          Refik - Türkiye'nin Hukuk Asistanı
         </p>
       </div>
     `;
 
     return this.sendEmail({
       to,
-      subject: 'AvukatPro - Şifrenizi Sıfırlayın',
+      subject: 'Refik - Şifrenizi Sıfırlayın',
       html,
       text: `Merhaba ${name},\n\nŞifrenizi sıfırlamak için şu linke tıklayın: ${resetUrl}\n\nBu link 1 saat içinde geçerlidir.`,
     });
@@ -321,7 +321,7 @@ export class SendgridService {
 
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #4A90E2;">AvukatPro - Günlük Tebligat Özeti</h1>
+        <h1 style="color: #4A90E2;">Refik - Günlük Tebligat Özeti</h1>
         <p>Merhaba ${name},</p>
         <p>Bugün ${notifications.length} yeni tebligatınız var:</p>
         
@@ -337,7 +337,7 @@ export class SendgridService {
         
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
         <p style="color: #666; font-size: 12px;">
-          AvukatPro - Türkiye'nin Hukuk Asistanı<br>
+          Refik - Türkiye'nin Hukuk Asistanı<br>
           Bu emaili artık almak istemiyorsanız, <a href="${this.configService.get<string>('APP_URL')}/settings">bildirim ayarlarınızı</a> değiştirin.
         </p>
       </div>
@@ -345,7 +345,7 @@ export class SendgridService {
 
     return this.sendEmail({
       to,
-      subject: `AvukatPro - ${notifications.length} Yeni Tebligatınız Var`,
+      subject: `Refik - ${notifications.length} Yeni Tebligatınız Var`,
       html,
     });
   }
@@ -366,7 +366,7 @@ export class SendgridService {
   ): Promise<EmailResult> {
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #4A90E2;">AvukatPro - AI İşlemi Tamamlandı</h1>
+        <h1 style="color: #4A90E2;">Refik - AI İşlemi Tamamlandı</h1>
         <p>Merhaba ${name},</p>
         <p><strong>${this.getTaskTypeName(taskType)}</strong> göreviniz tamamlandı.</p>
         
@@ -383,14 +383,14 @@ export class SendgridService {
         
         <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
         <p style="color: #666; font-size: 12px;">
-          AvukatPro - Türkiye'nin Hukuk Asistanı
+          Refik - Türkiye'nin Hukuk Asistanı
         </p>
       </div>
     `;
 
     return this.sendEmail({
       to,
-      subject: `AvukatPro - ${this.getTaskTypeName(taskType)} Tamamlandı`,
+      subject: `Refik - ${this.getTaskTypeName(taskType)} Tamamlandı`,
       html,
     });
   }

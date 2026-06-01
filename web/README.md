@@ -1,11 +1,11 @@
-# AvukatPro Web Uygulaması
+# Refik Web Uygulaması
 
 <div align="center">
 
 **Versiyon:** 1.0  
 **Tarih:** 02 Haziran 2026  
-**Proje:** AvukatPro - Web Uygulaması (PWA)  
-**GitHub:** https://github.com/vadi360/AvukatPro
+**Proje:** Refik - Web Uygulaması (PWA)  
+**GitHub:** https://github.com/vadi360/Refik
 
 *Mobil öncelikli, AI destekli hukuk asistanı - Web Arayüzü*
 
@@ -43,7 +43,7 @@
 
 ## 1. Hakkında
 
-AvukatPro Web Uygulaması, avukatların masaüstü veya dizüstü bilgisayardan kullanabileceği responsive web arayüzüdür. Next.js 14 ile geliştirilmiş, PWA (Progressive Web App) özellikleri desteklemektedir.
+Refik Web Uygulaması, avukatların masaüstü veya dizüstü bilgisayardan kullanabileceği responsive web arayüzüdür. Next.js 14 ile geliştirilmiş, PWA (Progressive Web App) özellikleri desteklemektedir.
 
 ### Temel Özellikler
 
@@ -685,8 +685,8 @@ interface CasesState {
 
 ```json
 {
-  "name": "AvukatPro",
-  "short_name": "AvukatPro",
+  "name": "Refik",
+  "short_name": "Refik",
   "description": "Türkiye'nin Hukuk Asistanı",
   "start_url": "/dashboard",
   "display": "standalone",
@@ -729,7 +729,7 @@ navigator.installPrompt
 
 ```bash
 # 1. Projeye git
-cd AvukatPro/web
+cd Refik/web
 
 # 2. Bağımlılıkları yükle
 npm install
@@ -797,8 +797,8 @@ docker run -p 3000:3000 avocatpro-web
 
 <div align="center">
 
-*AvukatPro Web Uygulaması*
+*Refik Web Uygulaması*
 
-*© 2026 AvukatPro. Tüm hakları saklıdır.*
+*© 2026 Refik. Tüm hakları saklıdır.*
 
 </div>

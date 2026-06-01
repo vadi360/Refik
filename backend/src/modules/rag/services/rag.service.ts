@@ -64,7 +64,7 @@ export class RagService {
     
     if (pineconeApiKey) {
       this.pinecone = new Pinecone({ pineconeApiKey });
-      this.indexName = this.configService.get<string>('PINECONE_INDEX_NAME', 'avukatpro-documents');
+      this.indexName = this.configService.get<string>('PINECONE_INDEX_NAME', 'refik-documents');
       this.logger.log('Pinecone başarıyla yapılandırıldı');
     } else {
       this.logger.warn('Pinecone API key yapılandırılmamış. RAG servisleri devre dışı.');

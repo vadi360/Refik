@@ -1,10 +1,10 @@
-# AvukatPro — Uygulama Planı
+# Refik — Uygulama Planı
 ## Frontend Ekranlar, Backend Mimarisi, Veritabanı & API Tasarımı
 
 **Versiyon:** 2.0  
 **Tarih:** 02 Haziran 2026
 **Durum:** Backend Tamamlandı - Frontend Planlama
-**GitHub:** https://github.com/vadi360/AvukatPro
+**GitHub:** https://github.com/vadi360/Refik
 **Git Commit:** b76d796
 
 ---
@@ -104,7 +104,7 @@
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │                    [Logo]                                    │
-│                   AvukatPro                                   │
+│                   Refik                                   │
 │                                                             │
 │         ┌─────────────────────────────────────┐             │
 │         │  E-posta adresi                     │             │
@@ -158,7 +158,7 @@
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │                    [Logo]                                    │
-│                   AvukatPro                                   │
+│                   Refik                                   │
 │                                                             │
 │         Aşağıdaki bilgileri doldurarak kayıt olun           │
 │                                                             │
@@ -224,7 +224,7 @@
 ┌─────────────────────────────────────────────────────────────┐
 │                    DASHBOARD EKRANI                           │
 ├─────────────────────────────────────────────────────────────┤
-│ [Logo]  AvukatPro           [🔔] [👤]                        │
+│ [Logo]  Refik           [🔔] [👤]                        │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
@@ -923,7 +923,7 @@
 
 ```
 ┌─────────────────────────────────────┐
-│  AvukatPro            [🔔] [👤]     │
+│  Refik            [🔔] [👤]     │
 ├─────────────────────────────────────┤
 │                                     │
 │  Merhaba, Av. John!                 │
@@ -1060,7 +1060,7 @@
 
 ```
 ┌─────────────────────────────────────────────┐
-│  AvukatPro                        [⚙️] [X]  │
+│  Refik                        [⚙️] [X]  │
 ├─────────────────────────────────────────────┤
 │                                             │
 │  👤 Av. John Doe                           │
@@ -1823,9 +1823,9 @@ INSERT INTO ai_config (task_name, model, is_active) VALUES
 │                      SWAGGER / OpenAPI                              │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
-│  API Documentation: https://api.avukatpro.com/docs                  │
-│  Swagger UI: https://api.avukatpro.com/swagger                       │
-│  Redoc: https://api.avukatpro.com/redoc                               │
+│  API Documentation: https://api.refik.app/docs                  │
+│  Swagger UI: https://api.refik.app/swagger                       │
+│  Redoc: https://api.refik.app/redoc                               │
 │                                                                     │
 │  ─────────────────────────────────────                             │
 │                                                                     │
@@ -1835,16 +1835,16 @@ INSERT INTO ai_config (task_name, model, is_active) VALUES
 │  /api/v1/openapi.yaml                                              │
 │  │                                                                 │
 │  ├─ info:                                                           │
-│  │    title: AvukatPro API                                          │
+│  │    title: Refik API                                          │
 │  │    version: 1.0.0                                                │
 │  │    description: Türkiye'nin hukuk asistanı API                  │
-│  │    contact: support@avukatpro.com                                │
+│  │    contact: support@refik.com                                │
 │  │    license: MIT                                                  │
 │  │                                                                 │
 │  ├─ servers:                                                        │
-│  │    - url: https://api.avukatpro.com/api/v1                       │
+│  │    - url: https://api.refik.app/api/v1                       │
 │  │      description: Production                                     │
-│  │    - url: https://staging-api.avukatpro.com/api/v1               │
+│  │    - url: https://staging-api.refik.app/api/v1               │
 │  │      description: Staging                                        │
 │  │    - url: http://localhost:3000/api/v1                            │
 │  │      description: Local Development                              │

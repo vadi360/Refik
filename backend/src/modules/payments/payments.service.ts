@@ -278,7 +278,7 @@ export class PaymentsService {
         if (user) {
           await this.notificationsService.sendToUser(user.id, {
             title: '✅ Ödeme Başarılı',
-            body: `AvukatPro aboneliğiniz aktifleştirildi.`,
+            body: `Refik aboneliğiniz aktifleştirildi.`,
             type: 'SYSTEM',
           });
         }

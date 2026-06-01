@@ -1,12 +1,12 @@
-# AvukatPro
+# Refik
 
 <div align="center">
 
-![AvukatPro Banner](https://avukatpro.com/banner.png)
+![Refik Banner](https://refik.app/banner.png)
 
 **Versiyon:** 1.0 | **Tarih:** 02 Haziran 2026  
-**GitHub:** https://github.com/vadi360/AvukatPro  
-**Website:** https://avukatpro.com
+**GitHub:** https://github.com/vadi360/Refik  
+**Website:** https://refik.com
 
 *Mobil öncelikli, AI destekli hukuk asistanı ve tevkil pazar yeri*
 
@@ -46,11 +46,11 @@
 
 ## 1. Hakkında
 
-**AvukatPro**, Türkiye'deki avukatlara yönelik, mobil öncelikli yapay zekâ destekli bir hukuk asistanı ve tevkil pazar yeridir. Avukatların günlük işlerini otomatikleştirir, tebligat takibini kolaylaştırır ve duruşma/işlem takibi için güvenilir avukat eşleştirmesi sağlar.
+**Refik**, Türkiye'deki avukatlara yönelik, mobil öncelikli yapay zekâ destekli bir hukuk asistanı ve tevkil pazar yeridir. Avukatların günlük işlerini otomatikleştirir, tebligat takibini kolaylaştırır ve duruşma/işlem takibi için güvenilir avukat eşleştirmesi sağlar.
 
 ### Temel Değer Önerisi
 
-| Pain Point | AvukatPro Çözümü |
+| Pain Point | Refik Çözümü |
 |------------|------------------|
 | Tebligat süresi kaçırma | AI analizli UETS entegrasyonu + otomatik hatırlatıcı |
 | UYAP'ta saatlerce arama | Chrome eklentisi ile tek tıkla dosya özeti |
@@ -115,9 +115,9 @@
    - Emsal/içtihat araştırması zor
    - Format tutarsızlıkları
 
-### ✅ AvukatPro Çözümleri
+### ✅ Refik Çözümleri
 
-| Sorun | AvukatPro Çözüm | Sonuç |
+| Sorun | Refik Çözüm | Sonuç |
 |-------|-----------------|-------|
 | Tebligat kaçırma | UETS 5 gün kuralı otomasyonu + AI analiz | %90 süre kaçırma azaltma |
 | UYAP arama | Chrome eklentisi + RAG özetleme | %70 zaman tasarrufu |
@@ -321,9 +321,9 @@
 | **İdea Teknoloji** | Yerel, yaygın | UI eski, AI yok |
 | **Apilex** | Uzmanlaşmış | Sadece belirli dava türleri |
 
-### 7.2 AvukatPro Farkı
+### 7.2 Refik Farkı
 
-| Fark | AvukatPro | Rakipler |
+| Fark | Refik | Rakipler |
 |------|-----------|----------|
 | **Mobil** | ✅ Mobil öncelikli | ❌ Web ağırlıklı |
 | **AI** | ✅ Hibrit (Minimax + Claude) | ❌ Sınırlı veya yok |
@@ -454,7 +454,7 @@
 ### 10.1 Ana Klasör Yapısı
 
 ```
-AvukatPro/
+Refik/
 │
 ├── backend/                    # ✅ TAMAMLANDI - NestJS API
 │   ├── src/
@@ -581,8 +581,8 @@ AvukatPro/
 
 ```bash
 # 1. Projeyi klonlayın
-git clone https://github.com/vadi360/AvukatPro.git
-cd AvukatPro
+git clone https://github.com/vadi360/Refik.git
+cd Refik
 
 # 2. Backend kurulumu
 cd backend
@@ -723,18 +723,18 @@ Bu proje **MIT Lisansı** altında lisanslanmıştır.
 
 | Kanal | Değer |
 |-------|-------|
-| **Website** | https://avukatpro.com |
-| **GitHub** | https://github.com/vadi360/AvukatPro |
-| **Email** | info@avukatpro.com |
-| **Destek** | destek@avukatpro.com |
+| **Website** | https://refik.com |
+| **GitHub** | https://github.com/vadi360/Refik |
+| **Email** | info@refik.com |
+| **Destek** | destek@refik.com |
 
 ### 15.3 Sosyal Medya
 
 | Platform | Hesap |
 |----------|-------|
-| LinkedIn | @avukatpro |
-| Twitter | @avukatpro |
-| Instagram | @avukatpro |
+| LinkedIn | @refik |
+| Twitter | @refik |
+| Instagram | @refik |
 
 ---
 
@@ -742,8 +742,8 @@ Bu proje **MIT Lisansı** altında lisanslanmıştır.
 
 *Bu proje Türkiye'nin hukuk ekosistemini güçlendirmek için ❤️ ile yapılmıştır.*
 
-**AvukatPro — Hukuk Asistanı**
+**Refik — Hukuk Asistanı**
 
-*© 2026 AvukatPro. Tüm hakları saklıdır.*
+*© 2026 Refik. Tüm hakları saklıdır.*
 
 </div>

@@ -17,7 +17,7 @@ export class FilesService {
     this.r2AccountId = this.configService.get<string>('R2_ACCOUNT_ID', '');
     this.r2AccessKey = this.configService.get<string>('R2_ACCESS_KEY', '');
     this.r2SecretKey = this.configService.get<string>('R2_SECRET_KEY', '');
-    this.r2Bucket = this.configService.get<string>('R2_BUCKET', 'avukatpro-documents');
+    this.r2Bucket = this.configService.get<string>('R2_BUCKET', 'refik-documents');
     this.r2PublicUrl = this.configService.get<string>('R2_PUBLIC_URL', '');
   }
 

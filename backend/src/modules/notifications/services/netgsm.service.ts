@@ -450,7 +450,7 @@ export class NetgsmService {
   async sendReminderSms(phone: string, message: string): Promise<SmsResult> {
     return this.sendSms({
       to: phone,
-      message: `AvukatPro: ${message}`,
+      message: `Refik: ${message}`,
       type: SmsType.TURKISH,
     });
   }
@@ -465,7 +465,7 @@ export class NetgsmService {
   async sendDelegationSms(phone: string, senderName: string, caseNumber: string): Promise<SmsResult> {
     return this.sendSms({
       to: phone,
-      message: `AvukatPro: ${senderName} size bir tevkil talebi gönderdi. Dosya: ${caseNumber}`,
+      message: `Refik: ${senderName} size bir tevkil talebi gönderdi. Dosya: ${caseNumber}`,
       type: SmsType.TURKISH,
     });
   }

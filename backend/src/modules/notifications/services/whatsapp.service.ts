@@ -196,7 +196,7 @@ export class WhatsAppService {
     caseNumber: string,
     court: string,
   ): Promise<WhatsAppResult> {
-    const message = `📋 *AvukatPro - Tevkil Talebi*
+    const message = `📋 *Refik - Tevkil Talebi*
 
 Merhaba!
 
@@ -207,7 +207,7 @@ Merhaba!
 
 Onaylamak veya reddetmek için uygulamayı açın.
 
-AvukatPro - Hukuk Asistanı`;
+Refik - Hukuk Asistanı`;
 
     return this.sendTextMessage(to, message);
   }
@@ -228,14 +228,14 @@ AvukatPro - Hukuk Asistanı`;
   ): Promise<WhatsAppResult> {
     const emoji = type === 'DEADLINE' ? '⚠️' : '📅';
     
-    const message = `${emoji} *AvukatPro - Hatırlatma*
+    const message = `${emoji} *Refik - Hatırlatma*
 
 *${title}*
 
 📅 Tarih: ${dueDate}
 ${type === 'DEADLINE' ? '⚡ Kritik: Süre yaklaşıyor!' : ''}
 
-AvukatPro uygulamasını açmak için tıklayın: https://avukatpro.com/app`;
+Refik uygulamasını açmak için tıklayın: https://refik.com/app`;
 
     return this.sendTextMessage(to, message);
   }

@@ -77,7 +77,7 @@ export class DocumentGeneratorService {
   private r2PublicUrl: string;
 
   constructor(private configService: ConfigService) {
-    this.r2Bucket = this.configService.get<string>('R2_BUCKET', 'avukatpro-documents');
+    this.r2Bucket = this.configService.get<string>('R2_BUCKET', 'refik-documents');
     this.r2PublicUrl = this.configService.get<string>('R2_PUBLIC_URL', '');
   }
 
@@ -226,12 +226,12 @@ export class DocumentGeneratorService {
     const timestamp = new Date().toISOString();
     
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<udf:Document xmlns:udf="http://udf.avukatpro.com/schema/1.0">
+<udf:Document xmlns:udf="http://udf.refik.com/schema/1.0">
   <udf:Header>
     <udf:Version>1.0</udf:Version>
     <udf:CreatedAt>${timestamp}</udf:CreatedAt>
     <udf:Format>${options.petitionType || 'generic'}</udf:Format>
-    <udf:Generator>AvukatPro</udf:Generator>
+    <udf:Generator>Refik</udf:Generator>
   </udf:Header>
   <udf:Content>
     <udf:Body>
@@ -351,7 +351,7 @@ export class DocumentGeneratorService {
       <html>
         <head>
           <meta charset="UTF-8">
-          <title>${options.letterHead || 'AvukatPro Belge'}</title>
+          <title>${options.letterHead || 'Refik Belge'}</title>
           <style>
             body {
               font-family: 'Times New Roman', serif;

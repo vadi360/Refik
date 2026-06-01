@@ -1,5 +1,5 @@
 // ============================================================================
-// AvukatPro Backend - Ana Uygulama Modülü (app.module.ts)
+// Refik Backend - Ana Uygulama Modülü (app.module.ts)
 // Açıklama: Uygulamanın ana modülü - tüm modülleri bir araya getirir
 // 
 // Bu modül:

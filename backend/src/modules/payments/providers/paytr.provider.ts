@@ -67,7 +67,7 @@ export class PaytrProvider implements IPaymentProvider {
       if (request.paymentType === PaymentType.SUBSCRIPTION) {
         const packagePrices = this.getSubscriptionPrice(request.packageType, request.period);
         price = packagePrices.price;
-        productName = `AvukatPro ${request.packageType} Abonelik`;
+        productName = `Refik ${request.packageType} Abonelik`;
       } else {
         price = (request as TokenPackagePaymentRequest).price;
         productName = 'Token Paketi';

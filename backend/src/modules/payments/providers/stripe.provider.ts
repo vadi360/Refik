@@ -63,7 +63,7 @@ export class StripeProvider implements IPaymentProvider {
       if (request.paymentType === PaymentType.SUBSCRIPTION) {
         const packagePrices = this.getSubscriptionPrice(request.packageType, request.period);
         amount = Math.round(packagePrices.price * 100); // Kuruş cinsinden
-        productName = `AvukatPro ${request.packageType} - ${request.period === 'yearly' ? 'Yıllık' : 'Aylık'}`;
+        productName = `Refik ${request.packageType} - ${request.period === 'yearly' ? 'Yıllık' : 'Aylık'}`;
         metadata = {
           type: 'subscription',
           packageType: request.packageType,

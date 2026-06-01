@@ -1,5 +1,5 @@
 // ============================================================================
-// AvukatPro Backend - Ana Giriş Noktası (main.ts)
+// Refik Backend - Ana Giriş Noktası (main.ts)
 // Açıklama: NestJS uygulamasının başlatıldığı ana dosya
 // Bu dosya uygulamanın yapılandırmasını, middleware'leri ve Swagger'ı ayarlar
 // 
@@ -39,8 +39,8 @@ async function bootstrap() {
         'http://localhost:3000',
         'http://localhost:3001',
         // Üretim domainleri
-        'https://avukatpro.com',
-        'https://www.avukatpro.com',
+        'https://refik.com',
+        'https://www.refik.com',
       ],
       credentials: true, // Cookie ve Authorization header'larının gönderilmesine izin verir
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -91,11 +91,11 @@ async function bootstrap() {
   // 
   // URL: http://localhost:3000/api/docs
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('AvukatPro API') // API'nin başlığı
+    .setTitle('Refik API') // API'nin başlığı
     .setDescription(
       // API'nin açıklaması - ne işe yaradığı ve nasıl kullanılacağı
       `
-AvukatPro API - Türkiye'nin hukuk asistanı
+Refik API - Türkiye'nin hukuk asistanı
 
 ## Genel Bilgiler
 Bu API, avukatlara yönelik bir hukuk yönetim sistemi sunar.
@@ -120,9 +120,9 @@ AI model seçimi admin panelinden yapılandırılır.
     )
     .setVersion('1.0') // API versiyonu
     .setContact(
-      'AvukatPro Team', // İletişim bilgileri
-      'https://avukatpro.com',
-      'support@avukatpro.com',
+      'Refik Team', // İletişim bilgileri
+      'https://refik.com',
+      'support@refik.com',
     )
     .addBearerAuth(
       // JWT token ile kimlik doğrulama
@@ -154,8 +154,8 @@ AI model seçimi admin panelinden yapılandırılır.
   // artık tarayıcıda http://localhost:3000/api/docs açılabilir
   SwaggerModule.setup('api/docs', app, document, {
     // Swagger UI ayarları
-    customSiteTitle: 'AvukatPro API Dokümantasyonu',
-    customfavIcon: 'https://avukatpro.com/favicon.ico',
+    customSiteTitle: 'Refik API Dokümantasyonu',
+    customfavIcon: 'https://refik.com/favicon.ico',
     customCss: `
       /* Swagger UI özelleştirmesi */
       .swagger-ui .topbar { display: none }
@@ -185,7 +185,7 @@ AI model seçimi admin panelinden yapılandırılır.
   console.log(`
   ╔═══════════════════════════════════════════════════════════════╗
   ║                                                               ║
-  ║   🚀 AvukatPro Backend Başarıyla Başlatıldı!                  ║
+  ║   🚀 Refik Backend Başarıyla Başlatıldı!                  ║
   ║                                                               ║
   ║   📡 Sunucu: http://${host}:${port}                          ║
   ║   📖 Swagger: http://localhost:${port}/api/docs               ║
@@ -197,7 +197,7 @@ AI model seçimi admin panelinden yapılandırılır.
   ║   Test:       npm run test                                    ║
   ║   ════════════════════════════════════════════════════════════║
   ║                                                               ║
-  ║   Yapımcı: AvukatPro Team                                     ║
+  ║   Yapımcı: Refik Team                                     ║
   ║   Versiyon: 1.0.0                                            ║
   ║                                                               ║
   ╚═══════════════════════════════════════════════════════════════╝
