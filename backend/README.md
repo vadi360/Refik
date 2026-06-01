@@ -227,6 +227,20 @@ AvukatPro Backend, avukatların kullandığı mobil öncelikli yapay zekâ deste
 | `/ai/config` | GET | AI görev yapılandırması |
 | `/ai/token-usage` | GET | Token kullanımı |
 
+### 3.7.1 Case Update Modülü (AI Destekli Dosya Güncelleme)
+
+**Açıklama:** Yeni içerik eklendiğinde AI analizi, özet güncelleme, yapılacaklar ve kronoloji
+
+| Endpoint | Method | Açıklama |
+|----------|--------|----------|
+| `/ai/case-update` | POST | Dosya güncelle ve AI analiz et |
+| `/ai/case-update/:caseId/actions` | GET | Yapılacakları getir |
+| `/ai/case-update/actions` | PUT | Yapılacak güncelle |
+| `/ai/case-update/:caseId/actions` | POST | Yapılacak ekle |
+| `/ai/case-update/:caseId/actions/:index` | DELETE | Yapılacak sil |
+| `/ai/case-update/:caseId/timeline` | GET | Kronoloji getir |
+| `/ai/case-update/:caseId/summarize` | POST | Dosyayı yeniden özetle |
+
 ### 3.8 Admin Modülü
 
 **Açıklama:** Yönetici işlemleri
@@ -432,6 +446,10 @@ model Case {
   
   // AI özet
   aiSummary       String?
+  
+  // Yapılacaklar ve kronoloji (AI tarafından önerilen)
+  actionItems     Json?    // [{task, deadline, priority, status}]
+  timelineUpdates Json?    // [{date, type, description}]
   
   // Timestamps
   createdAt       DateTime @default(now())
