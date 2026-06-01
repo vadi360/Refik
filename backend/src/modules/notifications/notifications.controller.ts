@@ -1,0 +1,89 @@
+// ============================================================================
+// Notifications Controller (notifications.controller.ts)
+// Açıklama: Tebligat endpoint'leri
+// 
+// Endpoint'ler:
+// - GET /notifications - Tebligat listesi
+// - GET /notifications/unread-count - Okunmamış sayısı
+// - GET /notifications/:id - Tebligat detay
+// - PUT /notifications/:id/read - Okundu işaretle
+// - PUT /notifications/:id/star - Yıldızla/yıldızı kaldır
+// - POST /notifications/:id/reminder - Hatırlatıcı ekle
+// - POST /notifications/:id/link-case - Davaya ekle
+// - GET /notifications/auto-process - 5 gün kuralı için otomatik işlenecekler
+// - POST /notifications/:id/auto-process - 5 gün kuralı otomatik işle
+// ============================================================================
+import { Controller, Get, Put, Post, Body, Param, Query, UseGuards, Req } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { NotificationsService } from './notifications.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+
+@ApiTags('Notifications')
+@Controller('notifications')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+export class NotificationsController {
+  constructor(private notificationsService: NotificationsService) {}
+
+  @Get()
+  async findAll(
+    @Req() req: any, 
+    @Query('isRead') isRead?: string, 
+    @Query('type') type?: string, 
+    @Query('page') page?: number, 
+    @Query('limit') limit?: number
+  ) {
+    return this.notificationsService.findAll(req.user.userId, { 
+      isRead: isRead === 'true' ? true : isRead === 'false' ? false : undefined, 
+      type, page, limit 
+    });
+  }
+
+  @Get('unread-count')
+  async getUnreadCount(@Req() req: any) {
+    return { count: await this.notificationsService.getUnreadCount(req.user.userId) };
+  }
+
+  @Get('auto-process')
+  async getAutoProcessNotifications(@Req() req: any) {
+    return this.notificationsService.getAutoProcessNotifications(req.user.userId);
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string, @Req() req: any) {
+    return this.notificationsService.findOne(id, req.user.userId);
+  }
+
+  @Put(':id/read')
+  async markAsRead(@Param('id') id: string, @Req() req: any) {
+    return this.notificationsService.markAsRead(id, req.user.userId);
+  }
+
+  @Put(':id/star')
+  async toggleStar(@Param('id') id: string, @Req() req: any) {
+    return this.notificationsService.toggleStar(id, req.user.userId);
+  }
+
+  @Post(':id/reminder')
+  async createReminder(
+    @Param('id') id: string, 
+    @Body() body: { dueDate?: Date; title?: string; notifyTypes?: string[] }, 
+    @Req() req: any
+  ) {
+    return this.notificationsService.createReminder(id, req.user.userId, body);
+  }
+
+  @Post(':id/link-case')
+  async linkToCase(
+    @Param('id') id: string, 
+    @Body() body: { caseId?: string }, 
+    @Req() req: any
+  ) {
+    return this.notificationsService.linkToCase(id, body.caseId || null, req.user.userId);
+  }
+
+  @Post(':id/auto-process')
+  async autoProcessNotification(@Param('id') id: string, @Req() req: any) {
+    return this.notificationsService.autoProcessNotification(id, req.user.userId);
+  }
+}
