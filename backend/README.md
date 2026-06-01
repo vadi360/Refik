@@ -2,16 +2,21 @@
 
 <div align="center">
 
-![AvukatPro](https://avukatpro.com/logo.png)
-
-**Türkiye'nin Hukuk Asistanı - Backend API**
+**Versiyon:** 2.0 | **Tarih:** 02 Haziran 2026  
+**GitHub:** https://github.com/vadi360/AvukatPro
+**Commit:** b76d796
 
 *Mobil öncelikli, AI destekli, tevkil pazar yeri*
 
-[![Build Status](https://github.com/vadi360/AvukatPro/actions/workflows/ci.yml/badge.svg)](https://github.com/vadi360/AvukatPro/actions)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Node](https://img.shields.io/badge/node-18+-green.svg)](https://nodejs.org/)
-[![TypeScript](https://img.shields.io/badge/typescript-5.3-blue.svg)](https://www.typescriptlang.org/)
+| Durum | Değer |
+|-------|-------|
+| Modül | 21 |
+| Prisma Model | 23 |
+| Controller | 16 |
+| API Endpoint | ~90+ |
+| Toplam Satır | ~15,000+ |
+
+</div>
 
 </div>
 

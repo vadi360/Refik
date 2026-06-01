@@ -1,10 +1,11 @@
 # AvukatPro — Uygulama Planı
 ## Frontend Ekranlar, Backend Mimarisi, Veritabanı & API Tasarımı
 
-**Versiyon:** 1.0  
-**Tarih:** 01 Haziran 2026  
-**Durum:** Planlama  
-**Gizlilik:** İç Kullanım  
+**Versiyon:** 2.0  
+**Tarih:** 02 Haziran 2026
+**Durum:** Backend Tamamlandı - Frontend Planlama
+**GitHub:** https://github.com/vadi360/AvukatPro
+**Git Commit:** b76d796
 
 ---
 
@@ -74,19 +75,19 @@
 │   │  │Dashboard│ Dosyalar │ Tebligatlar│ Tevkiller│ ...      │    │
 │   │  └─────────┴──────────┴───────────┴──────────┘           │    │
 │   │                                                          │    │
-│   │  /dashboard — Ana panel                                  │    │
-│   │  /files — Dosya listesi                                  │    │
-│   │  /notifications — Tebligatlar                             │    │
-│   │  /delegations — Tevkillerim                             │    │
-│   │  /documents — Üretilen belgeler                          │    │
-│   │  /profile — Profil ayarları                              │    │
-│   │  /settings — Uygulama ayarları                           │    │
+│   │  /dashboard - Ana panel                                  │    │
+│   │  /files - Dosya listesi                                  │    │
+│   │  /notifications - Tebligatlar                             │    │
+│   │  /delegations - Tevkillerim                             │    │
+│   │  /documents - Üretilen belgeler                          │    │
+│   │  /profile - Profil ayarları                              │    │
+│   │  /settings - Uygulama ayarları                           │    │
 │   │                                                          │    │
 │   │  + ADMIN PANEL:                                          │    │
-│   │  /admin — Yönetim paneli                                 │    │
-│   │  /admin/users — Kullanıcı yönetimi                        │    │
-│   │  /admin/ai-config — AI yapılandırma                      │    │
-│   │  /admin/analytics — İstatistikler                        │    │
+│   │  /admin - Yönetim paneli                                 │    │
+│   │  /admin/users - Kullanıcı yönetimi                        │    │
+│   │  /admin/ai-config - AI yapılandırma                      │    │
+│   │  /admin/analytics - İstatistikler                        │    │
 │   │                                                          │    │
 │   └─────────────────────────────────────────────────────────┘    │
 │                                                                     │
@@ -458,7 +459,7 @@
 │  │                                                         │  │
 │  │  İstanbul 5. Asliye Hukuk Mahkemesi                   │  │
 │  │  14 gün içinde itiraz süresi                         │  │
-│  │  Gönderim: 01.06.2026 | Okundu: —                    │  │
+│  │  Gönderim: 01.06.2026 | Okundu: -                    │  │
 │  │                                                         │  │
 │  │  [İncele] [Hatırlat] [İlgili Dosyaya Ekle]          │  │
 │  └──────────────────────────────────────────────────────┘  │
@@ -468,7 +469,7 @@
 │  │                                                         │  │
 │  │  Ankara 2. Aile Hukuk Mahkemesi                       │  │
 │  │  20.06.2026 tarihine ertelendi                        │  │
-│  │  Gönderim: 01.06.2026 | Okundu: —                    │  │
+│  │  Gönderim: 01.06.2026 | Okundu: -                    │  │
 │  │                                                         │  │
 │  │  [İncele] [Hatırlat] [İlgili Dosyaya Ekle]          │  │
 │  └──────────────────────────────────────────────────────┘  │
@@ -1191,13 +1192,13 @@
 │    │                                                         │
 │    │            ┌─────────────────────────────┐              │
 │    └────────────┤      DIŞ SERVİSLER          ├────────────┘
-│                 │                             │              
-│                 │  ┌─────────┐ ┌─────────┐   │              
-│                 │  │ NetGSM  │ │SendGrid │   │              
-│                 │  │  (SMS)  │ │(Email) │   │              
-│                 │  └─────────┘ └─────────┘   │              
-│                 │                             │              
-│                 └─────────────────────────────┘              
+│                 │                             │
+│                 │  ┌─────────┐ ┌─────────┐   │
+│                 │  │ NetGSM  │ │SendGrid │   │
+│                 │  │  (SMS)  │ │(Email) │   │
+│                 │  └─────────┘ └─────────┘   │
+│                 │                             │
+│                 └─────────────────────────────┘
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -1373,25 +1374,25 @@ CREATE TABLE users (
     phone VARCHAR(20),
     phone_verified BOOLEAN DEFAULT FALSE,
     avatar_url TEXT,
-    
+
     -- Mesleki bilgiler
     baro_reg VARCHAR(100),
     expertise TEXT[], -- Array: ['Aile Hukuku', 'Borçlar Hukuku']
     city VARCHAR(100),
     district VARCHAR(100),
     court VARCHAR(255),
-    
+
     -- Puanlama
     rating DECIMAL(3,2) DEFAULT 0,
     rating_count INTEGER DEFAULT 0,
-    
+
     -- Abonelik
     subscription_status VARCHAR(50) DEFAULT 'free',
-    
+
     -- Zaman
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
+
     -- Soft delete
     deleted_at TIMESTAMP
 );
@@ -1413,11 +1414,11 @@ CREATE TABLE cases (
     status VARCHAR(50) DEFAULT 'active', -- active, closed, archived
     ai_summary TEXT,
     decision_analysis JSONB, -- {"against": 1, "in_favor": 0}
-    
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP,
-    
+
     CONSTRAINT unique_case_number UNIQUE(user_id, case_number)
 );
 
@@ -1432,26 +1433,26 @@ CREATE TABLE notifications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id),
     case_id UUID REFERENCES cases(id),
-    
+
     type VARCHAR(50) NOT NULL, -- 'decision', 'hearing', 'deadline', 'delegation'
     title VARCHAR(255) NOT NULL,
     content TEXT,
-    
+
     -- Süre bilgisi
     deadline DATE,
     deadline_days INTEGER,
-    
+
     -- Tebligat detay
     sent_date TIMESTAMP,
     read_date TIMESTAMP,
     is_read BOOLEAN DEFAULT FALSE,
     is_starred BOOLEAN DEFAULT FALSE,
-    
+
     -- UETS bilgisi
     uets_id VARCHAR(100),
     uets_read BOOLEAN DEFAULT FALSE,
     uets_opened_at TIMESTAMP,
-    
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP
 );
@@ -1466,25 +1467,25 @@ CREATE INDEX idx_notifications_deadline ON notifications(deadline);
 ```sql
 CREATE TABLE delegations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    
+
     -- Gönderen ve alan
     from_user_id UUID NOT NULL REFERENCES users(id),
     to_user_id UUID REFERENCES users(id),
-    
+
     -- Dosya ve duruşma
     case_id UUID REFERENCES cases(id),
     hearing_date TIMESTAMP,
     court VARCHAR(255),
-    
+
     -- Durum ve not
     status VARCHAR(50) DEFAULT 'pending', -- pending, approved, rejected, cancelled, completed
     message TEXT,
     admin_note TEXT,
-    
+
     -- Puanlama
     rating INTEGER CHECK (rating >= 1 AND rating <= 5),
     rating_comment TEXT,
-    
+
     -- Zaman
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
@@ -1507,10 +1508,10 @@ CREATE TABLE ai_config (
     model VARCHAR(50) NOT NULL, -- 'minimax' veya 'claude'
     is_active BOOLEAN DEFAULT TRUE,
     priority INTEGER DEFAULT 0,
-    
+
     -- Ayarlar
     settings JSONB, -- {"temperature": 0.7, "max_tokens": 1000}
-    
+
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_by UUID REFERENCES users(id)
 );
@@ -1893,7 +1894,7 @@ tags:
 
 # BÖLÜM 9: GERÇEKLEŞTİRME SIRASI
 
-## 9.1 Faz 0 — Temel Altyapı (Ay 1-2)
+## 9.1 Faz 0 - Temel Altyapı (Ay 1-2)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -1923,7 +1924,7 @@ tags:
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-## 9.2 Faz 1 — Tevkil + Tebligat (Ay 3-4)
+## 9.2 Faz 1 - Tevkil + Tebligat (Ay 3-4)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -1952,7 +1953,7 @@ tags:
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-## 9.3 Faz 2 — UYAP + RAG (Ay 5-6)
+## 9.3 Faz 2 - UYAP + RAG (Ay 5-6)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -2034,6 +2035,6 @@ tags:
 
 ---
 
-*Plan tamamlandı.*  
-*Son güncelleme: 01 Haziran 2026*  
+*Plan tamamlandı.*
+*Son güncelleme: 01 Haziran 2026*
 *Versiyon: 1.0*

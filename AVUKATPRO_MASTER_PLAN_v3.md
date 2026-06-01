@@ -1,9 +1,10 @@
 # AvukatPro — Master Ürün & Teknik Plan
 
-**Versiyon:** 3.0  
-**Tarih:** 01 Haziran 2026  
-**Durum:** Final  
-**Gizlilik:** İç Kullanım  
+**Versiyon:** 4.0  
+**Tarih:** 02 Haziran 2026
+**Durum:** FINAL - Backend Tamamlandı
+**GitHub:** https://github.com/vadi360/AvukatPro
+**Gizlilik:** İç Kullanım
 
 ---
 
@@ -11,23 +12,30 @@
 
 **AvukatPro**, Türkiye'deki avukatlara yönelik, mobil öncelikli yapay zekâ destekli bir hukuk asistanı ve tevkil pazar yeridir. Dört ana modülden oluşur:
 
-1. **Tevkil Pazar Yeri** — Avukatlar arası otomatik eşleştirme ile duruşma/işlem takibi
-2. **UETS Entegrasyonu** — PTT UETS'ten tebligat çekme ve AI ile analiz
-3. **UYAP Dosya Özetleme** — Tarayıcı eklentisi ile UYAP'tan dosya çekme ve RAG tabanlı özetleme
-4. **Otomatik Belge Üretimi** — AI ile dilekçe, ihtarname, içtihat araştırması
+1. **Tevkil Pazar Yeri** - Avukatlar arası otomatik eşleştirme ile duruşma/işlem takibi
+2. **UETS Entegrasyonu** - PTT UETS'ten tebligat çekme ve AI ile analiz
+3. **UYAP Dosya Özetleme** - Tarayıcı eklentisi ile UYAP'tan dosya çekme ve RAG tabanlı özetleme
+4. **Otomatik Belge Üretimi** - AI ile dilekçe, ihtarname, içtihat araştırması
 
 **Tam Kapsam:**
 - Web (Next.js + PWA)
 - Mobil (React Native — iOS + Android)
 - Chrome Eklentisi (Manifest V3)
-- Backend API (Node.js/NestJS)
+- Backend API (Node.js/NestJS) — **TAMAMLANDI ✅**
 - Admin Panel
+
+**Backend Durumu:**
+- 21 Modül tamamlandı
+- 23 Prisma model
+- 5 Bildirim kanalı (Push, SMS, Email, WhatsApp, Telegram)
+- AI: Minimax + Claude hibrit sistem
+- Token takibi: AI görevleri için (UETS görevleri için sınırsız)
 
 **Temel farklılaşma:**
 - Mobil öncelikli tasarım (rakipler web ağırlıklı)
-- **Hibrit AI Mimarisi** — Admin panelden her görev için Minimax veya Claude seçilebilir
+- **Hibrit AI Mimarisi** - Admin panelden her görev için Minimax veya Claude seçilebilir
 - RAG tabanlı anti-halüsinasyon mimarisi (Pinecone vektör DB)
-- Paket bazlı fiyatlandırma (199₺ – 1.999₺/ay)
+- Paket bazlı fiyatlandırma (199₺ - 1.999₺/ay)
 
 **Hedef:** 6 ayda 10.000 avukat (organik + pazarlama), 2 yılda Türkiye geneli.
 
@@ -58,26 +66,26 @@ Avukatlar:
 | Dilekçe yazarken emsal bulamama | RAG destekli içtihat araştırma |
 
 ### 2.4 Farklılaşma
-- **Rakipler:** Forvis, Legal One, İdea Teknoloji, Apilex — web ağırlıklı, parçalı çözümler
+- **Rakipler:** Forvis, Legal One, İdea Teknoloji, Apilex - web ağırlıklı, parçalı çözümler
 - **AvukatPro:** Mobil öncelikli, uçtan uca AI destekli, hibrit AI seçeneği, paket bazlı
 
 ---
 
 ## 3. Kullanıcı Personaları & Ana Senaryolar
 
-### Persona A — "Köşe Avukatı" (Solo)
+### Persona A - "Köşe Avukatı" (Solo)
 - 5 yıllık deneyim, kendi ofisinde çalışıyor
 - Aile hukuku odaklı, günde 2-3 duruşma
 - Tek asistanı var, o da meşgul
 - **Öncelik:** Tebligat takibi, duruşma hatırlatıcı, tevkil
 
-### Persona B — "Büro Sahibi" (Kurumsal)
+### Persona B - "Büro Sahibi" (Kurumsal)
 - 10 yıllık deneyim, 5 kişilik ekip
 - Ceza ve icra davaları ağırlıklı
 - Ekip yönetimi, dosya takibi kritik
 - **Öncelik:** UYAP özetleme, ekip koordinasyonu, içtihat araştırması
 
-### Persona C — "Genç Avukat" (Yeni)
+### Persona C - "Genç Avukat" (Yeni)
 - 1-2 yıllık deneyim, stajyerlikten yeni çıkmış
 - Her dava türüne bakıyor, deneyim eksik
 - Dilekçe yazımı ve emsal araştırması en çok ihtiyaç duyduğu şey
@@ -85,7 +93,7 @@ Avukatlar:
 
 ---
 
-### Senaryo 1 — Tevkil Verme (Persona A)
+### Senaryo 1 - Tevkil Verme (Persona A)
 1. Avukat UYAP'ta duruşma tarihini görür → gidemeyecek
 2. AvukatPro uygulamasını açar → "Tevkil Ver" butonu
 3. Sistem otomatik olarak aynı adliyede uygun avukatları listeler
@@ -93,7 +101,7 @@ Avukatlar:
 5. Avukat tevkil talebi gönderir → diğer avukat onaylar
 6. Her iki taraf da bildirim alır → işlem tamam
 
-### Senaryo 2 — Tebligat Analizi (Persona B)
+### Senaryo 2 - Tebligat Analizi (Persona B)
 1. Avukat UETS WebView'e giriş yapar (uygulama içinde)
 2. Sistem otomatik olarak tebligat listesini çeker
 3. **Okundu bilgisi kontrol edilir:**
@@ -104,21 +112,21 @@ Avukatlar:
 5. Tebligat ilgili davaya eklenir → dosya yoksa yeni dava oluşturulur
 6. Avukat detayları görür, gerekirse UYAP'a gider
 
-### Senaryo 3 — UYAP Özetleme (Persona C)
+### Senaryo 3 - UYAP Özetleme (Persona C)
 1. Avukat Chrome'da UYAP'a girer → AvukatPro eklentisi aktif
 2. Eklenti arka planda dosyaları çeker (avukat onayı ile)
 3. RAG sistemi belgeleri okur → özet çıkarır
 4. "Aleyhinize 2 karar, 1 bekleyen duruşma" gibi bilgi sunulur
 5. Ayrıntı için UYAP'a gitmeye gerek kalmaz
 
-### Senaryo 4 — Dilekçe Üretimi (Persona C)
+### Senaryo 4 - Dilekçe Üretimi (Persona C)
 1. Avukat "Boşanma dilekçesi" yazmak istiyor
 2. Chatbot'a detayları girer (taraflar, Talepler)
 3. AI (Admin'in seçtiği model) taslak hazırlar
 4. Avukat revize ister → AI düzeltir
 5. Son hal PDF/Word/UDF olarak çıkar
 
-### Senaryo 5 — Otomatik İcra Takibi (Gelecek)
+### Senaryo 5 - Otomatik İcra Takibi (Gelecek)
 1. Avukat icra takip numarasını girer
 2. Sistem UYAP icra modülünden durumu çeker
 3. AI otomatik olarak takvim günceller
@@ -128,7 +136,7 @@ Avukatlar:
 
 ## 4. Modül Bazlı Fonksiyonel Gereksinimler
 
-### 4.1 Modül 1 — Tevkil Pazar Yeri
+### 4.1 Modül 1 - Tevkil Pazar Yeri
 
 | Özellik | Etiket | Açıklama |
 |---------|--------|----------|
@@ -141,7 +149,7 @@ Avukatlar:
 | OTP doğrulama | MUST | Kayıt sırasında telefon doğrulama |
 
 **İş kuralları:**
-- Tevkil ücretsizdir (komisyon alınmaz — TBB kuralı riski)
+- Tevkil ücretsizdir (komisyon alınmaz - TBB kuralı riski)
 - Tevkil onayı 24 saat içinde verilmeli, verilmezse otomatik iptal
 - Puanlama sistemi şeffaf, şikayet mekanizması açık
 - Algoritma sadece eşleştirir, sıralama yapmaz (TBB riski azaltımı)
@@ -151,7 +159,7 @@ Avukatlar:
 - Barodan ruhsat/evrak zorunluluğu yok (şimdilik basit başlangıç)
 - Gelecekte baro entegrasyonu eklenebilir
 
-### 4.2 Modül 2 — UETS Entegrasyonu
+### 4.2 Modül 2 - UETS Entegrasyonu
 
 | Özellik | Etiket | Açıklama |
 |---------|--------|----------|
@@ -211,7 +219,7 @@ Avukatlar:
 | Avukat 5. gün açtı | 5. gün | Hemen | 5. gün + 14 gün = 19. gün sonu |
 | 5. gün açılmadı | 5. gün (UETS otomatik) | 5. gün | 5. gün + 14 gün = 19. gün sonu |
 
-### 4.3 Modül 3 — UYAP Dosya Özetleme
+### 4.3 Modül 3 - UYAP Dosya Özetleme
 
 | Özellik | Etiket | Açıklama |
 |---------|--------|----------|
@@ -224,7 +232,7 @@ Avukatlar:
 
 **Not:** UYAP resmi API'si yok. Eklenti scraping yapacak. Avukatın kendi hesabıyla giriş şart.
 
-### 4.4 Modül 4 — Otomatik Belge Üretimi
+### 4.4 Modül 4 - Otomatik Belge Üretimi
 
 | Özellik | Etiket | Açıklama |
 |---------|--------|----------|
@@ -238,7 +246,7 @@ Avukatlar:
 
 **UDF notu:** UDF formatı araştırılacak. Önce PDF/Word ile başlanır.
 
-### 4.5 Modül 5 — Otomatik İcra Takibi (Gelecek)
+### 4.5 Modül 5 - Otomatik İcra Takibi (Gelecek)
 
 | Özellik | Etiket | Açıklama |
 |---------|--------|----------|
@@ -253,7 +261,7 @@ Avukatlar:
 
 | Özellik | Etiket | Açıklama |
 |---------|--------|----------|
-| **Hibrit AI Motoru** | MUST | Minimax ve Claude — Admin panelden yapılandırma |
+| **Hibrit AI Motoru** | MUST | Minimax ve Claude - Admin panelden yapılandırma |
 | Anti-halüsinasyon mimarisi | MUST | RAG + kaynak gösterme + "emin değilim" eşiği |
 | İnsan onayı akışı | MUST | AI üretimi belgelerde avukat onayı zorunlu |
 | Bildirim katmanı | MUST | Push, SMS (NetGSM), WhatsApp, e-posta |
@@ -271,7 +279,7 @@ Avukatlar:
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                        KULLANICI                             │
-│          (Avukat — Web / Mobil / Chrome Eklenti)           │
+│          (Avukat - Web / Mobil / Chrome Eklenti)           │
 └─────────────────────┬───────────────────────────────────────┘
                       │
                       ▼
@@ -348,8 +356,8 @@ Avukatlar:
 | **Cache** | Redis | Oturum, token, sıklık erişilen veriler |
 | **Vektör DB** | Pinecone | RAG için embeddings |
 | **Dosya Depo** | CloudFlare R2 | Belgeler, arşivler |
-| **AI Motoru 1** | Minimax M2.7 (Türkiye) | Varsayılan AI — veri Türkiye'de kalır |
-| **AI Motoru 2** | Claude (Sonnet) | Admin seçimli — yüksek doğruluk gereken görevler |
+| **AI Motoru 1** | Minimax M2.7 (Türkiye) | Varsayılan AI - veri Türkiye'de kalır |
+| **AI Motoru 2** | Claude (Sonnet) | Admin seçimli - yüksek doğruluk gereken görevler |
 | **SMS** | NetGSM API | Hatırlatıcı bildirimleri |
 | **E-posta** | SendGrid veya Amazon SES | Bildirimler |
 | **CI/CD** | GitHub Actions + Docker | Otomatik deployment |
@@ -369,13 +377,13 @@ Avukatlar:
 
 ---
 
-## 6. AI Mimarisi — Hibrit Sistem
+## 6. AI Mimarisi - Hibrit Sistem
 
-### 6.1 AI Stratejisi — Admin Kontrolünde
+### 6.1 AI Stratejisi - Admin Kontrolünde
 
 **Karar:** Sistemde **iki AI motoru** çalışır:
-- **Minimax M2.7** (Türkiye sunucusu) — Varsayılan, KVKK uyumlu
-- **Claude (Sonnet)** — Admin seçimli, yüksek doğruluk gereken görevler
+- **Minimax M2.7** (Türkiye sunucusu) - Varsayılan, KVKK uyumlu
+- **Claude (Sonnet)** - Admin seçimli, yüksek doğruluk gereken görevler
 
 **Yönetim:** Admin panelinden her görev türü için hangi AI'ın kullanılacağı seçilir. Bu seçim system genelinde geçerli olur.
 
@@ -399,7 +407,7 @@ Avukatlar:
 
 **Admin Panelinde:**
 1. "AI Yapılandırma" menüsü
-2. Görev listesi — her görevin yanında "Minimax" / "Claude" seçimi
+2. Görev listesi - her görevin yanında "Minimax" / "Claude" seçimi
 3. Seçim kaydedildiğinde tüm sistem bu yapılandırmayı kullanır
 4. İsteğe bağlı: Görev başına model override edilebilir (ileri aşamada)
 
@@ -415,7 +423,7 @@ Avukatlar:
 │                                                             │
 │  1. Belge yüklenir (UYAP veya manuel)                      │
 │         ▼                                                   │
-│  2. Chunking (parçalama) — 512-1024 token parçalar         │
+│  2. Chunking (parçalama) - 512-1024 token parçalar         │
 │         ▼                                                   │
 │  3. Embedding üretimi (Minimax embed model)               │
 │         ▼                                                   │
@@ -489,7 +497,7 @@ Avukatlar:
 | Risk | Durum | Azaltım Önlemi |
 |------|-------|----------------|
 | Sınır ötesi veri aktarımı | ⚠️ Dikkat | Minimax Türkiye kullanılırsa risk yok. Claude kullanımında KVKK açık rıza gerekli |
-| Veri yerelleştirme | ⚠️ Dikkat | Müvekkil verileri yurt dışına gönderilmez — Claude kullanımı için açık rıza alınır |
+| Veri yerelleştirme | ⚠️ Dikkat | Müvekkil verileri yurt dışına gönderilmez - Claude kullanımı için açık rıza alınır |
 | Silme hakkı | ⚠️ Dikkat | "Sil" butonu ile 30 gün içinde imha |
 | Veri ihlali | ⚠️ Önlem | TLS + AES-256, 72 saat bildirim |
 
@@ -567,7 +575,7 @@ Avukatlar:
 
 ### 10.1 MVP Kapsamı
 
-**Faz 0 — Temel (Ay 1-2)**
+**Faz 0 - Temel (Ay 1-2)**
 - Web uygulaması (Next.js + PWA)
 - Mobil uygulama iskeleti (React Native)
 - Kullanıcı kayıt + OTP doğrulama
@@ -575,22 +583,22 @@ Avukatlar:
 - Bildirim altyapısı (push + e-posta)
 - Admin panel (temel + AI yapılandırma)
 
-**Faz 1 — Tevkil + Tebligat (Ay 3-4)**
+**Faz 1 - Tevkil + Tebligat (Ay 3-4)**
 - Modül 1: Tevkil pazar yeri (2 taraflı)
 - Modül 2: UETS WebView entegrasyonu + AI analizi
 - Hatırlatıcı sistemi (SMS + push)
 
-**Faz 2 — UYAP + RAG (Ay 5-6)**
+**Faz 2 - UYAP + RAG (Ay 5-6)**
 - Chrome eklentisi (UYAP okuma + full otomasyon)
 - RAG altyapısı (Pinecone vektör DB)
 - Dosya özetleme + aleyhe/lehe tespiti
 
-**Faz 3 — Belge Üretimi (Ay 7-8)**
+**Faz 3 - Belge Üretimi (Ay 7-8)**
 - Modül 4: Dilekçe üretimi
 - İçtihat araştırması
 - UDF çıktısı
 
-**Faz 4 — İcra Otomasyonu (Gelecek)**
+**Faz 4 - İcra Otomasyonu (Gelecek)**
 - UYAP icra modülü entegrasyonu
 - e-imza altyapısı hazırlığı
 
@@ -652,7 +660,7 @@ Ay 1-2   Ay 3-4   Ay 5-6   Ay 7-8   Gelecek
 
 **10.000 × 199₺ = 1.99M₺ gelir | 35-40K₺ maliyet | ~1.95M₺ net marj**
 
-### 11.4 Başlangıç Maliyeti (MVP — İlk 3 Ay)
+### 11.4 Başlangıç Maliyeti (MVP - İlk 3 Ay)
 
 | Kalem | Aylık Maliyet |
 |-------|---------------|
@@ -705,7 +713,7 @@ Ay 1-2   Ay 3-4   Ay 5-6   Ay 7-8   Gelecek
 
 ---
 
-## EK — Hukuki Sorumluluk Reddi Metni
+## EK - Hukuki Sorumluluk Reddi Metni
 
 > **Yasal Uyarı:** AvukatPro'da üretilen tüm belgeler ve AI çıktıları yalnızca yardımcı araç olarak tasarlanmıştır. Üretilen dilekçe, ihtarname veya süre bilgisi, avukatın kendi değerlendirmesi ve onayı olmadan kullanılamaz. AvukatPro, AI kaynaklı hatalardan kaynaklanan herhangi bir hukuki sonuçtan sorumlu değildir. Tüm belgeler kullanılmadan önce avukat tarafından kontrol edilmeli ve onaylanmalıdır.
 
@@ -715,7 +723,7 @@ Ay 1-2   Ay 3-4   Ay 5-6   Ay 7-8   Gelecek
 
 | Değişiklik | Açıklama |
 |------------|----------|
-| **Hibrit AI sistemi** | Minimax + Claude — Admin panelden yapılandırma |
+| **Hibrit AI sistemi** | Minimax + Claude - Admin panelden yapılandırma |
 | **AI görev atama tablosu** | Net tablo, her görev için varsayılan model |
 | **Admin AI yapılandırma** | Bölüm 6.3'te detaylı açıklama |
 | **Claude KVKK notu** | Claude kullanımı için açık rıza gerekli |
@@ -724,6 +732,6 @@ Ay 1-2   Ay 3-4   Ay 5-6   Ay 7-8   Gelecek
 
 ---
 
-*Plan tamamlandı.*  
-*Son güncelleme: 01 Haziran 2026*  
+*Plan tamamlandı.*
+*Son güncelleme: 01 Haziran 2026*
 *Versiyon: 3.0*
