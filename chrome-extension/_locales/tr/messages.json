@@ -1,0 +1,10 @@
+{
+  "extension_name": {
+    "message": "Refik - UYAP Yardımcısı",
+    "description": "Uygulama adı"
+  },
+  "extension_description": {
+    "message": "UYAP'tan otomatik dosya çekme, AI özetleme ve hatırlatıcı oluşturma",
+    "description": "Uygulama açıklaması"
+  }
+}
