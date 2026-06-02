@@ -175,7 +175,7 @@
 | Özellik | Detay |
 |---------|-------|
 | Tek Tıkla Özet | UYAP'ta dosyayı seç → otomatik özet |
-| RAG Destekli | Pinecone vektör DB ile相似度 arama |
+| RAG Destekli | Pinecone vektör DB ile benzerlik arama |
 | Anti-Halüsinasyon | Kaynak gösterimi + "emin değilim" eşiği |
 | Duruşma Özeti | Son 10 duruşma, kararlar, taraflar |
 
