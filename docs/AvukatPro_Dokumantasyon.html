@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refik - Avukat Pro | Ürün Dökümantasyonu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary: #1e3a5f;
+            --primary-light: #2d5a87;
+            --secondary: #f59e0b;
+            --accent: #10b981;
+            --bg-dark: #0f172a;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient-primary: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 50%, #10b981 100%);
+            --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            --shadow: 0 10px 40px rgba(0,0,0,0.1);
+            --shadow-lg: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        
+        /* Cover Page */
+        .cover {
+            min-height: 100vh;
+            background: var(--gradient-primary);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+        
+        .cover-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cover-logo {
+            width: 120px;
+            height: 120px;
+            background: var(--white);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .cover-logo svg {
+            width: 70px;
+            height: 70px;
+        }
+        
+        .cover h1 {
+            font-size: 72px;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+        
+        .cover h2 {
+            font-size: 28px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+        }
+        
+        .cover-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            color: var(--white);
+            font-weight: 500;
+            margin-bottom: 60px;
+        }
+        
+        .cover-stats {
+            display: flex;
+            gap: 60px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Sections */
+        .section {
+            padding: 100px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-dark {
+            background: var(--bg-dark);
+            color: var(--white);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .section-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-accent);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+        
+        .section-subtitle {
+            font-size: 20px;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .section-dark .section-subtitle {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--bg-light);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 32px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        .feature-desc {
+            color: var(--text-light);
+            font-size: 16px;
+        }
+        
+        .feature-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+        
+        .status-done {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-planned {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+        
+        /* Tech Stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .tech-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+        }
+        
+        .tech-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .tech-list {
+            list-style: none;
+        }
+        
+        .tech-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .tech-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .tech-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+        
+        /* Architecture Diagram */
+        .architecture-container {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 50px;
+            box-shadow: var(--shadow);
+        }
+        
+        .arch-diagram {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .arch-layer {
+            text-align: center;
+        }
+        
+        .arch-layer-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        
+        .arch-box {
+            background: var(--bg-light);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .arch-box:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow);
+        }
+        
+        .arch-box-highlight {
+            background: var(--gradient-primary);
+            color: var(--white);
+        }
+        
+        .arch-connector {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        
+        .arch-arrow {
+            width: 60px;
+            height: 3px;
+            background: var(--text-light);
+            position: relative;
+        }
+        
+        .arch-arrow::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: -5px;
+            border: 8px solid transparent;
+            border-left-color: var(--text-light);
+        }
+        
+        /* Pricing Table */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .pricing-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .pricing-card.featured {
+            background: var(--gradient-primary);
+            color: var(--white);
+            transform: scale(1.05);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+        
+        .pricing-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .pricing-period {
+            font-size: 16px;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        
+        .pricing-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .pricing-card.featured .pricing-features li {
+            border-bottom-color: rgba(255,255,255,0.2);
+        }
+        
+        .check-icon {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        /* AI Section */
+        .ai-flow {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 50px;
+            box-shadow: var(--shadow);
+        }
+        
+        .ai-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .ai-step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .ai-step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            margin: 0 auto 20px;
+        }
+        
+        .ai-step-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .ai-step-desc {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .ai-connector {
+            flex: 0 0 50px;
+            height: 3px;
+            background: var(--text-light);
+            opacity: 0.3;
+        }
+        
+        /* Module List */
+        .module-table {
+            background: var(--white);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .module-row {
+            display: grid;
+            grid-template-columns: 60px 1fr 2fr 100px;
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--bg-light);
+            align-items: center;
+        }
+        
+        .module-row:last-child {
+            border-bottom: none;
+        }
+        
+        .module-row:hover {
+            background: var(--bg-light);
+        }
+        
+        .module-id {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--white);
+        }
+        
+        .module-name {
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .module-desc {
+            color: var(--text-light);
+        }
+        
+        .module-status {
+            text-align: center;
+        }
+        
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .contact-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+        }
+        
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-accent);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 28px;
+        }
+        
+        .contact-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .contact-value {
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--bg-dark);
+            padding: 60px;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+        
+        .footer-text {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 30px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--secondary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .cover h1 {
+                font-size: 48px;
+            }
+            
+            .section {
+                padding: 60px 30px;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .arch-diagram {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+        
+        @media print {
+            .cover {
+                min-height: auto;
+                padding: 100px 60px;
+            }
+            
+            .section {
+                padding: 60px 40px;
+                page-break-inside: avoid;
+            }
+            
+            .features-grid, .tech-grid, .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- KAPAK SAYFASI -->
+<section class="cover">
+    <div class="cover-content">
+        <div class="cover-logo">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" rx="25" fill="#1e3a5f"/>
+                <path d="M50 20L75 35V65L50 80L25 65V35L50 20Z" fill="#f59e0b"/>
+                <path d="M50 30L65 40V60L50 70L35 60V40L50 30Z" fill="#1e3a5f"/>
+                <circle cx="50" cy="50" r="10" fill="#10b981"/>
+                <path d="M45 50L48 53L55 46" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <h1>REFIK</h1>
+        <h2>Avukat Pro — AI Destekli Hukuk Asistanı</h2>
+        <div class="cover-badge">
+            <span>📋</span>
+            <span>Versiyon 1.0 — 02 Haziran 2026</span>
+        </div>
+        <div class="cover-stats">
+            <div class="stat-item">
+                <div class="stat-number">21</div>
+                <div class="stat-label">Modül</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">23</div>
+                <div class="stat-label">Veritabanı Modeli</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">16K+</div>
+                <div class="stat-label">Satır Kod</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">90+</div>
+                <div class="stat-label">API Endpoint</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROJE ÖZETİ -->
+<section class="section section-dark">
+    <div class="section-header">
+        <div class="section-number">01</div>
+        <h2 class="section-title">Proje Özeti</h2>
+        <p class="section-subtitle">Refik, Türkiye'deki avukatlara yönelik, mobil öncelikli yapay zeka destekli bir hukuk asistanı ve tevkil pazar yeridir.</p>
+    </div>
+    
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">⚖️</div>
+            <h3 class="feature-title">Tevkil Pazar Yeri</h3>
+            <p class="feature-desc">Avukatlar arası otomatik eşleştirme ile duruşma ve işlem takibi. Konum, uzmanlık ve puan bazlı algoritma ile en uygun avukatı bulun.</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3 class="feature-title">UETS Entegrasyonu</h3>
+            <p class="feature-desc">PTT UETS'ten tebligat çekme ve AI ile analiz. 5 gün kuralı otomatik takibi ve süre çıkarımı.</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3 class="feature-title">UYAP Özetleme</h3>
+            <p class="feature-desc">Tarayıcı eklentisi ile UYAP'tan dosya çekme ve RAG tabanlı akıllı özetleme. Aleyhe/lehe karar tespiti.</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3 class="feature-title">Otomatik Belge Üretimi</h3>
+            <p class="feature-desc">AI ile dilekçe, ihtarname ve içtihat araştırması. Revize döngüsü ile istediğiniz formata getirme.</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3 class="feature-title">Mobil Öncelikli Tasarım</h3>
+            <p class="feature-desc">Web, mobil ve Chrome eklentisi ile her platformdan erişim. Türkiye'nin ilk mobil öncelikli hukuk asistanı.</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">🔔</div>
+            <h3 class="feature-title">Çoklu Bildirim Sistemi</h3>
+            <p class="feature-desc">Push, SMS, E-posta, WhatsApp ve Telegram ile 5 kanalda bildirim. Asla önemli bir tebligatı kaçırmayın.</p>
+        </div>
+    </div>
+</section>
+
+<!-- TEKNOLOJİ STACK -->
+<section class="section">
+    <div class="section-header">
+        <div class="section-number">02</div>
+        <h2 class="section-title">Teknoloji Stack</h2>
+        <p class="section-subtitle">Modern ve güvenilir teknolojiler ile inşa edilmiş, ölçeklenebilir bir mimari.</p>
+    </div>
+    
+    <div class="tech-grid">
+        <div class="tech-card">
+            <h3 class="tech-title">Backend</h3>
+            <ul class="tech-list">
+                <li><span class="tech-dot"></span>NestJS 10 — Ana Framework</li>
+                <li><span class="tech-dot"></span>TypeScript 5.3 — Tip Güvenliği</li>
+                <li><span class="tech-dot"></span>Node.js 18+ — Runtime</li>
+                <li><span class="tech-dot"></span>Prisma — Veritabanı ORM</li>
+                <li><span class="tech-dot"></span>PostgreSQL — Ana Veritabanı</li>
+                <li><span class="tech-dot"></span>Redis — Önbellek</li>
+            </ul>
+        </div>
+        
+        <div class="tech-card">
+            <h3 class="tech-title">Frontend</h3>
+            <ul class="tech-list">
+                <li><span class="tech-dot"></span>Next.js — Web Uygulaması (PWA)</li>
+                <li><span class="tech-dot"></span>React 18 — Kullanıcı Arayüzü</li>
+                <li><span class="tech-dot"></span>React Native — Mobil Uygulama</li>
+                <li><span class="tech-dot"></span>Tailwind CSS — Stil</li>
+                <li><span class="tech-dot"></span>Zustand — Durum Yönetimi</li>
+                <li><span class="tech-dot"></span>Expo — Mobil Geliştirme</li>
+            </ul>
+        </div>
+        
+        <div class="tech-card">
+            <h3 class="tech-title">Yapay Zeka</h3>
+            <ul class="tech-list">
+                <li><span class="tech-dot"></span>Minimax M2.7 — Varsayılan AI (Türkiye)</li>
+                <li><span class="tech-dot"></span>Claude Sonnet 4 — Kritik Görevler</li>
+                <li><span class="tech-dot"></span>Pinecone — Vektör Veritabanı (RAG)</li>
+                <li><span class="tech-dot"></span>CloudFlare R2 — Dosya Depolama</li>
+                <li><span class="tech-dot"></span>Hibrit AI Mimarisi — Admin Kontrolü</li>
+                <li><span class="tech-dot"></span>RAG Anti-Halüsinasyon — Kaynak Gösterme</li>
+            </ul>
+        </div>
+        
+        <div class="tech-card">
+            <h3 class="tech-title">Altyapı</h3>
+            <ul class="tech-list">
+                <li><span class="tech-dot"></span>Docker — Konteynerizasyon</li>
+                <li><span class="tech-dot"></span>AWS — Bulut Altyapısı</li>
+                <li><span class="tech-dot"></span>Nginx — Web Sunucusu</li>
+                <li><span class="tech-dot"></span>Cloudflare — CDN ve Güvenlik</li>
+                <li><span class="tech-dot"></span>JWT + OTP — Kimlik Doğrulama</li>
+                <li><span class="tech-dot"></span>TLS 1.3 — Şifreleme</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- MİMARİ -->
+<section class="section section-dark">
+    <div class="section-header">
+        <div class="section-number">03</div>
+        <h2 class="section-title">Sistem Mimarisi</h2>
+        <p class="section-subtitle">Mikroservis mimarisi ile tasarlanmış, yüksek performanslı ve güvenilir bir sistem.</p>
+    </div>
+    
+    <div class="architecture-container">
+        <div class="arch-diagram">
+            <div class="arch-layer">
+                <div class="arch-layer-title">İstemciler</div>
+                <div class="arch-box">
+                    <strong>🌐 Web</strong><br>
+                    <small>Next.js PWA</small>
+                </div>
+                <div class="arch-box">
+                    <strong>📱 Mobil</strong><br>
+                    <small>React Native</small>
+                </div>
+                <div class="arch-box">
+                    <strong>🔌 Eklenti</strong><br>
+                    <small>Chrome Ext. V3</small>
+                </div>
+            </div>
+            
+            <div class="arch-layer">
+                <div class="arch-connector"><div class="arch-arrow"></div></div>
+                <div class="arch-box arch-box-highlight">
+                    <strong>API Gateway</strong><br>
+                    <small>NestJS :3000</small>
+                </div>
+                <div class="arch-connector"><div class="arch-arrow"></div></div>
+                <div class="arch-box">
+                    <strong>Auth Service</strong><br>
+                    <small>JWT + OTP</small>
+                </div>
+                <div class="arch-box">
+                    <strong>Core API</strong><br>
+                    <small>21 Modül</small>
+                </div>
+                <div class="arch-box">
+                    <strong>AI Gateway</strong><br>
+                    <small>Minimax + Claude</small>
+                </div>
+            </div>
+            
+            <div class="arch-layer">
+                <div class="arch-layer-title">Veri Katmanı</div>
+                <div class="arch-box">
+                    <strong>🗄️ PostgreSQL</strong><br>
+                    <small>Ana Veritabanı</small>
+                </div>
+                <div class="arch-box">
+                    <strong>⚡ Redis</strong><br>
+                    <small>Cache</small>
+                </div>
+                <div class="arch-box">
+                    <strong>🔍 Pinecone</strong><br>
+                    <small>Vektör DB</small>
+                </div>
+                <div class="arch-box">
+                    <strong>📦 CloudFlare R2</strong><br>
+                    <small>Dosya Depo</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AI MİMARİSİ -->
+<section class="section">
+    <div class="section-header">
+        <div class="section-number">04</div>
+        <h2 class="section-title">Hibrit Yapay Zeka Sistemi</h2>
+        <p class="section-subtitle">Minimax ve Claude'un gücünü birleştiren, admin panelinden yapılandırılabilir AI motoru.</p>
+    </div>
+    
+    <div class="ai-flow">
+        <div class="ai-steps">
+            <div class="ai-step">
+                <div class="ai-step-number">1</div>
+                <h4 class="ai-step-title">İstek Al</h4>
+                <p class="ai-step-desc">istemci API'ye istek gönderir</p>
+            </div>
+            <div class="ai-connector"></div>
+            <div class="ai-step">
+                <div class="ai-step-number">2</div>
+                <h4 class="ai-step-title">Model Seç</h4>
+                <p class="ai-step-desc">Admin yapılandırmasına göre AI seç</p>
+            </div>
+            <div class="ai-connector"></div>
+            <div class="ai-step">
+                <div class="ai-step-number">3</div>
+                <h4 class="ai-step-title">İşle</h4>
+                <p class="ai-step-desc">Seçilen AI motorunda işle</p>
+            </div>
+            <div class="ai-connector"></div>
+            <div class="ai-step">
+                <div class="ai-step-number">4</div>
+                <h4 class="ai-step-title">Kaydet</h4>
+                <p class="ai-step-desc">Token kullanımını kaydet</p>
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 60px;">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🇨🇳</div>
+                <h3 class="feature-title">Minimax M2.7</h3>
+                <p class="feature-desc">Varsayılan AI motorumuz. Türkiye sunucularında çalışır, KVKK uyumludur. Hızlı ve uygun maliyetli.</p>
+                <span class="feature-status status-done">✓ Aktif</span>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🇺🇸</div>
+                <h3 class="feature-title">Claude Sonnet 4</h3>
+                <p class="feature-desc">Kritik görevler için. Süre çıkarımı, karar analizi ve içtihat araştırmasında yüksek doğruluk.</p>
+                <span class="feature-status status-progress">⟳ Yapılandırılabilir</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MODÜLLER -->
+<section class="section section-dark">
+    <div class="section-header">
+        <div class="section-number">05</div>
+        <h2 class="section-title">Sistem Modülleri</h2>
+        <p class="section-subtitle">21 tam entegre modül ile kapsamlı bir hukuk yönetim sistemi.</p>
+    </div>
+    
+    <div class="module-table">
+        <div class="module-row">
+            <div class="module-id">1</div>
+            <div class="module-name">Auth — Kimlik Doğrulama</div>
+            <div class="module-desc">JWT + OTP ile güvenli giriş, çoklu oturum yönetimi</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">2</div>
+            <div class="module-name">Users — Kullanıcılar</div>
+            <div class="module-desc">Profil yönetimi, avukat arama, şifre işlemleri</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">3</div>
+            <div class="module-name">Cases — Dava Dosyaları</div>
+            <div class="module-desc">CRUD, duruşma takibi, taraflar, AI özet</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">4</div>
+            <div class="module-name">Notifications — Tebligatlar</div>
+            <div class="module-desc">UETS entegrasyonu, 5 gün kuralı, okundu takibi</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">5</div>
+            <div class="module-name">Delegations — Tevkil</div>
+            <div class="module-desc">Tevkil pazarı, eşleştirme, onay/red, puanlama</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">6</div>
+            <div class="module-name">Documents — Belgeler</div>
+            <div class="module-desc">Belge yönetimi, AI üretimi, revize döngüsü</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">7</div>
+            <div class="module-name">AI — Yapay Zeka</div>
+            <div class="module-desc">Minimax + Claude entegrasyonu, görev yönlendirme</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">8</div>
+            <div class="module-name">UETS — Tebligat Sistemi</div>
+            <div class="module-desc">PTT UETS bağlantısı, otomatik senkronizasyon</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">9</div>
+            <div class="module-name">UYAP — Dosya Çekme</div>
+            <div class="module-desc">Chrome eklentisi ile UYAP scraping</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">10</div>
+            <div class="module-name">RAG — Vektör Arama</div>
+            <div class="module-desc">Pinecone entegrasyonu, belge indeksleme</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">11</div>
+            <div class="module-name">Payments — Ödemeler</div>
+            <div class="module-desc">iyzico, PayTR, Stripe entegrasyonu</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">12</div>
+            <div class="module-name">Icra — İcra Takibi</div>
+            <div class="module-desc">Toplu takip, mal varlığı tespiti</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">13</div>
+            <div class="module-name">Calendar — Takvim</div>
+            <div class="module-desc">Birleşik takvim, tüm veri kaynakları</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">14</div>
+            <div class="module-name">Reminders — Hatırlatıcılar</div>
+            <div class="module-desc">Akıllı hatırlatıcılar, çoklu bildirim kanalları</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">15</div>
+            <div class="module-name">Admin — Yönetim Paneli</div>
+            <div class="module-desc">Kullanıcı yönetimi, AI config, istatistikler</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">16</div>
+            <div class="module-name">Cron — Zamanlı İşlemler</div>
+            <div class="module-desc">7 background job, otomatik senkronizasyon</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">17</div>
+            <div class="module-name">Files — Dosya İşlemleri</div>
+            <div class="module-desc">CloudFlare R2 entegrasyonu</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">18</div>
+            <div class="module-name">Call Center — Arama</div>
+            <div class="module-desc">Borçlu arama kayıtları, robot arama</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">19</div>
+            <div class="module-name">User Documents — Özlük</div>
+            <div class="module-desc">Avukat özlük dosyaları yönetimi</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">20</div>
+            <div class="module-name">Case Update — Güncelleme</div>
+            <div class="module-desc">AI dosya güncelleme servisi</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+        <div class="module-row">
+            <div class="module-id">21</div>
+            <div class="module-name">Health — Sağlık Kontrolü</div>
+            <div class="module-desc">Sistem durumu izleme</div>
+            <div class="module-status"><span class="feature-status status-done">✓</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- FİYATLANDIRMA -->
+<section class="section">
+    <div class="section-header">
+        <div class="section-number">06</div>
+        <h2 class="section-title">Fiyatlandırma</h2>
+        <p class="section-subtitle">İhtiyaçlarınıza uygun paket seçin. Tebligat, tevkil ve takvim tüm planlarda sınırsız!</p>
+    </div>
+    
+    <div class="pricing-grid">
+        <div class="pricing-card featured">
+            <div class="pricing-name">Basic</div>
+            <div class="pricing-price">Ücretsiz</div>
+            <div class="pricing-period">Sınırsız kullanım</div>
+            <ul class="pricing-features">
+                <li><span class="check-icon">✓</span> Tevkil Pazarı</li>
+                <li><span class="check-icon">✓</span> Takvim ve Hatırlatıcı</li>
+                <li><span class="check-icon">✓</span> Bilgi Bankası</li>
+                <li><span class="check-icon">✓</span> Kanun Arama</li>
+                <li><span class="check-icon">✓</span> 5 Kanalda Bildirim</li>
+            </ul>
+        </div>
+        
+        <div class="pricing-card">
+            <div class="pricing-name">Standard</div>
+            <div class="pricing-price">₺299</div>
+            <div class="pricing-period">/ ay</div>
+            <ul class="pricing-features">
+                <li><span class="check-icon">✓</span> Basic'ın tüm özellikleri</li>
+                <li><span class="check-icon">✓</span> Tebligat Takibi (AI analizli)</li>
+                <li><span class="check-icon">✓</span> UYAP Entegrasyonu</li>
+                <li><span class="check-icon">✓</span> Anlık Dosya Verisi Çekme</li>
+                <li><span class="check-icon">✓</span> Yedekleme ve Yönetim</li>
+                <li><span class="check-icon">✓</span> RAG Arama</li>
+            </ul>
+        </div>
+        
+        <div class="pricing-card">
+            <div class="pricing-name">Professional</div>
+            <div class="pricing-price">₺749</div>
+            <div class="pricing-period">/ ay + 500 AI Token</div>
+            <ul class="pricing-features">
+                <li><span class="check-icon">✓</span> Standard'ın tüm özellikleri</li>
+                <li><span class="check-icon">✓</span> AI Belge Üretimi</li>
+                <li><span class="check-icon">✓</span> Özet Çıkarma</li>
+                <li><span class="check-icon">✓</span> Dilekçe Hazırlama</li>
+                <li><span class="check-icon">✓</span> İhtarname Üretimi</li>
+                <li><span class="check-icon">✓</span> Belge Revizyonu</li>
+            </ul>
+        </div>
+        
+        <div class="pricing-card">
+            <div class="pricing-name">Enterprise</div>
+            <div class="pricing-price">₺1.299</div>
+            <div class="pricing-period">/ ay + 2.000 AI Token</div>
+            <ul class="pricing-features">
+                <li><span class="check-icon">✓</span> Professional'ın tüm özellikleri</li>
+                <li><span class="check-icon">✓</span> İçtihat / Emsal Arama</li>
+                <li><span class="check-icon">✓</span> Otomatik İcra Takibi</li>
+                <li><span class="check-icon">✓</span> AI Haciz Sistemi</li>
+                <li><span class="check-icon">✓</span> Gelişmiş RAG</li>
+            </ul>
+        </div>
+        
+        <div class="pricing-card">
+            <div class="pricing-name">B2B</div>
+            <div class="pricing-price">₺1.999</div>
+            <div class="pricing-period">/ ay + 10.000 AI Token</div>
+            <ul class="pricing-features">
+                <li><span class="check-icon">✓</span> Enterprise'ın tüm özellikleri</li>
+                <li><span class="check-icon">✓</span> B2B API Erişimi</li>
+                <li><span class="check-icon">✓</span> White-label Çözümler</li>
+                <li><span class="check-icon">✓</span> Özel Entegrasyonlar</li>
+                <li><span class="check-icon">✓</span> Öncelikli Destek</li>
+                <li><span class="check-icon">✓</span> Özel Eğitim</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 60px; padding: 30px; background: #dcfce7; border-radius: 16px;">
+        <p style="color: #166534; font-size: 18px; font-weight: 600;">
+            💡 <strong>Önemli:</strong> Tevkil, takvim, bilgi bankası ve kanun arama <strong>tüm planlarda sınırsız!</strong><br>
+            AI Token'ı yalnızca AI destekli özelliklerde (belge üretimi, özet çıkarma, içtihat araştırması vb.) kullanılır.
+        </p>
+    </div>
+</section>
+
+<!-- YOL HARİTASI -->
+<section class="section section-dark">
+    <div class="section-header">
+        <div class="section-number">07</div>
+        <h2 class="section-title">Yol Haritası</h2>
+        <p class="section-subtitle">Gelecekteki geliştirmeler ve büyüme planları.</p>
+    </div>
+    
+    <div class="features-grid">
+        <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+            <div class="feature-icon">✅</div>
+            <h3 class="feature-title">Q2 2026 — Tamamlandı</h3>
+            <p class="feature-desc" style="color: rgba(255,255,255,0.8);">
+                • Chrome Extension (Manifest V3) — %95<br>
+                • Backend API (21 modül) — %100<br>
+                • Web Uygulaması — Geliştirme aşamasında
+            </p>
+        </div>
+        
+        <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+            <div class="feature-icon">🚀</div>
+            <h3 class="feature-title">Q3 2026 — Mobil</h3>
+            <p class="feature-desc" style="color: rgba(255,255,255,0.8);">
+                • React Native ile mobil uygulama<br>
+                • iOS ve Android desteği<br>
+                • Push bildirimleri
+            </p>
+        </div>
+        
+        <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+            <div class="feature-icon">🎛️</div>
+            <h3 class="feature-title">Q4 2026 — Admin Panel</h3>
+            <p class="feature-desc" style="color: rgba(255,255,255,0.8);">
+                • Kullanıcı yönetimi<br>
+                • AI yapılandırma paneli<br>
+                • İstatistikler ve analitik
+            </p>
+        </div>
+        
+        <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+            <div class="feature-icon">🏢</div>
+            <h3 class="feature-title">2027 — Enterprise</h3>
+            <p class="feature-desc" style="color: rgba(255,255,255,0.8);">
+                • B2B API<br>
+                • White-label çözümler<br>
+                • Özel entegrasyonlar
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- HEDEFLER -->
+<section class="section">
+    <div class="section-header">
+        <div class="section-number">08</div>
+        <h2 class="section-title">Başarı Metrikleri</h2>
+        <p class="section-subtitle">Hedeflerimiz ve büyüme projeksiyonlarımız.</p>
+    </div>
+    
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3 class="feature-title">Aktif Avukatlar</h3>
+            <div style="display: flex; gap: 30px; margin-top: 20px;">
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--primary);">10.000</div>
+                    <small style="color: var(--text-light);">6. Ay</small>
+                </div>
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--primary);">40.000</div>
+                    <small style="color: var(--text-light);">12. Ay</small>
+                </div>
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--secondary);">150.000</div>
+                    <small style="color: var(--text-light);">24. Ay</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <h3 class="feature-title">Tevkil / Ay</h3>
+            <div style="display: flex; gap: 30px; margin-top: 20px;">
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--primary);">5.000</div>
+                    <small style="color: var(--text-light);">6. Ay</small>
+                </div>
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--primary);">25.000</div>
+                    <small style="color: var(--text-light);">12. Ay</small>
+                </div>
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--secondary);">100.000</div>
+                    <small style="color: var(--text-light);">24. Ay</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Retention</h3>
+            <div style="display: flex; gap: 30px; margin-top: 20px;">
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--primary);">%60</div>
+                    <small style="color: var(--text-light);">6. Ay</small>
+                </div>
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--primary);">%70</div>
+                    <small style="color: var(--text-light);">12. Ay</small>
+                </div>
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--secondary);">%80</div>
+                    <small style="color: var(--text-light);">24. Ay</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">📈</div>
+            <h3 class="feature-title">NPS Skoru</h3>
+            <div style="display: flex; gap: 30px; margin-top: 20px;">
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--primary);">&gt;50</div>
+                    <small style="color: var(--text-light);">6. Ay</small>
+                </div>
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--primary);">&gt;60</div>
+                    <small style="color: var(--text-light);">12. Ay</small>
+                </div>
+                <div>
+                    <div style="font-size: 36px; font-weight: 700; color: var(--secondary);">&gt;70</div>
+                    <small style="color: var(--text-light);">24. Ay</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- İLETİŞİM -->
+<section class="section section-dark">
+    <div class="section-header">
+        <div class="section-number">09</div>
+        <h2 class="section-title">İletişim</h2>
+        <p class="section-subtitle">Bize ulaşın, sorularınızı yanıtlayalım.</p>
+    </div>
+    
+    <div class="contact-grid">
+        <div class="contact-card">
+            <div class="contact-icon">🌐</div>
+            <h3 class="contact-title">Web Sitesi</h3>
+            <p class="contact-value">refik.app</p>
+        </div>
+        
+        <div class="contact-card">
+            <div class="contact-icon">🔌</div>
+            <h3 class="contact-title">API</h3>
+            <p class="contact-value">api.refik.app</p>
+        </div>
+        
+        <div class="contact-card">
+            <div class="contact-icon">📧</div>
+            <h3 class="contact-title">E-posta</h3>
+            <p class="contact-value">info@refik.app<br>destek@refik.app</p>
+        </div>
+        
+        <div class="contact-card">
+            <div class="contact-icon">💻</div>
+            <h3 class="contact-title">GitHub</h3>
+            <p class="contact-value">github.com/vadi360/Refik</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-logo">REFIK</div>
+    <p class="footer-text">Avukat Pro — AI Destekli Hukuk Asistanı<br>Türkiye'nin ilk mobil öncelikli hukuk platformu</p>
+    <div class="footer-links">
+        <a href="https://refik.app" class="footer-link">refik.app</a>
+        <a href="https://api.refik.app" class="footer-link">api.refik.app</a>
+        <a href="https://github.com/vadi360/Refik" class="footer-link">GitHub</a>
+        <a href="mailto:info@refik.app" class="footer-link">İletişim</a>
+    </div>
+    <p style="color: rgba(255,255,255,0.4); margin-top: 40px; font-size: 14px;">
+        © 2026 Vadi360. MIT Lisansı ile lisanslanmıştır.
+    </p>
+</footer>
+
+</body>
+</html>
