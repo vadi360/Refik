@@ -1,744 +1,385 @@
-# Refik
+<p align="center">
+  <img src="https://refik.app/banner.png" alt="Refik Banner" width="100%" />
+</p>
 
 <div align="center">
 
-![Refik Banner](https://refik.app/banner.png)
-
-**Versiyon:** 1.0 | **Tarih:** 02 Haziran 2026  
-**GitHub:** https://github.com/vadi360/Refik  
-**Website:** https://refik.app
+# Refik
 
 *Mobil öncelikli, AI destekli hukuk asistanı ve tevkil pazar yeri*
 
+[![Status](https://img.shields.io/badge/status-BETA-yellow?style=flat-square&logo=.Statuspage)](https://refik.app)
+[![Version](https://img.shields.io/badge/version-1.0.0-3B82F6?style=flat-square)](https://github.com/vadi360/Refik)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+[![Node.js](https://img.shields.io/badge/node-18+-68217A?style=flat-square&logo=Node.js)](https://nodejs.org)
+[![TypeScript](https://img.shields.io/badge/typescript-5.3-3178C6?style=flat-square&logo=TypeScript)](https://www.typescriptlang.org)
+[![NestJS](https://img.shields.io/badge/nestjs-10-E0234E?style=flat-square&logo=NestJS)](https://nestjs.com)
+[![React](https://img.shields.io/badge/react-18-61DAFB?style=flat-square&logo=React)](https://reactjs.org)
+[![React Native](https://img.shields.io/badge/react%20native-Expo-000000?style=flat-square&logo=Expo)](https://expo.dev)
+
 ---
 
-| Proje | Durum | Teknoloji | Klasör |
-|-------|-------|-----------|--------|
-| **Backend API** | ✅ TAMAMLANDI | NestJS + TypeScript | `backend/` |
-| **Web Uygulaması** | 📋 PLANLANIYOR | Next.js + PWA | `web/` |
-| **Mobil Uygulama** | 📋 PLANLANIYOR | React Native | `mobile/` |
-| **Admin Panel** | 📋 PLANLANIYOR | Next.js | `admin/` |
-| **Chrome Eklentisi** | ✅ KODLAMASI TAMAM | Manifest V3 | `chrome-extension/` |
+| 🟢 | **Backend API** | %100 | NestJS + TypeScript |
+|---|------------------|-------|----------------------|
+| 🟡 | **Web Uygulaması** | Planlanıyor | Next.js + PWA |
+| 🟡 | **Mobil Uygulama** | Planlanıyor | React Native |
+| 🟡 | **Admin Panel** | Planlanıyor | Next.js |
+| 🟢 | **Chrome Eklentisi** | %95 | Manifest V3 |
+
+**Versiyon:** 1.0 | **Tarih:** 02 Haziran 2026  
+**Website:** [refik.app](https://refik.app) | **API:** [api.refik.app](https://api.refik.app)  
+**GitHub:** [github.com/vadi360/Refik](https://github.com/vadi360/Refik)
 
 </div>
 
 ---
 
-## 📋 İçindekiler
+## 🎯 Ne İşe Yarar?
 
-1. [Hakkında](#1-hakkında)
-2. [Vizyon & Misyon](#2-vizyon--misyon)
-3. [Problem Çözüm](#3-problem--çözüm)
-4. [Özellikler](#4-özellikler)
-5. [Hedef Kitle & Persona](#5-hedef-kitle--persona)
-6. [İş Modeli & Fiyatlandırma](#6-iş-modeli--fiyatlandırma)
-7. [Rekabet Analizi](#7-rekabet-analizi)
-8. [Teknoloji Stack](#8-teknoloji-stack)
-9. [Mimari](#9-mimari)
-10. [Proje Yapısı](#10-proje-yapısı)
-11. [Başlangıç & Kurulum](#11-başlangıç--kurulum)
-12. [Dokümantasyon](#12-dokümantasyon)
-13. [Roadmap](#13-roadmap)
-14. [Katkı](#14-katkı)
-15. [Lisans & İletişim](#15-lisans--iletişim)
+<p align="center">
+  <img src="https://img.shields.io/badge/📋-Tebligat%20Takibi-10B981?style=for-the-badge" alt="Tebligat Takibi" />
+  <img src="https://img.shields.io/badge/⏰-5%20Gün%20Kuralı-3B82F6?style=for-the-badge" alt="5 Gün Kuralı" />
+  <img src="https://img.shields.io/badge/🤖-AI%20Özetleme-F59E0B?style=for-the-badge" alt="AI Özetleme" />
+  <img src="https://img.shields.io/badge/⚖️-Tevkil%20Pazarı-8B5CF6?style=for-the-badge" alt="Tevkil Pazarı" />
+  <img src="https://img.shields.io/badge/📅-Takvim-EC4899?style=for-the-badge" alt="Takvim" />
+</p>
+
+> **Avukatlar için tasarlanmış, günlük işlerinizi %70 otomatikleştiren yapay zeka destekli hukuk asistanı.**
 
 ---
 
-## 1. Hakkında
-
-**Refik**, Türkiye'deki avukatlara yönelik, mobil öncelikli yapay zekâ destekli bir hukuk asistanı ve tevkil pazar yeridir. Avukatların günlük işlerini otomatikleştirir, tebligat takibini kolaylaştırır ve duruşma/işlem takibi için güvenilir avukat eşleştirmesi sağlar.
-
-### Temel Değer Önerisi
-
-| Pain Point | Refik Çözümü |
-|------------|------------------|
-| Tebligat süresi kaçırma | AI analizli UETS entegrasyonu + otomatik hatırlatıcı |
-| UYAP'ta saatlerce arama | Chrome eklentisi ile tek tıkla dosya özeti |
-| Tevkil için güvenilir avukat bulma | Puanlama + konum + uzmanlık bazlı eşleştirme |
-| Dilekçe yazarken emsal bulamama | RAG destekli içtihat araştırması |
-| İcra takibinde zorluk | Toplu takip + AI mal varlığı tespiti |
-
----
-
-## 2. Vizyon & Misyon
-
-### 🎯 Vizyon
-
-> *"Türkiye'deki her avukatın cebinde güvenilir bir hukuk asistanı olması."*
-
-### 🎯 Misyon
-
-> *"Hukuk profesyonellerinin verimliliğini artırmak, hataları azaltmak ve adalete erişimi hızlandırmak için人工智能 teknolojisini kullanmak."*
-
-### Değerlerimiz
-
-| Değer | Açıklama |
-|-------|----------|
-| **Güvenilirlik** | Hukuki süreçlerde hata kabul edilemez. %100 doğruluk hedefliyoruz. |
-| **Şeffaflık** | Fiyatlandırma, AI kararları ve işlemlerde şeffaflık. |
-| **Gizlilik** | KVKK uyumlu, Türkiye'de veri depolama. |
-| **Erişilebilirlik** | Her avukata uygun fiyatlı çözümler sunmak. |
-| **Sürekli İyileştirme** | AI modelimizi sürekli geliştiriyoruz. |
-
----
-
-## 3. Problem & Çözüm
-
-### 📋 Türkiye Hukuk Pazarı
-
-| Metrik | Değer | Kaynak |
-|--------|-------|--------|
-| Aktif Avukat | ~50,000 | TBB, 2025 |
-| Yıllık Dava Sayısı | ~8 milyon | Adalet Bakanlığı |
-| UYAP Kayıtlı Avukat | ~45,000 | UYAP, 2025 |
-| Mobil Kullanım | %78 | Türkiye İstatistik Kurumu |
-
-### ❌ Mevcut Sorunlar
-
-1. **Tebligat Takibi**
-   - Manuel takip = süre kaçırma riski
-   - UETS'e sürekli giriş gerekiyor
-   - Okunmayan tebligat = yasal sonuç
-
-2. **UYAP Dosya Arama**
-   - Her davanın detayı için saatler harcanıyor
-   - Arama sonuçları karmaşık
-   - Özet çıkarma manuel
-
-3. **Tevkil Bulma**
-   - Güvenilir avukat bulmak zor
-   - Koordinasyon eksikliği
-   - Komisyon maliyeti
-
-4. **Belge Üretimi**
-   - Dilekçe yazımı zaman alıyor
-   - Emsal/içtihat araştırması zor
-   - Format tutarsızlıkları
-
-### ✅ Refik Çözümleri
-
-| Sorun | Refik Çözüm | Sonuç |
-|-------|-----------------|-------|
-| Tebligat kaçırma | UETS 5 gün kuralı otomasyonu + AI analiz | %90 süre kaçırma azaltma |
-| UYAP arama | Chrome eklentisi + RAG özetleme | %70 zaman tasarrufu |
-| Tevkil bulma | Puanlama + konum + uzmanlık eşleştirme | 24 saat içinde eşleşme |
-| Belge üretimi | AI ile dilekçe/ihtarname üretimi | %50 hız artışı |
-
----
-
-## 4. Özellikler
-
-### 4.1 Tevkil Pazar Yeri
-
-**Açıklama:** Avukatlar arası duruşma ve işlem takibi için otomatik eşleştirme sistemi.
-
-| Özellik | Detay |
-|---------|-------|
-| Otomatik Eşleştirme | Konum, uzmanlık, mahkeme tipi bazlı |
-| Puanlama Sistemi | 5 yıldız üzerinden avukat değerlendirme |
-| Yük Dengeleme | Maksimum 5 aktif tevkil kuralı |
-| Şikayet Yönetimi | Tevkil şikayetleri için admin panel |
-| Ücretsiz | TBB kurallarına uygun (komisyon yok) |
-
-**Kullanım Senaryosu:**
-```
-1. Avukat duruşma tarihini gördü → gidemeyecek
-2. "Tevkil Ver" butonuna tıklar
-3. Sistem aynı adliyede uygun avukatları listeler
-4. Konum, uzmanlık, puan filtrelenir
-5. Tevkil talebi gönderilir
-6. Diğer avukat onaylar → her iki taraf bildirim alır
-```
-
-### 4.2 UETS Entegrasyonu
-
-**Açıklama:** PTT UETS'ten tebligat çekme ve AI ile otomatik analiz.
-
-| Özellik | Detay |
-|---------|-------|
-| Otomatik Çekme | Belirlenen aralıklarla tebligat senkronizasyonu |
-| 5 Gün Kuralı | Açılmamış tebligatlar 5. günde otomatik işlenir |
-| AI Özetleme | notification_summary görevi (sınırsız token) |
-| Süre Çıkarımı | deadline_extract görevi (sınırsız token) |
-| Hatırlatıcı | Otomatik hatırlatıcı oluşturma |
-
-**AI Görev Dağılımı:**
-| Görev | Model | Token Limit |
-|-------|-------|-------------|
-| notification_summary | MINIMAX | ❌ Sınırsız |
-| deadline_extract | CLAUDE | ❌ Sınırsız |
-
-### 4.3 UYAP Dosya Özetleme (Chrome Eklentisi)
-
-**Açıklama:** Chrome eklentisi ile UYAP'tan dosya çekme ve RAG tabanlı özetleme.
-
-| Özellik | Detay |
-|---------|-------|
-| Tek Tıkla Özet | UYAP'ta dosyayı seç → otomatik özet |
-| RAG Destekli | Pinecone vektör DB ile benzerlik arama |
-| Anti-Halüsinasyon | Kaynak gösterimi + "emin değilim" eşiği |
-| Duruşma Özeti | Son 10 duruşma, kararlar, taraflar |
-
-### 4.4 Otomatik Belge Üretimi
-
-**Açıklama:** AI ile dilekçe, ihtarname ve içtihat araştırması.
-
-| Belge Türü | AI Görev | Token Limit |
-|------------|----------|-------------|
-| Dilekçe | document_generate | ✅ Var |
-| Dilekçe Revizyon | document_revise | ✅ Var |
-| İhtarname | legal_notice | ✅ Var |
-| İçtihat Araştırması | legal_research | ✅ Var |
-
-**Not:** Belge üretimi insan onayı gerektirir (requiresApproval).
-
-### 4.5 İcra Takibi
-
-**Açıklama:** Toplu icra takibi ve AI destekli mal varlığı tespiti.
-
-| Özellik | Detay |
-|---------|-------|
-| Toplu Takip | XML dosyasından toplu icra aktarımı |
-| Durum Takibi | Ödeme, satış, durdurma gibi durumlar |
-| AI Mal Varlığı | Borçlunun mal varlığı tespiti |
-| Call Center | Borçlu arama kayıtları ve ödeme sözleri |
-
-### 4.6 Birleşik Takvim
-
-**Açıklama:** Tüm zaman bazlı verilerin tek takvimde gösterimi.
-
-| Veri Kaynağı | Takvim Item |
-|--------------|-------------|
-| Hearings | Duruşma tarihleri |
-| Reminders | Hatırlatıcılar |
-| Notifications | Süreli tebligatlar |
-| IcraFiles | Satış tarihleri |
-| CallCenter Promises | Ödeme sözleri |
-
-### 4.7 Çoklu Kanal Bildirim
-
-**Açıklama:** Push, SMS, Email, WhatsApp, Telegram ile bildirim.
-
-| Kanal | Servis | Kullanım |
-|-------|--------|----------|
-| Push | Firebase FCM | Anlık bildirimler |
-| SMS | NetGSM | Kritik hatırlatıcılar |
-| Email | SendGrid | Özet bildirimler |
-| WhatsApp | WhatsApp Business | Müşteri bildirimleri |
-| Telegram | Telegram Bot API | Bot bildirimleri |
-
----
-
-## 5. Hedef Kitle & Persona
-
-### 5.1 Birincil Hedef Kitle
-
-**Solo Avukatlar (4 kişiye kadar büro)**
-
-| Persona | Detay |
-|---------|-------|
-| Yaş | 30-55 |
-| Deneyim | 5-25 yıl |
-| Ofis | Kendi ofisi veya küçük büro |
-| Dava Türü | Aile, ceza, icra, ticari |
-| Teknoloji | Orta düzey |
-
-### 5.2 İkincil Hedef Kitle
-
-**Orta Ölçekli Hukuk Büroları**
-
-| Persona | Detay |
-|---------|-------|
-| Ekip | 5-20 avukat |
-| Yönetim | Büro yöneticisi |
-| İhtiyaçlar | Ekip koordinasyonu, dosya paylaşımı |
-| B2B Paket | Enterprise |
-
-### 5.3 Persona Detayları
-
-#### Persona A — "Köşe Avukatı" (Solo)
-- **Profil:** 5 yıllık deneyim, kendi ofisi, aile hukuku odağlı
-- **Öncelikler:** Tebligat takibi, duruşma hatırlatıcı, tevkil
-- **Pain:** Günde 2-3 duruşma, tek asistan meşgul
-
-#### Persona B — "Büro Sahibi" (Kurumsal)
-- **Profil:** 10 yıllık deneyim, 5 kişilik ekip, ceza/icra
-- **Öncelikler:** UYAP özetleme, ekip koordinasyonu, içtihat
-- **Pain:** Ekip yönetimi, dosya takibi
-
-#### Persona C — "Genç Avukat" (Yeni)
-- **Profil:** 1-2 yıllık deneyim, stajyerlikten yeni
-- **Öncelikler:** Dilekçe üretimi, emsal karar, öğrenme
-- **Pain:** Her dava türüne bakıyor, deneyim eksik
-
----
-
-## 6. İş Modeli & Fiyatlandırma
-
-### 6.1 Gelir Kaynakları
-
-| Kaynak | Açıklama |
-|--------|----------|
-| Abonelik | Aylık paket bazlı gelir |
-| Token Paketleri | AI token satışı |
-| B2B Sözleşmeleri | Kurumsal anlaşmalar |
-
-### 6.2 Fiyatlandırma Tablosu
-
-| Paket | Aylık | Yıllık | Token Limit | Özellikler |
-|-------|-------|--------|-------------|------------|
-| **Basic** | 199₺ | 1.990₺ | 1.000 | Tebligat takibi (UETS), Tevkil pazarı, Takvim, Email destek |
-| **Standard** | 499₺ | 4.990₺ | 3.000 | + UYAP entegrasyonu (dosya takibi, özet), RAG tabanlı arama, Öncelikli destek |
-| **Professional** | 999₺ | 9.990₺ | 10.000 | + Dilekçe hazırlama (ihtarname, cevap dilekçesi), Belge revizyonu, 7/24 destek |
-| **Enterprise** | 1.999₺ | 19.990₺ | 50.000 | + İçtihat/emsal araştırması (derin RAG), İcra takibi, B2B API, Özel eğitim |
-
-### 6.3 Token Paketleri
-
-| Paket | Token | Fiyat |
-|-------|-------|-------|
-| Small | 5.000 | 99₺ |
-| Medium | 15.000 | 249₺ |
-| Large | 50.000 | 699₺ |
-
-### 6.4 Hedefler
-
-| Dönem | Hedef | Kullanıcı |
-|-------|-------|----------|
-| 6 ay | 10.000 avukat | Organik + pazarlama |
-| 1 yıl | 25.000 avukat | Referans + B2B |
-| 2 yıl | Türkiye geneli | Pazar liderliği |
-
----
-
-## 7. Rekabet Analizi
-
-### 7.1 Rakip Analizi
-
-| Rakip | Güçlü Yönler | Zayıf Yönler |
-|-------|--------------|--------------|
-| **Forvis** | Kurumsal, geniş özellik | Web ağırlıklı, pahalı |
-| **Legal One** | Entegre çözüm | Karmaşık, mobil zayıf |
-| **İdea Teknoloji** | Yerel, yaygın | UI eski, AI yok |
-| **Apilex** | Uzmanlaşmış | Sadece belirli dava türleri |
-
-### 7.2 Refik Farkı
-
-| Fark | Refik | Rakipler |
-|------|-----------|----------|
-| **Mobil** | ✅ Mobil öncelikli | ❌ Web ağırlıklı |
-| **AI** | ✅ Hibrit (Minimax + Claude) | ❌ Sınırlı veya yok |
-| **Fiyat** | ✅ Uygun (199₺'den) | ❌ Pahalı |
-| **Tevkil** | ✅ Ücretsiz pazar | ❌ Komisyonlu |
-| **UETS** | ✅ 5 gün kuralı otomasyonu | ❌ Manuel |
-
----
-
-## 8. Teknoloji Stack
-
-### 8.1 Backend
-
-| Katman | Teknoloji | Açıklama |
-|--------|-----------|----------|
-| Runtime | Node.js 18+ | JavaScript runtime |
-| Framework | NestJS 10 | Backend framework |
-| Language | TypeScript 5.3 | Tip güvenli programlama |
-| Database | PostgreSQL 14+ | Ana veritabanı |
-| ORM | Prisma 5 | Veritabanı erişimi |
-| Cache | Redis | Session ve cache |
-| Auth | JWT + OTP | Kimlik doğrulama |
-
-### 8.2 AI & Veri
-
-| Katman | Teknoloji | Açıklama |
-|--------|-----------|----------|
-| AI 1 | Minimax M2.7 | Türkiye KVKK uyumlu |
-| AI 2 | Claude Sonnet | Yüksek doğruluk |
-| Vektör DB | Pinecone | RAG sistemi |
-| Storage | CloudFlare R2 | Dosya depolama |
-
-### 8.3 Bildirim
-
-| Kanal | Servis |
-|-------|--------|
-| Push | Firebase FCM |
-| SMS | NetGSM |
-| Email | SendGrid |
-| WhatsApp | WhatsApp Business |
-| Telegram | Telegram Bot API |
-
-### 8.4 Frontend
-
-| Uygulama | Teknoloji |
-|----------|-----------|
-| Web | Next.js 14 + React + PWA |
-| Mobil | React Native |
-| Admin | Next.js |
-| Eklenti | Chrome Manifest V3 |
-
----
-
-## 9. Mimari
-
-### 9.1 Sistem Mimarisi
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              AVRUKATPRO SİSTEMİ                             │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│   ┌─────────────┐       ┌─────────────┐       ┌─────────────┐              │
-│   │   WEB APP   │       │  MOBİL APP  │       │   CHROME    │              │
-│   │  Next.js    │       │React Native │       │   EKLENTİSİ │              │
-│   └──────┬──────┘       └──────┬──────┘       └──────┬──────┘              │
-│          │                    │                    │                       │
-│          └────────────────────┼────────────────────┘                    │
-│                               │                                          │
-│                               ▼                                          │
-│                    ┌─────────────────────┐                            │
-│                    │     API GATEWAY        │                            │
-│                    │  (NestJS) Port: 3000   │                            │
-│                    └──────────┬────────────┘                            │
-│                               │                                        │
-│      ┌────────────────────────┼────────────────────────┐               │
-│      │                        │                        │               │
-│      ▼                        ▼                        ▼               │
-│ ┌──────────────┐      ┌──────────────┐        ┌──────────────┐          │
-│ │  PostgreSQL  │      │    Redis    │        │   Pinecone   │          │
-│ │  (Veritabanı)│      │   (Cache)   │        │  (Vektör DB) │          │
-│ └──────────────┘      └──────────────┘        └──────────────┘          │
-│                                                                             │
-│                    ┌────────────────────────────────┐                  │
-│                    │         DIŞ SERVİSLER            │                  │
-│                    │  AI (Minimax/Claude), R2, FCM   │                  │
-│                    └────────────────────────────────┘                  │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### 9.2 AI Mimari Detayı
+## ✨ Özellikler
+
+### 📱 Core Features
+
+| Özellik | Açıklama | Durum |
+|---------|----------|-------|
+| 🔐 **JWT + OTP Giriş** | Telefon ile kayıt, çoklu oturum | ✅ |
+| 📋 **Dava Yönetimi** | CRUD, duruşma takibi, taraflar | ✅ |
+| 🔔 **UETS 5 Gün Kuralı** | AI otomatik işleme + hatırlatıcı | ✅ |
+| 📄 **AI Özetleme** | Dosya özetleri, süre çıkarımı | ✅ |
+| 📊 **RAG Sistemi** | Pinecone vektör arama | ✅ |
+| 🔍 **UYAP Entegrasyonu** | Chrome eklentisi ile scraping | ✅ |
+| ⚖️ **Tevkil Pazarı** | Avukatlar arası duruşma devri | ✅ |
+| 💳 **Ödeme Sistemleri** | iyzico, PayTR, Stripe | ✅ |
+| 📅 **Birleşik Takvim** | Tüm veri kaynakları | ✅ |
+| 📱 **Push Bildirimler** | FCM, SMS, Email, WhatsApp, Telegram | ✅ |
+| 📝 **İcra Takibi** | Toplu takip, mal varlığı tespiti | ✅ |
+| 📄 **AI Belge Üretimi** | Dilekçe, ihtarname, içtihat | ✅ |
+
+### 🤖 AI Mimarisi
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    HİBRİT AI SİSTEMİ                       │
+│                    AI Hibrit Sistemi                         │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  Client Request → JwtAuthGuard → AiService                 │
-│                              │                              │
-│                    ┌──────────┴──────────┐                  │
-│                    │    ai_config DB     │                  │
-│                    │  (Admin yapılandırma)│                  │
-│                    └──────────┬──────────┘                  │
-│                              │                              │
-│              ┌───────────────┴───────────────┐              │
-│              ▼                               ▼              │
-│        ┌──────────┐                   ┌──────────┐          │
-│        │ MINIMAX  │                   │  CLAUDE  │          │
-│        │ M2.7     │                   │  Sonnet  │          │
-│        │(Türkiye) │                   │          │          │
-│        └──────────┘                   └──────────┘          │
-│                                                             │
-│  UETS Görevleri (sınırsız):                                │
-│  - notification_summary (MINIMAX)                          │
-│  - deadline_extract (CLAUDE)                              │
-│                                                             │
-│  Diğer Görevler (token limitli):                           │
-│  - case_summary, document_generate, legal_research, vb.    │
+│   ┌─────────────┐              ┌─────────────┐             │
+│   │  MINIMAX    │              │   CLAUDE    │             │
+│   │   M2.7      │              │  Sonnet 4   │             │
+│   │  (Türkiye)  │              │  (Admin)    │             │
+│   └──────┬──────┘              └──────┬──────┘             │
+│          │                            │                     │
+│          │   Görev Bazlı Yönlendirme  │                     │
+│          │                            │                     │
+│   • notification_summary    • deadline_extract             │
+│   • case_summary            • legal_research               │
+│   • document_generate       • decision_analysis            │
+│   • general_qa                                               │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
+### 📊 Token Sistemi
+
+| Plan | Fiyat | Token | AI Özellikler |
+|------|-------|-------|---------------|
+| **Basic** | Ücretsiz | 100/ay | Tebligat takibi, Tevkil pazarı, Takvim |
+| **Standard** | ₺299/ay | 500/ay | + UYAP entegrasyonu, RAG arama |
+| **Professional** | ₺599/ay | 2000/ay | + AI belge üretimi, dilekçe hazırlama |
+| **Enterprise** | ₺1499/ay | Sınırsız | + İçtihat araştırması, İcra takibi, B2B API |
+
+> ⚠️ **UETS AI görevleri (notification_summary, deadline_extract) tüm planlarda **sınırsız** - tebligat takibi temel özellik!**
+
 ---
 
-## 10. Proje Yapısı
+## 🏗️ Teknoloji Stack
 
-### 10.1 Ana Klasör Yapısı
+### Backend
+<div align="left">
+
+![NestJS](https://img.shields.io/badge/-NestJS-E0234E?style=for-the-badge&logo=NestJS&logoColor=white)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)
+![Node.js](https://img.shields.io/badge/-Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white)
+![Prisma](https://img.shields.io/badge/-Prisma-5A67D8?style=for-the-badge&logo=Prisma&logoColor=white)
+![Redis](https://img.shields.io/badge/-Redis-DC382D?style=for-the-badge&logo=Redis&logoColor=white)
+
+</div>
+
+### AI & Vector Search
+<div align="left">
+
+![OpenAI](https://img.shields.io/badge/-Minimax%20M2.7-FF6B6B?style=for-the-badge&logo=Minimax&logoColor=white)
+![Claude](https://img.shields.io/badge/-Claude%20Sonnet-4B0082?style=for-the-badge&logo=Anthropic&logoColor=white)
+![Pinecone](https://img.shields.io/badge/-Pinecone-4B0082?style=for-the-badge)
+![Weaviate](https://img.shields.io/badge/-Weaviate-4B0082?style=for-the-badge)
+
+</div>
+
+### Frontend
+<div align="left">
+
+![Next.js](https://img.shields.io/badge/-Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white)
+![React](https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=React&logoColor=black)
+![React Native](https://img.shields.io/badge/-React%20Native-000000?style=for-the-badge&logo=React&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/-Tailwind%20CSS-06B6D4?style=for-the-badge&logo=TailwindCSS&logoColor=white)
+![Zustand](https://img.shields.io/badge/-Zustand-F59E0B?style=for-the-badge&logo=Zustand&logoColor=white)
+
+</div>
+
+### Altyapı
+<div align="left">
+
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white)
+![AWS](https://img.shields.io/badge/-AWS-FF9900?style=for-the-badge&logo=AmazonAWS&logoColor=white)
+![Nginx](https://img.shields.io/badge/-Nginx-009639?style=for-the-badge&logo=Nginx&logoColor=white)
+![Cloudflare](https://img.shields.io/badge/-Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white)
+
+</div>
+
+---
+
+## 📁 Proje Yapısı
 
 ```
 Refik/
-│
-├── backend/                    # ✅ TAMAMLANDI - NestJS API
+├── backend/                    # NestJS Backend API (21 modül)
 │   ├── src/
-│   │   ├── modules/           # 21 modül
-│   │   │   ├── auth/          # JWT + OTP
-│   │   │   ├── users/        # Kullanıcı
-│   │   │   ├── cases/        # Dava
-│   │   │   ├── notifications/# Tebligat
-│   │   │   ├── delegations/  # Tevkil
-│   │   │   ├── documents/    # Belge
-│   │   │   ├── reminders/    # Hatırlatıcı
-│   │   │   ├── ai/           # AI
-│   │   │   ├── admin/        # Admin
-│   │   │   ├── uets/         # UETS
-│   │   │   ├── uyap/         # UYAP
-│   │   │   ├── cron/         # Jobs
-│   │   │   ├── rag/          # RAG
-│   │   │   ├── files/        # R2
-│   │   │   ├── payments/     # Ödeme
-│   │   │   ├── user-documents/# Özlük
-│   │   │   ├── icra/         # İcra
-│   │   │   ├── call-center/  # Arama
-│   │   │   ├── calendar/     # Takvim
-│   │   │   └── health/       # Sağlık
-│   │   ├── prisma/           # Şema
-│   │   ├── common/           # Ortak
-│   │   └── main.ts
-│   ├── README.md             # Detaylı backend dokümanı
-│   └── .env.example
+│   │   ├── modules/           # Auth, Users, Cases, AI, vb.
+│   │   └── prisma/            # Veritabanı şeması (23 model)
+│   └── README.md
 │
-├── web/                       # 📋 PLANLANIYOR - Next.js PWA
+├── web/                       # Next.js Web Uygulaması (PWA)
 │   ├── src/
 │   │   ├── app/              # App Router
-│   │   ├── components/       # Bileşenler
-│   │   ├── hooks/            # Hooks
-│   │   ├── services/         # API
-│   │   ├── store/            # State
-│   │   └── styles/           # Stiller
-│   ├── public/               # Statik
-│   ├── README.md             # Web detaylı dokümanı
-│   └── package.json
+│   │   └── components/       # UI Bileşenleri
+│   └── README.md
 │
-├── mobile/                    # 📋 PLANLANIYOR - React Native
+├── mobile/                    # React Native Mobil Uygulama
 │   ├── src/
 │   │   ├── screens/          # Ekranlar
-│   │   ├── components/       # Bileşenler
-│   │   ├── navigation/       # Navigasyon
-│   │   ├── services/        # API
-│   │   └── store/            # State
-│   ├── ios/                  # iOS
-│   ├── android/              # Android
-│   ├── README.md             # Mobil detaylı dokümanı
-│   └── package.json
+│   │   └── components/       # UI Bileşenleri
+│   └── README.md
 │
-├── admin/                     # 📋 PLANLANIYOR - Next.js
+├── admin/                     # Next.js Admin Panel
 │   ├── src/
-│   │   ├── app/              # Sayfalar
-│   │   ├── components/       # Bileşenler
-│   │   └── services/         # API
-│   ├── README.md             # Admin detaylı dokümanı
-│   └── package.json
+│   │   ├── app/              # Yönetim arayüzü
+│   │   └── components/       # Dashboard bileşenleri
+│   └── README.md
 │
-├── chrome-extension/          # 📋 PLANLANIYOR - Manifest V3
+├── chrome-extension/          # Chrome Eklentisi (Manifest V3)
 │   ├── src/
 │   │   ├── background/       # Service Worker
-│   │   ├── content/          # Content Script
-│   │   ├── popup/            # Popup
-│   │   └── options/          # Options
-│   ├── icons/                # İkonlar
-│   ├── README.md             # Eklenti detaylı dokümanı
-│   └── manifest.json
+│   │   ├── content/          # UYAP Parser
+│   │   └── popup/            # React Popup UI
+│   └── README.md
 │
 ├── .agents/                   # Agent yönergeleri
-│   ├── AGENTS.md             # Kod kuralları
-│   └── CLAUDE.md             # Claude yönergeleri
-│
-├── AVUKATPRO_MASTER_PLAN_v3.md   # Master plan
-├── IMPLEMENTATION_PLAN_v1.md     # Uygulama planı
-├── SYSTEM_SCHEMA.md               # Teknik şema
-├── README.md                     # (bu dosya)
-└── LICENSE                       # MIT
+├── docs/                      # Dokümantasyon
+└── README.md                  # (Bu dosya)
 ```
-
-### 10.2 Backend Modüller (21 Adet)
-
-| # | Modül | Açıklama | Endpoint Sayısı |
-|---|-------|----------|-----------------|
-| 1 | auth | JWT + OTP kimlik doğrulama | ~10 |
-| 2 | users | Kullanıcı CRUD, arama | ~8 |
-| 3 | cases | Dava dosyaları, duruşmalar | ~10 |
-| 4 | notifications | Tebligatlar, 5 gün kuralı | ~12 |
-| 5 | delegations | Tevkil pazarı | ~8 |
-| 6 | documents | PDF/Word/UDF üretimi | ~6 |
-| 7 | reminders | Hatırlatıcılar | ~5 |
-| 8 | ai | Minimax + Claude hibrit | ~10 |
-| 9 | admin | Admin panel API'leri | ~10 |
-| 10 | uets | PTT UETS entegrasyonu | ~5 |
-| 11 | uyap | UYAP Chrome eklentisi | ~5 |
-| 12 | cron | 7 background job | - |
-| 13 | rag | Pinecone RAG | ~5 |
-| 14 | files | CloudFlare R2 | ~5 |
-| 15 | payments | iyzico/PayTR/Stripe | ~8 |
-| 16 | user-documents | Özlük dosyası | ~5 |
-| 17 | icra | İcra takibi | ~8 |
-| 18 | call-center | Borçlu arama | ~6 |
-| 19 | calendar | Birleşik takvim | ~8 |
-| 20 | notifications (multi-channel) | 5 kanal bildirim | ~8 |
-| 21 | health | Sağlık kontrolü | ~2 |
 
 ---
 
-## 11. Başlangıç & Kurulum
+## 🚀 Hızlı Başlangıç
 
-### 11.1 Gereksinimler
+### Gereksinimler
+- Node.js 18+
+- PostgreSQL 14+
+- Redis (opsiyonel)
 
-| Gereksinim | Minimum |
-|------------|---------|
-| Node.js | 18+ |
-| PostgreSQL | 14+ |
-| Redis | 6+ |
-| npm/yarn | Son sürüm |
-
-### 11.2 Kurulum Adımları
+### Backend Kurulumu
 
 ```bash
-# 1. Projeyi klonlayın
+# 1. Projeyi klonla
 git clone https://github.com/vadi360/Refik.git
 cd Refik
 
-# 2. Backend kurulumu
+# 2. Backend klasörüne gir
 cd backend
+
+# 3. Bağımlılıkları yükle
 npm install
+
+# 4. Environment dosyası oluştur
 cp .env.example .env
-# .env dosyasını düzenleyin
-npm run prisma:migrate
+# .env dosyasını düzenle
+
+# 5. Veritabanı migration
+npx prisma migrate dev
+
+# 6. Seed data (opsiyonel)
+npx prisma db seed
+
+# 7. Geliştirme sunucusunu başlat
 npm run start:dev
-
-# 3. API'ye erişim
-# http://localhost:3000/api/docs (Swagger)
 ```
 
-### 11.3 Environment Değişkenleri
-
-Detaylı liste için: [backend/README.md](backend/README.md#-yapılandırma)
+### API Docs
+```
+http://localhost:3000/api/docs  # Swagger
+http://localhost:3000/api/health  # Health check
+```
 
 ---
 
-## 12. Dokümantasyon
+## 📚 Modüller (21 Adet)
 
-### 12.1 Ana Dokümanlar
+| # | Modül | Açıklama | Endpoints |
+|---|-------|----------|-----------|
+| 1 | **Auth** | JWT + OTP kimlik doğrulama | 7 |
+| 2 | **Users** | Kullanıcı yönetimi | 8 |
+| 3 | **Cases** | Dava dosyaları | 10 |
+| 4 | **Hearings** | Duruşma takibi | 8 |
+| 5 | **Notifications** | Tebligatlar | 12 |
+| 6 | **AI** | Minimax + Claude | 10 |
+| 7 | **Case Update** | AI dosya güncelleme | 6 |
+| 8 | **Delegations** | Tevkil pazarı | 10 |
+| 9 | **Documents** | Belge yönetimi | 8 |
+| 10 | **User Documents** | Kullanıcı belgeleri | 6 |
+| 11 | **UYAP** | UYAP scraping | 6 |
+| 12 | **UETS** | UETS entegrasyonu | 6 |
+| 13 | **RAG** | Pinecone vektör arama | 5 |
+| 14 | **Payments** | Ödeme sistemleri | 8 |
+| 15 | **Icra** | İcra takibi | 10 |
+| 16 | **Call Center** | Borçlu arama | 6 |
+| 17 | **Calendar** | Birleşik takvim | 10 |
+| 18 | **Reminders** | Hatırlatıcılar | 8 |
+| 19 | **Admin** | Yönetim paneli | 12 |
+| 20 | **Cron** | Zamanlı işlemler | - |
+| 21 | **Health** | Sağlık kontrolü | 2 |
 
-| Doküman | Açıklama |
+**Toplam: ~90+ API Endpoint**
+
+---
+
+## 🔐 Güvenlik
+
+| Özellik | Açıklama |
 |---------|----------|
-| [AVUKATPRO_MASTER_PLAN_v3.md](AVUKATPRO_MASTER_PLAN_v3.md) | Master ürün ve teknik plan |
-| [IMPLEMENTATION_PLAN_v1.md](IMPLEMENTATION_PLAN_v1.md) | Uygulama planı, ekran tasarımları |
-| [SYSTEM_SCHEMA.md](SYSTEM_SCHEMA.md) | Teknik şema, mimari |
-
-### 12.2 Proje Bazlı Dokümanlar
-
-| Proje | Doküman |
-|-------|---------|
-| Backend | [backend/README.md](backend/README.md) |
-| Web | [web/README.md](web/README.md) |
-| Mobil | [mobile/README.md](mobile/README.md) |
-| Admin | [admin/README.md](admin/README.md) |
-| Eklenti | [chrome-extension/README.md](chrome-extension/README.md) |
-
-### 12.3 Agent Yönergeleri
-
-| Dosya | Açıklama |
-|-------|----------|
-| [.agents/AGENTS.md](.agents/AGENTS.md) | Kod geliştirme kuralları |
-| [.agents/CLAUDE.md](.agents/CLAUDE.md) | Claude özel yönergeler |
+| 🔑 **JWT Access Token** | 1 saat geçerli |
+| 🔄 **Refresh Token** | 7 gün geçerli |
+| 🔐 **OTP** | Telefon doğrulama |
+| 📋 **KVKK Uyumlu** | 6698 sayılı KVKK |
+| 🔒 **Şifreleme** | TLS 1.3, AES-256 |
+| 🛡️ **Rate Limiting** | API koruması |
+| 📝 **Audit Log** | Tüm işlemler kayıtları |
 
 ---
 
-## 13. Roadmap
-
-### 13.1 Geliştirme Planı
+## 📊 Veritabanı Modelleri (23 Adet)
 
 ```
-TAMAMLANDI ✓
-━━━━━━━━━━━
-Q1 2026 (Ocak - Mart)
-└── Backend API
-    ├── 21 Modül
-    ├── 23 Prisma Model
-    ├── ~90+ API Endpoint
-    ├── AI (Minimax + Claude)
-    └── 5 Bildirim Kanalı
+User ─────┬──── Subscription ──── Payment
+          ├──── Case ──── Hearing ──── Notification
+          ├──── Delegation ──── Complaint
+          ├──── Document ──── DocumentEmbedding
+          ├──── Reminder ──── NotificationLog
+          ├──── AiConfig ──── AiConfigUpdate
+          ├──── UserToken
+          ├──── UetsSession
+          ├──── AuditLog
+          ├──── UserDocument
+          ├──── IcraFile ──── IcraPayment ──── IcraCallRecord ──── IcraAssetHistory
+          └──── NotificationTemplate
+```
 
-PLANLANIYOR
-━━━━━━━━━━━
+---
+
+## 🌎 Bildirim Kanalları (5 Kanal)
+
+| Kanal | Servis | Durum |
+|-------|--------|-------|
+| 🔔 **Push** | Firebase Cloud Messaging | ✅ |
+| 📱 **SMS** | NetGSM | ✅ |
+| 📧 **Email** | SendGrid | ✅ |
+| 💬 **WhatsApp** | Twilio | ✅ |
+| ✈️ **Telegram** | Bot API | ✅ |
+
+---
+
+## 📅 Roadmap
+
+```
 Q2 2026 (Nisan - Haziran)
-└── Chrome Eklentisi ✅
-    ├── Manifest V3
-    ├── UYAP scraping
-    ├── AI özetleme
-    ├── Popup UI
-    └── Build & Deploy
+├── ✅ Chrome Extension (Manifest V3)
+├── ✅ Backend API (21 modül)
+└── 🔄 Web Uygulaması (Figma → Code)
 
 Q3 2026 (Temmuz - Eylül)
-└── Mobil Uygulama (React Native)
+└── 📱 Mobil Uygulama (React Native)
     ├── iOS
     └── Android
 
 Q4 2026 (Ekim - Aralık)
-└── Admin Panel
+└── 🎛️ Admin Panel
     ├── Kullanıcı yönetimi
     ├── AI config
     └── İstatistikler
+
+2027
+└── 🚀 Enterprise Özellikler
+    ├── B2B API
+    ├── White-label
+    └── Custom integrations
 ```
 
-### 13.2 KPIs
+---
 
-| KPI | 6 Ay | 1 Yıl | 2 Yıl |
-|-----|------|-------|-------|
-| Kullanıcı | 10.000 | 25.000 | 100.000 |
-| Gelir | 2M ₺ | 10M ₺ | 50M ₺ |
-| Retention | %70 | %80 | %85 |
+## 🤝 Katkıda Bulunma
+
+```bash
+# 1. Fork yap
+# 2. Feature branch oluştur
+git checkout -b feature/yeni-ozellik
+
+# 3. Commit yap
+git commit -m 'feat: yeni özellik eklendi'
+
+# 4. Push yap
+git push origin feature/yeni-ozellik
+
+# 5. Pull Request aç
+```
 
 ---
 
-## 14. Katkı
+## 📄 Lisans
 
-### 14.1 Katkı Süreci
-
-1. **Fork** yapın
-2. **Feature branch** oluşturun
-   ```bash
-   git checkout -b feature/yeni-ozellik
-   ```
-3. **Commit** yapın
-   ```bash
-   git commit -m 'feat: yeni özellik eklendi'
-   ```
-4. **Push** yapın
-   ```bash
-   git push origin feature/yeni-ozellik
-   ```
-5. **Pull Request** açın
-
-### 14.2 Kod Standartları
-
-- TypeScript strict mode
-- Türkçe yorumlar (her public method)
-- ESLint + Prettier
-- Test coverage > %80
-
-Detaylı bilgi için: [.agents/AGENTS.md](.agents/AGENTS.md)
-
----
-
-## 15. Lisans & İletişim
-
-### 15.1 Lisans
-
-Bu proje **MIT Lisansı** altında lisanslanmıştır.
-
-### 15.2 İletişim
-
-| Kanal | Değer |
-|-------|-------|
-| **Website** | https://refik.app |
-| **GitHub** | https://github.com/vadi360/Refik |
-| **Email** | info@refik.app |
-| **Destek** | destek@refik.app |
-
-### 15.3 Sosyal Medya
-
-| Platform | Hesap |
-|----------|-------|
-| LinkedIn | @refik |
-| Twitter | @refik |
-| Instagram | @refik |
+**MIT License** - Detaylar için [LICENSE](LICENSE) dosyasına bakınız.
 
 ---
 
 <div align="center">
 
-*Bu proje Türkiye'nin hukuk ekosistemini güçlendirmek için ❤️ ile yapılmıştır.*
+## 💬 İletişim & Destek
 
-**Refik — Hukuk Asistanı**
+**Web:** [refik.app](https://refik.app)  
+**API:** [api.refik.app](https://api.refik.app)  
+**Email:** info@refik.app | destek@refik.app  
+**GitHub:** [github.com/vadi360/Refik](https://github.com/vadi360/Refik)
 
-*© 2026 Refik. Tüm hakları saklıdır.*
+---
+
+<p align="center">
+  <strong>Vadi360</strong> tarafından 💜 ile geliştirildi
+</p>
+
+<p align="center">
+  <a href="https://vadi360.com">vadi360.com</a> | 
+  <a href="https://github.com/vadi360">GitHub</a> | 
+  <a href="https://linkedin.com/company/vadi360">LinkedIn</a>
+</p>
 
 </div>

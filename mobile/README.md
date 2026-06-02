@@ -1,737 +1,289 @@
-# Refik Mobil Uygulaması
+<p align="center">
+  <img src="https://refik.app/banner.png" alt="Refik Banner" width="100%" />
+</p>
 
 <div align="center">
 
-**Versiyon:** 1.0  
-**Tarih:** 02 Haziran 2026  
-**Proje:** Refik - Mobil Uygulama (iOS + Android)  
-**GitHub:** https://github.com/vadi360/Refik
+# Refik Mobil Uygulaması
 
-*Mobil öncelikli, AI destekli hukuk asistanı - iOS & Android*
+*iOS & Android - Mobil öncelikli, AI destekli hukuk asistanı*
+
+[![React Native](https://img.shields.io/badge/react%20native-Expo-000000?style=flat-square&logo=Expo)](https://expo.dev)
+[![TypeScript](https://img.shields.io/badge/typescript-5.3-3178C6?style=flat-square&logo=TypeScript)](https://www.typescriptlang.org)
+[![iOS](https://img.shields.io/badge/iOS-13+-A2AAAD?style=flat-square&logo=Apple)](https://apple.com)
+[![Android](https://img.shields.io/badge/Android-API%2024+-3DDC84?style=flat-square&logo=Android)](https://android.com)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 
 ---
 
-| Durum | Değer |
-|-------|-------|
-| Framework | React Native (Expo) |
-| Language | TypeScript 5.3 |
-| iOS | 13+ |
-| Android | API 24+ (Android 7.0+) |
-| State | Zustand |
-| Navigation | React Navigation 6 |
+| 🟡 | **Versiyon** | 1.0.0 (Planlanıyor) |
+|---|-------------|----------------------|
+| 🟡 | **Framework** | React Native (Expo) |
+| 🟡 | **Language** | TypeScript 5.3 |
+| 🟡 | **iOS** | 13+ |
+| 🟡 | **Android** | API 24+ (Android 7.0+) |
+| 🟡 | **State** | Zustand |
+| 🟡 | **Navigation** | React Navigation 6 |
+
+**Backend:** [api.refik.app](https://api.refik.app) | **Ana Proje:** [Refik](../README.md)
 
 </div>
 
 ---
 
-## 📋 İçindekiler
+## 🎯 Ne İşe Yarar?
 
-1. [Hakkında](#1-hakkında)
-2. [Özellikler](#2-özellikler)
-3. [Teknoloji Stack](#3-teknoloji-stack)
-4. [Klasör Yapısı](#4-klasör-yapısı)
-5. [Ekranlar](#5-ekranlar)
-6. [Bileşenler](#6-bileşenler)
-7. [Navigasyon](#7-navigasyon)
-8. [API Entegrasyonu](#8-api-entegrasyonu)
-9. [State Management](#9-state-management)
-10. [Native Modüller](#10-native-modüller)
-11. [Kurulum](#11-kurulum)
-12. [Build & Deploy](#12-build--deploy)
+<p align="center">
+  <img src="https://img.shields.io/badge/📱-Native%20Performans-10B981?style=for-the-badge" alt="Native" />
+  <img src="https://img.shields.io/badge/📲-iOS%20&%20Android-3B82F6?style=for-the-badge" alt="iOS Android" />
+  <img src="https://img.shields.io/badge/🔔-Push%20Bildirim-8B5CF6?style=for-the-badge" alt="Push" />
+  <img src="https://img.shields.io/badge/📴-Offline%20Desteği-F59E0B?style=for-the-badge" alt="Offline" />
+</p>
+
+> Avukatların iOS ve Android cihazlardan kullanabileceği **native mobil uygulama**. Offline çalışma, push bildirimler ve hızlı erişim.
 
 ---
 
-## 1. Hakkında
+## ✨ Özellikler
 
-Refik Mobil Uygulaması, avukatların iOS ve Android cihazlardan kullanabileceği native mobil uygulamadır. React Native (Expo) ile geliştirilmiş, offline çalışma desteği ve push bildirimleri sunmaktadır.
-
-### Temel Özellikler
-
-- **Native Performans** — iOS ve Android için optimize
-- **Offline Desteği** — İnternet olmadan temel özellikler
-- **Push Bildirimleri** — FCM (Android) ve APNs (iOS)
-- **Face ID / Touch ID** — Biyometrik giriş desteği
-- **Haptic Feedback** — Dokunma geri bildirimi
-
----
-
-## 2. Özellikler
-
-### 2.1 Kimlik Doğrulama
-
-| Özellik | Açıklama |
-|---------|----------|
-| Telefon ile Kayıt | OTP doğrulamalı kayıt |
-| Şifre ile Giriş | Email + şifre |
-| Biyometrik | Face ID / Touch ID |
-| PIN Koruması | 4-6 haneli PIN |
-| Oturum Yönetimi | JWT token, refresh |
-
-### 2.2 Dashboard
-
-| Widget | Açıklama |
-|--------|----------|
-| Merhaba Kartı | Kullanıcı adı, günün özeti |
-| Yaklaşan Duruşmalar | Bugün/bu hafta duruşmaları |
-| Süre Uyarıları | Kritik süre takibi |
-| Son Tebligatlar | Son gelen tebligatlar |
-| Hızlı Eylemler | Dilekçe, dava ekle, tevkil |
-
-### 2.3 Dava Yönetimi
-
-| Özellik | Açıklama |
-|---------|----------|
-| Dava Listesi | Arama, filtre, sıralama |
-| Dava Detay | Taraflar, duruşmalar, belgeler |
-| Yeni Dava | Form ile oluşturma |
-| Duruşma Hatırlatıcı | Bildirim ayarları |
-| Dosya Görüntüleme | PDF, Word online görüntüleme |
-
-### 2.4 Tebligat Yönetimi (UETS)
-
-| Özellik | Açıklama |
-|---------|----------|
-| Tebligat Listesi | Okundu/bekleyen/süreli |
-| AI Özet | notification_summary |
-| Süre Çıkarımı | deadline_extract |
-| Dava Bağlama | Tek tıkla bağlama |
-| Takvim Görünümü | Tarih bazlı listeleme |
-
-### 2.5 Tevkil
-
-| Özellik | Açıklama |
-|---------|----------|
-| Tevkil Oluştur | Harita ile konum seçimi |
-| Avukat Bul | Filtreleme, harita görünümü |
-| Bildirim | Yeni tevkil bildirimi |
-| Onay/Red | Gelen tevkilleri yönet |
-| Değerlendirme | 5 yıldız + yorum |
-
-### 2.6 AI Asistan
-
-| Özellik | Açıklama |
-|---------|----------|
-| Sohbet | Genel soru-cevap |
-| Dilekçe Üretici | Adım adım form |
-| Emsal Araştırma | RAG destekli |
-| Karar Analizi | Fotoğraf çek analiz et |
-
-### 2.7 Takvim
-
-| Özellik | Açıklama |
-|---------|----------|
-| Gün/Hafta/Ay | Farklı görünümler |
-| Renk Kodlaması | Dava türüne göre |
-| Bildirimler | Özelleştirilebilir |
-| ICS Export | Takvim uygulamasına aktar |
-
-### 2.8 İcra Takibi
-
-| Özellik | Açıklama |
-|---------|----------|
-| Dosya Listesi | Toplu takip |
-| Durum Takibi | Ödeme, satış, durdurma |
-| Hatırlatıcı | Ödeme hatırlatıcıları |
-
-### 2.9 Bildirimler & Ayarlar
-
-| Özellik | Açıklama |
-|---------|----------|
-| Push Bildirimleri | FCM + APNs |
-| Bildirim Tercihleri | Kanal başına ayar |
-| Profil Düzenle | Ad, soyad, avatar |
-| Abonelik | Paket, token kullanımı |
-| Çıkış | Güvenli çıkış |
+| Özellik | Açıklama | Durum |
+|---------|----------|-------|
+| 📱 **Native Performans** | iOS ve Android için optimize | 🔄 |
+| 🔔 **Push Bildirimler** | FCM ile anlık bildirimler | 🔄 |
+| 📴 **Offline Çalışma** | İnternet olmadan da çalışır | 🔄 |
+| 🔐 **Face ID / Fingerprint** | Biyometrik giriş | 🔄 |
+| 📊 **Dashboard** | İstatistikler, yaklaşan duruşmalar | 🔄 |
+| 📋 **Dava Yönetimi** | Listeleme, filtreleme, arama | 🔄 |
+| 📅 **Takvim** | Duruşma ve hatırlatıcı takvimi | 🔄 |
+| 🔔 **Bildirimler** | 5 gün kuralı, tebligatlar | 🔄 |
+| ⚖️ **Tevkil** | Tevkil pazarı, başvuru yönetimi | 🔄 |
+| 📸 **Fotoğraf Çek** | Belge tarama, fotoğraf yükleme | 🔄 |
+| 📍 **Konum** | Mahkeme konumu, yol tarifi | 🔄 |
 
 ---
 
-## 3. Teknoloji Stack
+## 🏗️ Teknoloji Stack
 
-### 3.1 Core Teknolojiler
+<div align="left">
 
-| Katman | Teknoloji | Versiyon |
-|--------|-----------|----------|
-| Framework | React Native | 0.73.x |
-| Runtime | Expo | 50.x |
-| Language | TypeScript | 5.3 |
-| Navigation | React Navigation | 6.x |
-| State | Zustand | 4.x |
-| Forms | React Hook Form | 7.x |
+![React Native](https://img.shields.io/badge/-React%20Native-000000?style=for-the-badge&logo=React&logoColor=white)
+![Expo](https://img.shields.io/badge/-Expo-000020?style=for-the-badge&logo=Expo&logoColor=white)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)
+![Zustand](https://img.shields.io/badge/-Zustand-F59E0B?style=for-the-badge&logo=Zustand&logoColor=white)
+![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white)
+![React Navigation](https://img.shields.io/badge/-React%20Navigation-000000?style=for-the-badge&logo=ReactNavigation&logoColor=white)
+![Jest](https://img.shields.io/badge/-Jest-C21325?style=for-the-badge&logo=Jest&logoColor=white)
 
-### 3.2 Ek Kütüphaneler
-
-| Kütüphane | Kullanım |
-|-----------|----------|
-| @react-native-async-storage/async-storage | Local storage |
-| react-native-mmkv | Hızlı key-value storage |
-| expo-notifications | Push bildirimleri |
-| expo-secure-store | Güvenli token depolama |
-| expo-local-authentication | Biyometrik |
-| expo-image-picker | Fotoğraf seçimi |
-| react-native-svg | SVG görselleri |
-| date-fns | Tarih işlemleri |
-| zod | Schema validation |
-| @tanstack/react-query | Server state |
-| react-native-gifted-chat | Sohbet UI |
-| react-native-calendars | Takvim |
-| react-native-maps | Harita |
-| lottie-react-native | Animasyonlar |
-| react-native-reanimated | Animasyonlar |
-
-### 3.3 DevTools
-
-| Araç | Kullanım |
-|------|----------|
-| Expo CLI | Geliştirme, build |
-| EAS Build | Cloud build |
-| EAS Submit | Store submission |
-| TypeScript | Tip kontrolü |
+</div>
 
 ---
 
-## 4. Klasör Yapısı
+## 📁 Klasör Yapısı
 
 ```
 mobile/
+├── app/                    # Expo Router (file-based routing)
+│   ├── (auth)/            # Auth screens
+│   │   ├── login.tsx
+│   │   ├── register.tsx
+│   │   └── otp.tsx
+│   │
+│   ├── (tabs)/            # Tab navigation
+│   │   ├── _layout.tsx    # Tab layout
+│   │   ├── index.tsx      # Dashboard
+│   │   ├── cases.tsx      # Cases list
+│   │   ├── calendar.tsx   # Calendar
+│   │   ├── notifications.tsx
+│   │   └── profile.tsx
+│   │
+│   ├── case/
+│   │   └── [id].tsx       # Case detail
+│   │
+│   ├── delegation/
+│   │   ├── index.tsx      # Delegation marketplace
+│   │   └── [id].tsx       # Delegation detail
+│   │
+│   └── _layout.tsx        # Root layout
+│
 ├── src/
-│   ├── screens/                   # Ekran bileşenleri
-│   │   ├── auth/                 # Auth ekranları
-│   │   │   ├── SplashScreen.tsx
-│   │   │   ├── LoginScreen.tsx
-│   │   │   ├── RegisterScreen.tsx
-│   │   │   ├── OtpScreen.tsx
-│   │   │   └── ForgotPasswordScreen.tsx
-│   │   │
-│   │   ├── main/                  # Ana uygulama ekranları
-│   │   │   ├── DashboardScreen.tsx
-│   │   │   ├── CasesScreen.tsx
-│   │   │   ├── CaseDetailScreen.tsx
-│   │   │   ├── CaseFormScreen.tsx
-│   │   │   ├── HearingsScreen.tsx
-│   │   │   ├── NotificationsScreen.tsx
-│   │   │   ├── NotificationDetailScreen.tsx
-│   │   │   ├── DelegationsScreen.tsx
-│   │   │   ├── NewDelegationScreen.tsx
-│   │   │   ├── DelegationDetailScreen.tsx
-│   │   │   ├── DocumentsScreen.tsx
-│   │   │   ├── DocumentViewerScreen.tsx
-│   │   │   ├── CalendarScreen.tsx
-│   │   │   ├── IcraScreen.tsx
-│   │   │   ├── IcraDetailScreen.tsx
-│   │   │   └── ProfileScreen.tsx
-│   │   │
-│   │   └── ai/                    # AI ekranları
-│   │       ├── AiChatScreen.tsx
-│   │       ├── DocumentGeneratorScreen.tsx
-│   │       ├── LegalResearchScreen.tsx
-│   │       └── ImageAnalysisScreen.tsx
+│   ├── components/
+│   │   ├── ui/           # Base components
+│   │   ├── forms/        # Form components
+│   │   └── features/     # Feature components
 │   │
-│   ├── components/               # Paylaşılan bileşenler
-│   │   ├── ui/                    # Base UI bileşenleri
-│   │   │   ├── Button.tsx
-│   │   │   ├── Input.tsx
-│   │   │   ├── Select.tsx
-│   │   │   ├── Modal.tsx
-│   │   │   ├── Card.tsx
-│   │   │   ├── Badge.tsx
-│   │   │   ├── Avatar.tsx
-│   │   │   ├── Skeleton.tsx
-│   │   │   ├── Spinner.tsx
-│   │   │   └── Toast.tsx
-│   │   │
-│   │   ├── cards/                # Kart bileşenleri
-│   │   │   ├── CaseCard.tsx
-│   │   │   ├── HearingCard.tsx
-│   │   │   ├── NotificationCard.tsx
-│   │   │   ├── DelegationCard.tsx
-│   │   │   ├── LawyerCard.tsx
-│   │   │   ├── DocumentCard.tsx
-│   │   │   └── IcraCard.tsx
-│   │   │
-│   │   ├── lists/                # Liste bileşenleri
-│   │   │   ├── CaseList.tsx
-│   │   │   ├── NotificationList.tsx
-│   │   │   └── DelegationList.tsx
-│   │   │
-│   │   ├── forms/                # Form bileşenleri
-│   │   │   ├── CaseForm.tsx
-│   │   │   ├── DelegationForm.tsx
-│   │   │   └── SearchInput.tsx
-│   │   │
-│   │   └── layout/              # Layout bileşenleri
-│   │       ├── Header.tsx
-│   │       ├── BottomTab.tsx
-│   │       ├── SafeArea.tsx
-│   │       └── LoadingOverlay.tsx
+│   ├── services/
+│   │   ├── api.ts        # API client
+│   │   ├── auth.ts       # Auth service
+│   │   └── notifications.ts
 │   │
-│   ├── navigation/               # Navigasyon
-│   │   ├── AppNavigator.tsx       # Root navigator
-│   │   ├── AuthNavigator.tsx      # Auth stack
-│   │   ├── MainNavigator.tsx     # Main tab + stack
-│   │   ├── AiNavigator.tsx       # AI stack
-│   │   └── types.ts              # Navigation tipleri
-│   │
-│   ├── services/                 # API servisleri
-│   │   ├── api.ts                 # Axios instance
-│   │   ├── auth.service.ts        # Auth API
-│   │   ├── cases.service.ts        # Dava API
-│   │   ├── notifications.service.ts # Tebligat API
-│   │   ├── delegations.service.ts  # Tevkil API
-│   │   ├── ai.service.ts          # AI API
-│   │   ├── calendar.service.ts    # Takvim API
-│   │   ├── icra.service.ts        # İcra API
-│   │   └── storage.service.ts      # Local storage
-│   │
-│   ├── store/                    # State management
-│   │   ├── store.ts               # Store root
-│   │   ├── authSlice.ts           # Auth state
-│   │   ├── casesSlice.ts          # Dava state
-│   │   ├── notificationsSlice.ts   # Tebligat state
-│   │   ├── delegationsSlice.ts     # Tevkil state
-│   │   ├── aiSlice.ts              # AI state
-│   │   └── uiSlice.ts              # UI state
-│   │
-│   ├── hooks/                    # Custom hooks
-│   │   ├── useAuth.ts
-│   │   ├── useCases.ts
-│   │   ├── useNotifications.ts
-│   │   ├── useDelegations.ts
-│   │   ├── useAI.ts
-│   │   ├── useCalendar.ts
-│   │   ├── usePushNotifications.ts
-│   │   └── useBiometric.ts
-│   │
-│   ├── utils/                    # Yardımcı fonksiyonlar
-│   │   ├── date.ts
-│   │   ├── format.ts
-│   │   ├── validation.ts
-│   │   ├── constants.ts
-│   │   └── helpers.ts
-│   │
-│   ├── constants/                # Sabitler
-│   │   ├── colors.ts              # Renk paleti
-│   │   ├── spacing.ts             # Spacing
-│   │   ├── typography.ts          # Font stilleri
-│   │   └── config.ts               # App config
-│   │
-│   ├── types/                    # TypeScript tipleri
-│   │   ├── auth.types.ts
-│   │   ├── case.types.ts
-│   │   ├── notification.types.ts
-│   │   ├── delegation.types.ts
-│   │   ├── ai.types.ts
-│   │   └── index.ts
-│   │
-│   └── assets/                   # Görseller, fontlar
-│       ├── images/
-│       ├── icons/
-│       ├── fonts/
-│       └── animations/
+│   ├── stores/           # Zustand stores
+│   ├── hooks/            # Custom hooks
+│   ├── utils/            # Helpers
+│   └── types/            # TypeScript types
 │
-├── ios/                           # iOS native kod
-│   ├── Refik/
-│   │   ├── AppDelegate.swift
-│   │   ├── Info.plist
-│   │   └── Refik.entitlements
-│   ├── Refik.xcodeproj
-│   └── Refik.xcworkspace
-│
-├── android/                      # Android native kod
-│   └── app/
-│       ├── src/main/
-│       │   ├── java/com/refik/
-│       │   │   ├── MainApplication.kt
-│       │   │   └── MainActivity.kt
-│       │   └── AndroidManifest.xml
-│       └── build.gradle
-│
-├── App.tsx                       # Uygulama giriş noktası
-├── index.js                     # Metro bundler giriş
-├── app.json                     # Expo config
-├── babel.config.js              # Babel config
-├── metro.config.js              # Metro config
-├── tsconfig.json                # TypeScript config
-├── package.json
-└── README.md                     # (bu dosya)
+├── assets/               # Images, fonts
+├── ios/                  # iOS native code
+├── android/              # Android native code
+└── package.json
 ```
 
 ---
 
-## 5. Ekranlar
-
-### 5.1 Auth Ekranları
+## 📱 Ekranlar
 
 | Ekran | Route | Açıklama |
 |-------|-------|----------|
-| SplashScreen | - | Açılış, token kontrolü |
-| LoginScreen | /login | Email + şifre girişi |
-| RegisterScreen | /register | Adım adım kayıt |
-| OtpScreen | /otp | SMS OTP doğrulama |
-| ForgotPasswordScreen | /forgot-password | Şifre sıfırlama |
-
-### 5.2 Main Ekranları
-
-| Ekran | Route | Açıklama |
-|-------|-------|----------|
-| DashboardScreen | /dashboard | Ana panel |
-| CasesScreen | /cases | Dava listesi |
-| CaseDetailScreen | /cases/:id | Dava detay |
-| CaseFormScreen | /cases/new | Yeni dava formu |
-| HearingsScreen | /hearings | Duruşmalar |
-| NotificationsScreen | /notifications | Tebligatlar |
-| NotificationDetailScreen | /notifications/:id | Tebligat detay |
-| DelegationsScreen | /delegations | Tevkiller |
-| NewDelegationScreen | /delegations/new | Yeni tevkil |
-| DelegationDetailScreen | /delegations/:id | Tevkil detay |
-| DocumentsScreen | /documents | Belgeler |
-| DocumentViewerScreen | /documents/:id | Belge görüntüleme |
-| CalendarScreen | /calendar | Takvim |
-| IcraScreen | /icra | İcra takibi |
-| IcraDetailScreen | /icra/:id | İcra detay |
-| ProfileScreen | /profile | Profil |
-
-### 5.3 AI Ekranları
-
-| Ekran | Route | Açıklama |
-|-------|-------|----------|
-| AiChatScreen | /ai/chat | AI sohbet |
-| DocumentGeneratorScreen | /ai/generate | Dilekçe üretici |
-| LegalResearchScreen | /ai/research | Emsal araştırma |
-| ImageAnalysisScreen | /ai/analyze | Karar analizi |
+| 🏠 **Splash** | - | App loading |
+| 🔐 **Login** | `/login` | Telefon + OTP |
+| 📝 **Register** | `/register` | Yeni kayıt |
+| 🔢 **OTP** | `/otp` | Doğrulama kodu |
+| 📊 **Dashboard** | `/(tabs)` | Ana panel |
+| 📋 **Davalarım** | `/cases` | Dava listesi |
+| 📁 **Dava Detay** | `/case/:id` | Dosya, AI özet |
+| 📅 **Takvim** | `/calendar` | Takvim view |
+| 🔔 **Bildirimler** | `/notifications` | Tebligatlar |
+| ⚖️ **Tevkil** | `/delegation` | Pazar yeri |
+| 📄 **Belge** | `/documents` | RAG arama |
+| 💳 **Ödemeler** | `/payments` | Abonelik |
+| 👤 **Profil** | `/profile` | Ayarlar |
 
 ---
 
-## 6. Bileşenler
+## 🎨 UI/UX Tasarım
 
-### 6.1 UI Bileşenleri
+### Tasarım Sistemi
 
-```
-components/ui/
-├── Button.tsx          # Variants: primary, secondary, outline, ghost
-├── Input.tsx           # Variants: default, error, success
-├── Select.tsx          # Dropdown select
-├── Modal.tsx           # Bottom sheet, center modal
-├── Card.tsx            # Elevated card
-├── Badge.tsx           # Status badge
-├── Avatar.tsx          # User avatar
-├── Skeleton.tsx        # Loading placeholder
-├── Spinner.tsx         # Loading spinner
-├── Toast.tsx           # Toast notification
-└── Chip.tsx            # Tag/Chip
-```
+| Element | Değer |
+|---------|-------|
+| **Framework** | React Native Paper |
+| **Theme** | Custom light/dark |
+| **Icons** | @expo/vector-icons |
+| **Fonts** | System fonts |
 
-### 6.2 Card Bileşenleri
+### Renk Paleti
 
-```
-components/cards/
-├── CaseCard.tsx         # Dava kartı
-├── HearingCard.tsx     # Duruşma kartı
-├── NotificationCard.tsx # Tebligat kartı
-├── DelegationCard.tsx  # Tevkil kartı
-├── LawyerCard.tsx       # Avukat kartı
-├── DocumentCard.tsx     # Belge kartı
-└── IcraCard.tsx         # İcra kartı
-```
-
-### 6.3 Layout Bileşenleri
-
-```
-components/layout/
-├── Header.tsx           # App header
-├── BottomTab.tsx        # Bottom tab bar
-├── SafeArea.tsx         # Safe area wrapper
-└── LoadingOverlay.tsx   # Full screen loader
-```
+| Renk | Hex | Kullanım |
+|------|-----|----------|
+| 🟦 Primary | `#3B82F6` | Butonlar, linkler |
+| 🟩 Success | `#10B981` | Başarılı |
+| 🟨 Warning | `#F59E0B` | Uyarılar |
+| 🟥 Error | `#EF4444` | Hatalar |
+| ⬛ Dark | `#1F2937` | Metin |
+| ⬜ Light | `#F9FAFB` | Arka plan |
 
 ---
 
-## 7. Navigasyon
+## 🔧 Kurulum
 
-### 7.1 Navigator Yapısı
-
-```
-AppNavigator
-├── AuthNavigator (Stack)
-│   ├── SplashScreen
-│   ├── LoginScreen
-│   ├── RegisterScreen
-│   ├── OtpScreen
-│   └── ForgotPasswordScreen
-│
-├── MainNavigator (Tab + Stack)
-│   ├── DashboardTab (Stack)
-│   │   └── DashboardScreen
-│   │
-│   ├── CasesTab (Stack)
-│   │   ├── CasesScreen
-│   │   ├── CaseDetailScreen
-│   │   └── CaseFormScreen
-│   │
-│   ├── NotificationsTab (Stack)
-│   │   ├── NotificationsScreen
-│   │   └── NotificationDetailScreen
-│   │
-│   ├── DelegationsTab (Stack)
-│   │   ├── DelegationsScreen
-│   │   ├── NewDelegationScreen
-│   │   └── DelegationDetailScreen
-│   │
-│   └── ProfileTab (Stack)
-│       └── ProfileScreen
-│
-└── AiNavigator (Stack)
-    ├── AiChatScreen
-    ├── DocumentGeneratorScreen
-    ├── LegalResearchScreen
-    └── ImageAnalysisScreen
-```
-
-### 7.2 Navigation Tipleri
-
-```typescript
-// navigation/types.ts
-export type RootStackParamList = {
-  Auth: undefined;
-  Main: undefined;
-  Ai: undefined;
-};
-
-export type AuthStackParamList = {
-  Splash: undefined;
-  Login: undefined;
-  Register: undefined;
-  Otp: { phone: string };
-  ForgotPassword: undefined;
-};
-
-export type MainTabParamList = {
-  Dashboard: undefined;
-  Cases: undefined;
-  Notifications: undefined;
-  Delegations: undefined;
-  Profile: undefined;
-};
-
-export type CasesStackParamList = {
-  CasesList: undefined;
-  CaseDetail: { caseId: string };
-  CaseForm: { caseId?: string };
-};
-
-export type AiStackParamList = {
-  AiChat: undefined;
-  DocumentGenerator: undefined;
-  LegalResearch: undefined;
-  ImageAnalysis: undefined;
-};
-```
-
----
-
-## 8. API Entegrasyonu
-
-### 8.1 API Servis Yapısı
-
-```typescript
-// services/api.ts
-const api = axios.create({
-  baseURL: Config.API_URL,
-  timeout: 30000,
-});
-
-api.interceptors.request.use(async config => {
-  const token = await SecureStore.getTokenAsync('accessToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-```
-
-### 8.2 Servis Listesi
-
-| Servis | Metodlar |
-|--------|----------|
-| `authService` | login, register, verifyOtp, forgotPassword, refreshToken |
-| `casesService` | getCases, getCaseById, createCase, updateCase, deleteCase |
-| `notificationsService` | getNotifications, markRead, addReminder, linkToCase |
-| `delegationsService` | create, accept, reject, rate, complain |
-| `aiService` | chat, summarize, extractDeadline, generateDocument, research |
-| `calendarService` | getItems, getThisWeek, getThisMonth, getUpcoming |
-| `icraService` | getFiles, getFileById, addPayment, detectAssets |
-
----
-
-## 9. State Management
-
-### 9.1 Zustand Store
-
-```typescript
-// store/authSlice.ts
-interface AuthState {
-  user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-}
-
-// store/casesSlice.ts
-interface CasesState {
-  cases: Case[];
-  selectedCase: Case | null;
-  isLoading: boolean;
-  fetchCases: () => Promise<void>;
-  createCase: (data: CaseData) => Promise<void>;
-}
-```
-
-### 9.2 Store Listesi
-
-| Store | Açıklama |
-|-------|----------|
-| `authStore` | Kullanıcı, token, auth durumu |
-| `casesStore` | Dava listesi, seçili dava |
-| `notificationsStore` | Tebligat listesi |
-| `delegationsStore` | Tevkil listesi |
-| `aiStore` | AI sohbet geçmişi |
-| `uiStore` | Loading, modal, tema |
-
----
-
-## 10. Native Modüller
-
-### 10.1 Expo Modülleri
-
-| Modül | Kullanım |
-|-------|----------|
-| expo-secure-store | Token depolama |
-| expo-notifications | Push bildirimleri |
-| expo-local-authentication | Face ID / Touch ID |
-| expo-image-picker | Fotoğraf seçimi |
-| expo-camera | Kamera erişimi |
-| expo-file-system | Dosya işlemleri |
-| expo-sharing | Paylaşım |
-
-### 10.2 Custom Native Modüller
-
-| Modül | Platform | Kullanım |
-|-------|----------|----------|
-| BiometricAuth | iOS/Android | Face ID / Fingerprint |
-|PdfViewer | iOS/Android | PDF görüntüleme |
-| CalendarIntegration | iOS/Android | Sistem takvimi |
-
----
-
-## 11. Kurulum
-
-### 11.1 Gereksinimler
+### Gereksinimler
 
 - Node.js 18+
 - npm veya yarn
+- Xcode (iOS için)
+- Android Studio (Android için)
 - Expo CLI (`npm install -g expo-cli`)
-- Xcode (iOS build için)
-- Android Studio (Android build için)
 
-### 11.2 Kurulum Adımları
+### Adımlar
 
 ```bash
-# 1. Projeye git
+# 1. Projeyi klonla
+git clone https://github.com/vadi360/Refik.git
 cd Refik/mobile
 
 # 2. Bağımlılıkları yükle
 npm install
 
-# 3. Environment oluştur
+# 3. Environment
 cp .env.example .env
-# .env düzenle
+# NEXT_PUBLIC_API_URL=https://api.refik.app/api/v1
 
-# 4. Prebuild (native kod için)
-npx expo prebuild
-
-# 5. iOS için
-cd ios && pod install && cd ..
-
-# 6. Geliştirme sunucusu başlat
+# 4. Expo ile başlat
 npx expo start
+
+# 5. iOS simulator
+npx expo run:ios
+
+# 6. Android emulator
+npx expo run:android
 ```
 
-### 11.3 Environment Değişkenleri
+### Build
 
 ```bash
-API_URL=http://localhost:3000/api/v1
-ENVIRONMENT=development
+# iOS (requires Apple Developer account)
+eas build --platform ios
+
+# Android
+eas build --platform android
+
+# Submit to stores
+eas submit --platform ios
+eas submit --platform android
 ```
 
 ---
 
-## 12. Build & Deploy
+## 📱 Native Modüller
 
-### 12.1 Expo EAS Build
+| Modül | Kullanım |
+|-------|----------|
+| **expo-secure-store** | Token saklama |
+| **expo-notifications** | Push bildirimler |
+| **expo-location** | Konum servisi |
+| **expo-camera** | Belge tarama |
+| **expo-image-picker** | Fotoğraf seçimi |
+| **expo-facebook** | Social login (opsiyonel) |
+| **react-native-biometrics** | Face ID / Fingerprint |
 
-```bash
-# iOS Build
-eas build --platform ios --profile preview
+---
 
-# Android Build
-eas build --platform android --profile preview
+## 📡 API Entegrasyonu
 
-# Production Build
-eas build --platform ios --profile production
-eas build --platform android --profile production
-```
+```typescript
+import { refikApi } from '@/services/api';
 
-### 12.2 Manuel Build
+// Auth
+refikApi.post('/auth/login', { phone, password })
+refikApi.post('/auth/verify-otp', { phone, code })
 
-```bash
-# iOS (Xcode)
-cd ios
-xcodebuild -workspace Refik.xcworkspace -scheme Refik -configuration Release archive
+// Cases
+refikApi.get('/cases')
+refikApi.get('/cases/:id')
 
-# Android (Gradle)
-cd android
-./gradlew assembleRelease
-```
+// Notifications
+refikApi.get('/notifications')
 
-### 12.3 Store Submission
-
-```bash
-# iOS (App Store)
-eas submit --platform ios --latest
-
-# Android (Play Store)
-eas submit --platform android --latest
+// Calendar
+refikApi.get('/calendar/this-week')
 ```
 
 ---
 
-## 13. Performans İyileştirmeleri
+## 🔔 Push Bildirimleri
 
-### 13.1 Bundle Optimizasyonu
+```typescript
+// FCM entegrasyonu
+import * as Notifications from 'expo-notifications';
 
-- Code splitting (her ekran için ayrı bundle)
-- Lazy loading (lazy import)
-- Tree shaking (kullanılmayan kod eleme)
+// Bildirim izni al
+const { status } = await Notifications.requestPermissionsAsync();
 
-### 13.2 Render İyileştirmeleri
+// Token al (backend'e kaydet)
+const token = (await Notifications.getExpoPushTokenAsync()).data;
+```
 
-- React.memo() ile bileşen memoization
-- useCallback ve useMemo kullanımı
-- FlatList ile virtualized listeler
+---
 
-### 13.3 Offline Stratejisi
+## 📄 Lisans
 
-- MMKV ile hızlı local cache
-- Optimistic updates (arka planda güncelleme)
-- Background sync (uygulama kapalıyken senkron)
+**MIT License** - Detaylar için [LICENSE](../LICENSE) dosyasına bakınız.
 
 ---
 
 <div align="center">
 
-*Refik Mobil Uygulaması*
+**Vadi360** tarafından 💜 ile geliştirildi
 
-*© 2026 Refik. Tüm hakları saklıdır.*
+[refik.app](https://refik.app) | [github.com/vadi360](https://github.com/vadi360)
 
 </div>

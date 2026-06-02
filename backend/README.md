@@ -1,959 +1,401 @@
-# Refik Backend API
+<p align="center">
+  <img src="https://refik.app/banner.png" alt="Refik Banner" width="100%" />
+</p>
 
 <div align="center">
 
-**Versiyon:** 2.0  
-**Tarih:** 02 Haziran 2026  
-**GitHub:** https://github.com/vadi360/Refik  
-**API Docs:** https://api.refik.app/api/docs
+# Refik Backend API
 
 *Türkiye'nin Hukuk Asistanı - Backend API*
 
+[![NestJS](https://img.shields.io/badge/nestjs-10-E0234E?style=flat-square&logo=NestJS)](https://nestjs.com)
+[![TypeScript](https://img.shields.io/badge/typescript-5.3-3178C6?style=flat-square&logo=TypeScript)](https://www.typescriptlang.org)
+[![Node.js](https://img.shields.io/badge/node-18+-68217A?style=flat-square&logo=Node.js)](https://nodejs.org)
+[![PostgreSQL](https://img.shields.io/badge/postgresql-14-4169E1?style=flat-square&logo=PostgreSQL)](https://www.postgresql.org)
+[![Prisma](https://img.shields.io/badge/prisma-5.x-5A67D8?style=flat-square&logo=Prisma)](https://www.prisma.io)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+
 ---
 
-| Durum | Değer |
-|-------|-------|
-| Framework | NestJS 10 |
-| Language | TypeScript 5.3 |
-| Database | PostgreSQL + Prisma |
-| API Style | REST + Swagger |
-| Auth | JWT + OTP |
+| 🔧 | Değer |
+|----|-------|
+| **Versiyon** | 2.0 |
+| **Framework** | NestJS 10 |
+| **Language** | TypeScript 5.3 |
+| **Database** | PostgreSQL 14+ |
+| **ORM** | Prisma 5.x |
+| **API Style** | REST + Swagger |
+| **Auth** | JWT + OTP |
+| **Modules** | 21 modül |
+| **Endpoints** | ~90+ |
+
+**API Docs:** [api.refik.app/api/docs](https://api.refik.app/api/docs)  
+**Health Check:** [api.refik.app/api/health](https://api.refik.app/api/health)
 
 </div>
 
 ---
 
-## 📋 İçindekiler
+## 🚀 Quick Start
 
-1. [Hakkında](#1-hakkında)
-2. [Teknoloji Stack](#2-teknoloji-stack)
-3. [Modüller](#3-modüller)
-4. [Veritabanı Şeması](#4-veritabanı-şeması)
-5. [API Endpoint'leri](#5-api-endpointleri)
-6. [AI Mimarisi](#6-ai-mimarisi)
-7. [Bildirim Sistemi](#7-bildirim-sistemi)
-8. [Güvenlik](#8-güvenlik)
-9. [Kurulum](#9-kurulum)
-10. [Yapılandırma](#10-yapılandırma)
-11. [Test](#11-test)
-12. [Deploy](#12-deploy)
+```bash
+# 1. Bağımlılıkları yükle
+npm install
+
+# 2. Environment dosyası
+cp .env.example .env
+
+# 3. Veritabanı migration
+npx prisma migrate dev
+
+# 4. Geliştirme sunucusu
+npm run start:dev
+```
+
+**Swagger Docs:** `http://localhost:3000/api/docs`
 
 ---
 
-## 1. Hakkında
+## 📦 Modüller (21 Adet)
 
-Refik Backend, avukatların kullandığı mobil öncelikli yapay zekâ destekli hukuk asistanının API katmanıdır. Tevkil pazarı, UETS entegrasyonu, AI belge üretimi ve daha fazlasını sunar.
-
-### Temel Özellikler
-
-- **Kimlik Doğrulama** — JWT + OTP (telefon ile kayıt)
-- **Dava Yönetimi** — CRUD, duruşma takibi
-- **Tebligat Yönetimi** — UETS 5 gün kuralı otomasyonu
-- **Tevkil Pazarı** — Avukatlar arası duruşma devri
-- **AI Entegrasyonu** — Minimax + Claude hibrit sistem
-- **RAG Sistemi** — Pinecone vektör veritabanı
-- **Ödeme** — iyzico, PayTR, Stripe entegrasyonu
-- **İcra Takibi** — Toplu takip, mal varlığı tespiti
-- **Birleşik Takvim** — Tüm veri kaynaklarını birleştirir
-- **Çoklu Kanal Bildirim** — Push, SMS, Email, WhatsApp, Telegram
-
----
-
-## 2. Teknoloji Stack
-
-### 2.1 Core
-
-| Katman | Teknoloji | Versiyon |
-|--------|-----------|----------|
-| Runtime | Node.js | 18+ |
-| Framework | NestJS | 10.x |
-| Language | TypeScript | 5.3 |
-| Database | PostgreSQL | 14+ |
-| ORM | Prisma | 5.x |
-
-### 2.2 Servisler
-
-| Servis | Teknoloji |
-|--------|-----------|
-| Cache | Redis |
-| AI (1) | Minimax M2.7 (Türkiye) |
-| AI (2) | Claude Sonnet |
-| Vector DB | Pinecone |
-| Storage | CloudFlare R2 |
-| Push | Firebase FCM |
-| SMS | NetGSM |
-| Email | SendGrid |
-| WhatsApp | WhatsApp Business |
-| Telegram | Telegram Bot API |
-| Ödeme | iyzico / PayTR / Stripe |
+| # | Modül | Endpoints | Açıklama |
+|---|-------|-----------|----------|
+| 1 | **Auth** | 7 | JWT + OTP kimlik doğrulama |
+| 2 | **Users** | 8 | Kullanıcı yönetimi, Baro onay |
+| 3 | **Cases** | 10 | Dava dosyaları, taraflar |
+| 4 | **Hearings** | 8 | Duruşma takibi |
+| 5 | **Notifications** | 12 | Tebligatlar, 5 gün kuralı |
+| 6 | **AI** | 10 | Minimax + Claude hibrit |
+| 7 | **Case Update** | 6 | AI dosya güncelleme |
+| 8 | **Delegations** | 10 | Tevkil pazarı |
+| 9 | **Documents** | 8 | Belge yükleme, RAG indeksleme |
+| 10 | **User Documents** | 6 | Kullanıcı belgeleri |
+| 11 | **UYAP** | 6 | UYAP scraping |
+| 12 | **UETS** | 6 | UETS entegrasyonu |
+| 13 | **RAG** | 5 | Pinecone vektör arama |
+| 14 | **Payments** | 8 | iyzico, PayTR, Stripe |
+| 15 | **Icra** | 10 | İcra takibi |
+| 16 | **Call Center** | 6 | Borçlu arama takibi |
+| 17 | **Calendar** | 10 | Birleşik takvim |
+| 18 | **Reminders** | 8 | Hatırlatıcılar |
+| 19 | **Admin** | 12 | Yönetim paneli |
+| 20 | **Cron** | - | Zamanlı işlemler |
+| 21 | **Health** | 2 | Sağlık kontrolü |
 
 ---
 
-## 3. Modüller (21 Adet)
-
-### 3.1 Auth Modülü
-
-**Açıklama:** JWT + OTP kimlik doğrulama
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/auth/register` | POST | Yeni avukat kaydı |
-| `/auth/login` | POST | Email + şifre girişi |
-| `/auth/logout` | POST | Çıkış |
-| `/auth/refresh` | POST | Token yenile |
-| `/auth/forgot-password` | POST | Şifre sıfırlama |
-| `/auth/verify-otp` | POST | OTP doğrulama |
-| `/auth/resend-otp` | POST | OTP yeniden gönder |
-
-**DTO'lar:**
-```typescript
-// RegisterDto
-{
-  name: string;          // Ad soyad
-  email: string;         // Email
-  phone: string;         // Telefon (+90...)
-  password: string;      // Şifre (min 8 karakter)
-  baroId: string;        // Baro ID
-  licenseNumber: string;  // Ruhsat no
-  kvkkConsent: boolean;   // KVKK onayı
-}
-
-// LoginDto
-{
-  email: string;
-  password: string;
-}
-
-// VerifyOtpDto
-{
-  phone: string;
-  otp: string;          // 6 haneli kod
-}
-```
-
-### 3.2 Users Modülü
-
-**Açıklama:** Kullanıcı CRUD, profil yönetimi
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/users/profile` | GET | Profilim |
-| `/users/profile` | PUT | Profil güncelle |
-| `/users/avatar` | PUT | Avatar güncelle |
-| `/users/password` | PUT | Şifre değiştir |
-| `/users/search` | GET | Avukat ara |
-| `/users/recommendations` | GET | Önerilen avukatlar |
-| `/users/:id` | GET | Kullanıcı detay (public) |
-| `/users/preferences` | PUT | Bildirim tercihleri |
-
-### 3.3 Cases Modülü
-
-**Açıklama:** Dava dosyaları, duruşmalar
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/cases` | GET | Dosyalarım (liste) |
-| `/cases` | POST | Yeni dava oluştur |
-| `/cases/:id` | GET | Dava detay |
-| `/cases/:id` | PUT | Dava güncelle |
-| `/cases/:id` | DELETE | Dava sil (soft delete) |
-| `/cases/:id/hearings` | GET | Duruşmalar |
-| `/cases/:id/hearings` | POST | Duruşma ekle |
-| `/cases/:id/hearings/:hid` | PUT | Duruşma güncelle |
-| `/cases/:id/hearings/:hid` | DELETE | Duruşma sil |
-| `/cases/:id/link-notification/:nid` | POST | Tebligat bağla |
-
-### 3.4 Notifications Modülü
-
-**Açıklama:** Tebligatlar, UETS entegrasyonu
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/notifications` | GET | Tebligat listesi |
-| `/notifications/:id` | GET | Tebligat detay |
-| `/notifications/:id/read` | PUT | Okundu işaretle |
-| `/notifications/:id/star` | PUT | Yıldızla |
-| `/notifications/:id/reminder` | POST | Hatırlatıcı ekle |
-| `/notifications/:id/link-case` | POST | Davaya bağla |
-| `/notifications/auto-process` | GET | 5 gün kuralı listesi |
-| `/notifications/unread-count` | GET | Okunmamış sayısı |
-
-### 3.5 Delegations Modülü
-
-**Açıklama:** Tevkil pazarı
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/delegations` | GET | Tevkillerim |
-| `/delegations` | POST | Tevkil oluştur |
-| `/delegations/:id` | GET | Tevkil detay |
-| `/delegations/:id/accept` | PUT | Onayla |
-| `/delegations/:id/reject` | PUT | Reddet |
-| `/delegations/:id/cancel` | PUT | İptal et |
-| `/delegations/:id/rate` | POST | Puanla (1-5) |
-| `/delegations/:id/complain` | POST | Şikayet et |
-| `/delegations/sent` | GET | Gönderilen tevkiller |
-| `/delegations/received` | GET | Alınan tevkiller |
-
-### 3.6 Documents Modülü
-
-**Açıklama:** Belge üretimi (PDF, Word, UDF)
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/documents` | GET | Belgelerim |
-| `/documents` | POST | Belge oluştur |
-| `/documents/:id` | GET | Belge detay |
-| `/documents/:id` | PUT | Belge güncelle |
-| `/documents/:id` | DELETE | Belge sil |
-| `/documents/:id/download` | GET | İndir (PDF/Word/UDF) |
-| `/documents/:id/approve` | PUT | İnsan onayı |
-
-### 3.7 AI Modülü
-
-**Açıklama:** Minimax + Claude entegrasyonu
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/ai/summarize` | POST | Tebligat/dosya özetle |
-| `/ai/deadline-extract` | POST | Süre çıkarımı |
-| `/ai/case-summary` | POST | Dosya özeti (RAG) |
-| `/ai/document-generate` | POST | Dilekçe üret |
-| `/ai/document-revise` | POST | Dilekçe revizyon |
-| `/ai/legal-research` | POST | İçtihat araştırması |
-| `/ai/legal-notice` | POST | İhtarname üretimi |
-| `/ai/analyze-decision` | POST | Karar analizi |
-| `/ai/chat` | POST | Genel Q&A |
-| `/ai/config` | GET | AI görev yapılandırması |
-| `/ai/token-usage` | GET | Token kullanımı |
-
-### 3.7.1 Case Update Modülü (AI Destekli Dosya Güncelleme)
-
-**Açıklama:** Yeni içerik eklendiğinde AI analizi, özet güncelleme, yapılacaklar ve kronoloji
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/ai/case-update` | POST | Dosya güncelle ve AI analiz et |
-| `/ai/case-update/:caseId/actions` | GET | Yapılacakları getir |
-| `/ai/case-update/actions` | PUT | Yapılacak güncelle |
-| `/ai/case-update/:caseId/actions` | POST | Yapılacak ekle |
-| `/ai/case-update/:caseId/actions/:index` | DELETE | Yapılacak sil |
-| `/ai/case-update/:caseId/timeline` | GET | Kronoloji getir |
-| `/ai/case-update/:caseId/summarize` | POST | Dosyayı yeniden özetle |
-
-### 3.8 Admin Modülü
-
-**Açıklama:** Yönetici işlemleri
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/admin/users` | GET | Tüm kullanıcılar |
-| `/admin/users/:id` | PUT | Kullanıcı güncelle/ban |
-| `/admin/users/:id/approve` | PUT | Baro onayı |
-| `/admin/packages` | GET | Paketler |
-| `/admin/packages/:id` | PUT | Paket güncelle |
-| `/admin/ai-config` | GET | AI görevleri |
-| `/admin/ai-config/:task` | PUT | AI model seçimi |
-| `/admin/stats` | GET | İstatistikler |
-| `/admin/complaints` | GET | Şikayetler |
-| `/admin/complaints/:id` | PUT | Şikayet kararı |
-| `/admin/broadcast` | POST | Toplu bildirim |
-
-### 3.9 UETS Modülü
-
-**Açıklama:** PTT UETS entegrasyonu
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/uets/connect` | POST | UETS oturumu başlat |
-| `/uets/disconnect` | DELETE | Oturumu kapat |
-| `/uets/status` | GET | Bağlantı durumu |
-| `/uets/sync` | POST | Tebligatları çek |
-| `/uets/manual-sync` | POST | Manuel senkron |
-| `/uets/auto-process` | GET | 5 gün kuralı listesi |
-| `/uets/process/:id` | POST | Tek tebligat işle |
-
-### 3.10 RAG Modülü
-
-**Açıklama:** Pinecone RAG sistemi
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/rag/index/:documentId` | POST | Belge indeksle |
-| `/rag/index/:documentId` | DELETE | Belgeyi sil |
-| `/rag/search` | GET | Arama (similarity) |
-| `/rag/context` | GET | AI için context hazırla |
-| `/rag/stats` | GET | RAG istatistikleri |
-
-### 3.11 Payments Modülü
-
-**Açıklama:** Ödeme entegrasyonları
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/payments/subscription` | POST | Abonelik ödemesi |
-| `/payments/token-package` | POST | Token paketi satın al |
-| `/payments/cancel` | POST | Abonelik iptal |
-| `/payments/history` | GET | Ödeme geçmişi |
-| `/payments/webhook/iyzico` | POST | iyzico webhook |
-| `/payments/webhook/paytr` | POST | PayTR webhook |
-| `/payments/webhook/stripe` | POST | Stripe webhook |
-
-### 3.12 Icra Modülü
-
-**Açıklama:** İcra takibi
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/icra/track` | POST | Takip başlat |
-| `/icra/files` | GET | İcra dosyaları |
-| `/icra/files/:id` | GET | Dosya detay |
-| `/icra/files/:id` | DELETE | Dosya sil |
-| `/icra/files/:id/payments` | GET | Ödemeler |
-| `/icra/files/:id/payments` | POST | Ödeme ekle |
-| `/icra/files/:id/assets` | POST | Mal varlığı tespiti (AI) |
-| `/icra/bulk/xml` | POST | XML'den toplu aktarım |
-
-### 3.13 Call Center Modülü
-
-**Açıklama:** Borçlu arama takibi
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/call-center/calls` | GET | Arama kayıtları |
-| `/call-center/calls` | POST | Yeni arama kaydı |
-| `/call-center/calls/:id` | PUT | Arama güncelle |
-| `/call-center/call-list` | GET | Aranacaklar listesi |
-| `/call-center/promises` | GET | Ödeme sözleri |
-| `/call-center/promises/:id` | PUT | Söz güncelle |
-
-### 3.14 Calendar Modülü
-
-**Açıklama:** Birleşik takvim
-
-| Endpoint | Method | Açıklama |
-|----------|--------|----------|
-| `/calendar/items` | GET | Tüm takvim verileri |
-| `/calendar/items` | GET | Tarih aralığı (query) |
-| `/calendar/stats` | GET | İstatistikler |
-| `/calendar/items/:type/:id` | PUT | Takvim item güncelle |
-| `/calendar/items/:type/:id` | DELETE | Takvim item sil |
-| `/calendar/this-week` | GET | Bu hafta |
-| `/calendar/this-month` | GET | Bu ay |
-| `/calendar/today` | GET | Bugünkü özet |
-| `/calendar/upcoming` | GET | Önümüzdeki 7 gün |
-| `/calendar/overdue` | GET | Gecikmişler |
-
----
-
-## 4. Veritabanı Şeması (23 Model)
-
-### 4.1 Kullanıcı Modelleri
-
-```prisma
-model User {
-  id              String   @id @default(uuid())
-  email           String   @unique
-  passwordHash    String
-  name            String
-  phone           String   @unique
-  role            UserRole @default(LAWYER)
-  
-  // Baro
-  baroId          String?
-  licenseNumber   String?
-  isBaroVerified  Boolean  @default(false)
-  approvalStatus  ApprovalStatus @default(PENDING)
-  
-  // Değerlendirme
-  rating          Float    @default(0)
-  ratingCount     Int      @default(0)
-  
-  // KVKK
-  kvkkConsent     Boolean  @default(false)
-  kvkkConsentAt   DateTime?
-  
-  // Bildirim
-  pushToken       String?
-  telegramId      String?
-  notificationPreferences Json?
-  
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  deletedAt       DateTime?
-  
-  // Relations
-  subscription    Subscription?
-  cases           Case[]
-  notifications   Notification[]
-  delegationsSent Delegation[] @relation("FromUser")
-  delegationsReceived Delegation[] @relation("ToUser")
-  documents       Document[]
-  reminders       Reminder[]
-  userTokens      UserToken[]
-  uetsSessions    UetsSession[]
-  auditLogs       AuditLog[]
-  userDocuments   UserDocument[]
-  icraFiles       IcraFile[]
-  icraPayments    IcraPayment[]
-  icraCallRecords IcraCallRecord[]
-  notificationsLog NotificationLog[]
-}
-```
-
-### 4.2 Abonelik Modeli
-
-```prisma
-model Subscription {
-  id              String   @id @default(uuid())
-  userId          String   @unique
-  user            User     @relation(fields: [userId], references: [id])
-  
-  packageType     SubscriptionPackage @default(BASIC)
-  tokenLimit      Int
-  tokensUsed      Int      @default(0)
-  
-  isActive        Boolean  @default(true)
-  startDate       DateTime
-  endDate         DateTime
-  
-  // Ödeme
-  paymentId       String?
-  paymentProvider PaymentProvider?
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-}
-```
-
-### 4.3 Dava Modeli
-
-```prisma
-model Case {
-  id              String   @id @default(uuid())
-  userId          String
-  user            User     @relation(fields: [userId], references: [id])
-  
-  caseNumber      String
-  court           String?
-  caseType        String?
-  subject         String?
-  status          CaseStatus @default(ACTIVE)
-  
-  // Taraflar (JSON)
-  parties         Json?
-  
-  // AI özet
-  aiSummary       String?
-  
-  // Yapılacaklar ve kronoloji (AI tarafından önerilen)
-  actionItems     Json?    // [{task, deadline, priority, status}]
-  timelineUpdates Json?    // [{date, type, description}]
-  
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  deletedAt       DateTime?
-  
-  // Relations
-  hearings        Hearing[]
-  notifications   Notification[]
-  delegations     Delegation[]
-  documents       Document[]
-  reminders       Reminder[]
-  documentEmbeddings DocumentEmbedding[]
-  icraFiles       IcraFile[]
-}
-```
-
-### 4.4 Bildirim Modeli
-
-```prisma
-model Notification {
-  id              String   @id @default(uuid())
-  userId          String
-  user            User     @relation(fields: [userId], references: [id])
-  caseId          String?
-  case            Case?    @relation(fields: [caseId], references: [id])
-  
-  type            NotificationType
-  title           String
-  content         String?
-  
-  // UETS
-  uetsId          String?
-  uetsRead        Boolean  @default(false)
-  uetsReadAt      DateTime?
-  uetsAutoProcessAt DateTime?  // 5 gün kuralı
-  
-  // AI analiz
-  aiSummary       String?
-  aiDeadline      DateTime?
-  
-  // Durum
-  isStarred       Boolean  @default(false)
-  isRead          Boolean  @default(false)
-  readAt          DateTime?
-  
-  // Meta
-  metadata        Json?
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  deletedAt       DateTime?
-}
-```
-
-### 4.5 Tevkil Modeli
-
-```prisma
-model Delegation {
-  id              String   @id @default(uuid())
-  
-  fromUserId      String
-  fromUser        User     @relation("FromUser", fields: [fromUserId], references: [id])
-  
-  toUserId        String?
-  toUser          User?    @relation("ToUser", fields: [toUserId], references: [id])
-  
-  caseId          String
-  case            Case     @relation(fields: [caseId], references: [id])
-  
-  type            DelegationType
-  status          DelegationStatus @default(PENDING)
-  
-  // Konum
-  courtLocation   String?
-  
-  // Değerlendirme
-  rating          Int?
-  ratingComment   String?
-  ratedAt         DateTime?
-  
-  // Şikayet
-  complaintId     String?
-  complaint       Complaint? @relation(fields: [complaintId], references: [id])
-  
-  // Yük dengeleme
-  toUserDelegationCount Int @default(0)
-  
-  // Not
-  note            String?
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  deletedAt       DateTime?
-  
-  expiresAt       DateTime  // 24 saat sonra iptal
-}
-```
-
-### 4.6 AI Yapılandırma Modeli
-
-```prisma
-model AiConfig {
-  id              String   @id @default(uuid())
-  
-  taskName        String   @unique  // notification_summary, deadline_extract, vb.
-  displayName     String
-  model           AiModel  // MINIMAX veya CLAUDE
-  description     String?
-  isActive        Boolean  @default(true)
-  priority        Int      @default(0)
-  
-  settings        Json?    // Temperature, maxTokens, vb.
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-}
-```
-
-### 4.7 Token Kullanım Modeli
-
-```prisma
-model UserToken {
-  id              String   @id @default(uuid())
-  userId          String
-  user            User     @relation(fields: [userId], references: [id])
-  
-  tokenAmount     Int
-  aiModel         AiModel
-  taskType        String
-  
-  periodStart     DateTime
-  periodEnd       DateTime
-  
-  createdAt       DateTime @default(now())
-}
-```
-
-### 4.8 Tam Şema Listesi
-
-| Model | Açıklama |
-|-------|----------|
-| `User` | Avukat kullanıcılar |
-| `Subscription` | Abonelik paketleri |
-| `Case` | Dava dosyaları |
-| `Hearing` | Duruşmalar |
-| `Notification` | Tebligatlar |
-| `Delegation` | Tevkiller |
-| `Complaint` | Şikayetler |
-| `Document` | Belgeler |
-| `DocumentEmbedding` | RAG embeddings |
-| `Reminder` | Hatırlatıcılar |
-| `AiConfig` | AI görev yapılandırma |
-| `AiConfigUpdate` | AI config değişiklik log |
-| `UserToken` | Token kullanımı |
-| `UetsSession` | UETS oturumları |
-| `AuditLog` | Denetim kayıtları |
-| `Payment` | Ödemeler |
-| `UserDocument` | Özlük dosyası |
-| `IcraFile` | İcra dosyaları |
-| `IcraPayment` | İcra ödemeleri |
-| `IcraCallRecord` | Arama kayıtları |
-| `IcraAssetHistory` | Mal varlığı geçmişi |
-| `NotificationTemplate` | Bildirim şablonları |
-| `NotificationLog` | Bildirim logları |
-
----
-
-## 5. API Endpoint'leri
-
-### 5.1 Toplam Endpoint Sayısı
-
-| Modül | Sayı |
-|-------|------|
-| Auth | ~10 |
-| Users | ~8 |
-| Cases | ~10 |
-| Notifications | ~10 |
-| Delegations | ~10 |
-| Documents | ~6 |
-| AI | ~12 |
-| Admin | ~15 |
-| UETS | ~7 |
-| UYAP | ~5 |
-| RAG | ~5 |
-| Payments | ~8 |
-| Icra | ~10 |
-| Call Center | ~6 |
-| Calendar | ~10 |
-| Files | ~5 |
-| Health | ~2 |
-| **Toplam** | **~140+** |
-
-### 5.2 API Versiyonlama
-
-```
-Base URL: /api/v1
-
-Örnek:
-- POST /api/v1/auth/login
-- GET /api/v1/cases
-- POST /api/v1/ai/summarize
-```
-
-### 5.3 Swagger Dokümantasyonu
-
-```
-http://localhost:3000/api/docs
-```
-
----
-
-## 6. AI Mimarisi
-
-### 6.1 Hibrit AI Sistemi
+## 🤖 AI Mimarisi
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    HİBRİT AI SİSTEMİ                       │
+│                    AI Hibrit Sistemi                         │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  Admin Panel → /admin/ai-config/:task → Model seçimi       │
-│                                                             │
-│  ┌────────────────────────────────────────────────────┐     │
-│  │  AI Görevleri ve Yapılandırma                      │     │
-│  ├────────────────────────────────────────────────────┤     │
-│  │  Görev                  │ Model    │ Token Limit  │     │
-│  ├────────────────────────────────────────────────────┤     │
-│  │  notification_summary   │ MINIMAX  │ YOK (sınırsız)│     │
-│  │  deadline_extract        │ CLAUDE   │ YOK (sınırsız)│     │
-│  │  case_summary            │ MINIMAX  │ VAR          │     │
-│  │  decision_analysis       │ CLAUDE   │ VAR          │     │
-│  │  document_generate       │ MINIMAX  │ VAR          │     │
-│  │  document_revise         │ MINIMAX  │ VAR          │     │
-│  │  legal_notice            │ MINIMAX  │ VAR          │     │
-│  │  legal_research          │ CLAUDE   │ VAR          │     │
-│  │  general_qa              │ MINIMAX  │ VAR          │     │
-│  └────────────────────────────────────────────────────┘     │
-│                                                             │
-│  UETS Görevleri (token limit YOK):                         │
-│  - notification_summary: Tebligat özetleme                  │
-│  - deadline_extract: Süre çıkarımı                         │
+│   ┌─────────────────┐          ┌─────────────────┐         │
+│   │    MINIMAX      │          │     CLAUDE      │         │
+│   │      M2.7       │          │   Sonnet 4      │         │
+│   │   (Türkiye/KVKK)│          │    (Admin)      │         │
+│   └────────┬────────┘          └────────┬────────┘         │
+│            │                            │                    │
+│            │   Admin tarafından         │                    │
+│            │   görev bazlı seçim        │                    │
+│            │                            │                    │
+│   ├────────┴────────┴────────────────────┴────────┤         │
+│   │                                                │         │
+│   │  • notification_summary (sınırsız)           │         │
+│   │  • deadline_extract (sınırsız)                │         │
+│   │  • case_summary            • legal_research  │         │
+│   │  • document_generate       • decision_analysis│         │
+│   │  • general_qa                                │         │
+│   │                                                │         │
+│   └───────────────────────────────────────────────┘         │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 6.2 Token Takibi
+### AI Görevleri
 
-```typescript
-// AI Service - Token limit kontrolü
-async checkTokenLimit(userId: string, additionalTokens: number) {
-  const subscription = await prisma.subscription.findFirst({
-    where: { userId, isActive: true }
-  });
-  
-  const usedTokens = await prisma.userToken.aggregate({
-    where: { userId, periodStart: thisMonth, periodEnd: thisMonth },
-    _sum: { tokenAmount: true }
-  });
-  
-  if (usedTokens + additionalTokens > subscription.tokenLimit) {
-    throw new ForbiddenException('Token limit aşıldı');
-  }
-}
+| Görev | Model | Token Limit | Açıklama |
+|-------|-------|------------|----------|
+| `notification_summary` | MINIMAX | **Sınırsız** | Tebligat özetleme |
+| `deadline_extract` | CLAUDE | **Sınırsız** | Süre çıkarımı |
+| `case_summary` | MINIMAX | Var | Dosya özetleme |
+| `document_generate` | MINIMAX | Var | Dilekçe üretimi |
+| `document_revise` | MINIMAX | Var | Dilekçe revizyonu |
+| `legal_notice` | MINIMAX | Var | İhtarname |
+| `legal_research` | CLAUDE | Var | İçtihat araştırması |
+| `decision_analysis` | CLAUDE | Var | Karar analizi |
+| `general_qa` | MINIMAX | Var | Genel soru-cevap |
 
-// Token kaydet
-await prisma.userToken.create({
-  data: { userId, tokenAmount, aiModel, taskType }
-});
-```
+---
 
-### 6.3 RAG Akışı
+## 🗄️ Veritabanı Şeması (23 Model)
 
 ```
-1. Belge yükle → chunk (512-1024 token)
-2. Embedding üret (Minimax)
-3. Pinecone'a kaydet
-4. Sorgu → Pinecone similarity search
-5. En yakın belgeleri AI'a context olarak ver
-6. AI yanıt üretir → kaynak gösterir
+┌─────────────────────────────────────────────────────────────┐
+│                       Veritabanı Modelleri                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   User ◄────────── Subscription ◄────────── Payment         │
+│    │                   │                                   │
+│    ├──── Case ◄─────── Hearing ◄────────── Notification     │
+│    │                                                       │
+│    ├──── Delegation ◄───── Complaint                       │
+│    │                                                       │
+│    ├──── Document ◄──── DocumentEmbedding (Pinecone)       │
+│    │                                                       │
+│    ├──── Reminder ◄──── NotificationLog                    │
+│    │                                                       │
+│    ├──── AiConfig ◄──── AiConfigUpdate                     │
+│    │                                                       │
+│    ├──── UserToken (token takibi)                          │
+│    ├──── UetsSession                                       │
+│    ├──── AuditLog                                          │
+│    ├──── UserDocument                                      │
+│    │                                                       │
+│    └──── IcraFile ◄─── IcraPayment                         │
+│               ◄─── IcraCallRecord                          │
+│               ◄─── IcraAssetHistory                        │
+│                                                             │
+│    NotificationTemplate                                     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 7. Bildirim Sistemi
-
-### 7.1 Desteklenen Kanallar
+## 📬 Bildirim Sistemi (5 Kanal)
 
 | Kanal | Servis | Durum |
 |-------|--------|-------|
-| Push | Firebase FCM | ✅ |
-| SMS | NetGSM | ✅ |
-| Email | SendGrid | ✅ |
-| WhatsApp | WhatsApp Business | ✅ |
-| Telegram | Telegram Bot API | ✅ |
-
-### 7.2 Çoklu Kanal Bildirim Servisi
-
-```typescript
-// notification.service.ts
-interface SendNotificationOptions {
-  userId: string;
-  title: string;
-  body: string;
-  channels: ('push' | 'sms' | 'email' | 'whatsapp' | 'telegram')[];
-  data?: Record<string, any>;
-  priority?: 'high' | 'normal' | 'low';
-}
-```
-
-### 7.3 Bildirim Şablonları
-
-```typescript
-interface NotificationTemplate {
-  id: string;
-  name: string;
-  titleTemplate: string;
-  bodyTemplate: string;
-  channels: Channel[];
-  variables: string[];
-}
-```
+| 🔔 **Push Bildirim** | Firebase FCM | ✅ |
+| 📱 **SMS** | NetGSM | ✅ |
+| 📧 **E-posta** | SendGrid | ✅ |
+| 💬 **WhatsApp** | Twilio | ✅ |
+| ✈️ **Telegram** | Bot API | ✅ |
 
 ---
 
-## 8. Güvenlik
+## 🔐 Güvenlik
 
-### 8.1 Kimlik Doğrulama
-
-- JWT Access token (1 saat geçerli)
-- JWT Refresh token (7 gün geçerli)
-- bcrypt şifre hashleme (12 round)
-- OTP 6 haneli (5 dk geçerli)
-
-### 8.2 Yetkilendirme
-
-```typescript
-// Rollere göre erişim
-enum UserRole {
-  LAWYER      // Avukat - kendi verileri
-  OFFICE_ADMIN // Büro yöneticisi - ekip verileri
-  ADMIN       // Admin - tüm veriler
-}
-```
-
-### 8.3 Rate Limiting
-
-- 100 istek/dakika (varsayılan)
-- Auth endpoints: 10 istek/dakika
-- AI endpoints: 20 istek/dakika
-
-### 8.4 KVKK
-
-- Minimax Türkiye sunucusu (veri Türkiye'de kalır)
-- Claude için açık rıza gerekliliği
-- Veri silme hakkı (`/users/profile` DELETE)
+| Özellik | Değer |
+|---------|-------|
+| **JWT Access Token** | 1 saat geçerli |
+| **Refresh Token** | 7 gün geçerli |
+| **OTP** | 6 haneli, 5 dakika geçerli |
+| **Şifreleme** | TLS 1.3, bcrypt |
+| **Rate Limiting** | 100 req/min |
+| **KVKK** | 6698 sayılı kanun uyumlu |
 
 ---
 
-## 9. Kurulum
+## 🔄 5 Gün Kuralı Otomasyonu
 
-### 9.1 Gereksinimler
+```typescript
+// Cron her saat çalışır
+// 1. UETS'den yeni tebligatları çek
+// 2. AI ile özet çıkar (notification_summary)
+// 3. Süre hesapla (deadline_extract)
+// 4. Hatırlatıcı oluştur
+// 5. Push bildirim gönder
+```
+
+| Adım | Açıklama |
+|------|----------|
+| 1 | `uetsAutoProcessAt <= now` kontrolü |
+| 2 | MINIMAX ile tebligat özeti |
+| 3 | CLAUDE ile süre çıkarımı |
+| 4 | Otomatik hatırlatıcı oluşturma |
+| 5 | FCM push bildirimi gönder |
+
+---
+
+## 🛠️ Kurulum
+
+### Gereksinimler
 
 - Node.js 18+
 - PostgreSQL 14+
-- Redis 6+
-- npm veya yarn
+- Redis (opsiyonel)
 
-### 9.2 Adımlar
+### Adımlar
 
 ```bash
-# 1. Projeyi klonlayın
-git clone https://github.com/vadi360/Refik.git
-cd Refik/backend
-
-# 2. Bağımlılıkları yükleyin
+# 1. Bağımlılıkları yükle
 npm install
 
-# 3. Environment dosyasını oluşturun
+# 2. Environment dosyası
 cp .env.example .env
-# .env dosyasını düzenleyin
 
-# 4. Veritabanı migration çalıştırın
-npm run prisma:migrate
+# Environment değişkenleri:
+# DATABASE_URL=postgresql://user:pass@localhost:5432/refik
+# REDIS_URL=redis://localhost:6379
+# JWT_SECRET=your-secret-key
+# MINIMAX_API_KEY=your-minimax-key
+# CLAUDE_API_KEY=your-claude-key
+# PINECONE_API_KEY=your-pinecone-key
 
-# 5. (Opsiyonel) Tohum verileri
-npm run prisma:seed
+# 3. Veritabanı migration
+npx prisma migrate dev
 
-# 6. Geliştirme sunucusu başlatın
+# 4. Seed data (opsiyonel)
+npx prisma db seed
+
+# 5. Geliştirme
 npm run start:dev
-```
 
-### 9.3 API'ye Erişim
-
-```
-http://localhost:3000           # Ana URL
-http://localhost:3000/api/docs  # Swagger UI
-http://localhost:3000/health    # Health check
-```
-
----
-
-## 10. Yapılandırma
-
-### 10.1 Environment Değişkenleri
-
-| Değişken | Açıklama | Örnek |
-|----------|----------|-------|
-| `NODE_ENV` | Uygulama modu | `development` |
-| `PORT` | API portu | `3000` |
-| `DATABASE_URL` | PostgreSQL | `postgresql://...` |
-| `REDIS_URL` | Redis | `redis://localhost:6379` |
-| `JWT_SECRET` | JWT signing secret | `openssl rand -base64 64` |
-| `MINIMAX_API_KEY` | Minimax API | Platform.minimax.io |
-| `CLAUDE_API_KEY` | Claude API | console.anthropic.com |
-| `PINECONE_API_KEY` | Pinecone | pinecone.io |
-| `R2_*` | CloudFlare R2 | CloudFlare dashboard |
-| `NETGSM_*` | NetGSM SMS | netgsm.com.tr |
-| `SENDGRID_API_KEY` | SendGrid | sendgrid.com |
-| `TELEGRAM_BOT_TOKEN` | Telegram Bot | @BotFather |
-| `IYIZICO_*` | iyzico | iyzico.com |
-| `PAYTR_*` | PayTR | paytr.com |
-| `STRIPE_SECRET_KEY` | Stripe | stripe.com |
-
-### 10.2 .env.example
-
-```bash
-# Detaylı environment şablonu için backend/.env.example dosyasına bakın
-```
-
----
-
-## 11. Test
-
-### 11.1 Komutlar
-
-```bash
-# Unit test
-npm test
-
-# Test coverage
-npm run test:cov
-
-# E2E test
-npm run test:e2e
-
-# TypeScript check
+# 6. Production
 npm run build
+npm run start:prod
 ```
 
-### 11.2 API Test
+### Docker
 
 ```bash
-# Health check
-curl http://localhost:3000/health
+# Docker Compose ile çalıştır
+docker-compose up -d
 
-# Login
-curl -X POST http://localhost:3000/api/v1/auth/login \
+# Sadece backend
+docker build -t refik-backend .
+docker run -p 3000:3000 refik-backend
+```
+
+---
+
+## 🌐 Environment Değişkenleri
+
+| Değişken | Açıklama | Zorunlu |
+|----------|----------|---------|
+| `DATABASE_URL` | PostgreSQL connection string | ✅ |
+| `REDIS_URL` | Redis connection string | Hayır |
+| `JWT_SECRET` | JWT signing secret | ✅ |
+| `JWT_EXPIRES_IN` | Token expiration (default: 1h) | Hayır |
+| `MINIMAX_API_KEY` | Minimax API key | ✅ |
+| `CLAUDE_API_KEY` | Claude API key | ✅ |
+| `PINECONE_API_KEY` | Pinecone API key | ✅ |
+| `FCM_PROJECT_ID` | Firebase project ID | Hayır |
+| `NETGSM_USER` | NetGSM username | Hayır |
+| `NETGSM_PASS` | NetGSM password | Hayır |
+| `SENDGRID_API_KEY` | SendGrid API key | Hayır |
+| `TWILIO_ACCOUNT_SID` | Twilio SID | Hayır |
+| `TWILIO_AUTH_TOKEN` | Twilio token | Hayır |
+| `IYZICO_BASE_URL` | iyzico API URL | Hayır |
+| `IYZICO_API_KEY` | iyzico API key | Hayır |
+| `IYZICO_SECRET_KEY` | iyzico secret key | Hayır |
+| `PAYTRE_MERCHANT_ID` | PayTR merchant ID | Hayır |
+| `PAYTRE_MERCHANT_KEY` | PayTR merchant key | Hayır |
+| `PAYTRE_MERCHANT_SALT` | PayTR merchant salt | Hayır |
+| `STRIPE_SECRET_KEY` | Stripe secret key | Hayır |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook secret | Hayır |
+
+---
+
+## 📊 Health Check
+
+```bash
+# Basit health check
+curl https://api.refik.app/api/health
+
+# Detaylı (database, redis, external services)
+curl https://api.refik.app/api/health/detailed
+```
+
+**Yanıt:**
+```json
+{
+  "status": "ok",
+  "timestamp": "2026-06-02T00:00:00.000Z",
+  "uptime": 12345,
+  "services": {
+    "database": "connected",
+    "redis": "connected",
+    "minimax": "ok",
+    "claude": "ok"
+  }
+}
+```
+
+---
+
+## 🚢 Deploy
+
+### AWS (EC2 + RDS)
+
+```bash
+# 1. EC2 oluştur (Ubuntu 22.04)
+# 2. PostgreSQL RDS oluştur
+# 3. Environment değişkenlerini ayarla
+# 4. PM2 ile deploy
+npm install -g pm2
+pm2 start dist/src/main.js --name refik-backend
+```
+
+### Docker + Docker Compose
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+services:
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://user:pass@postgres:5432/refik
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:14
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+```
+
+---
+
+## 📝 API Örnekleri
+
+### Kayıt
+```bash
+curl -X POST https://api.refik.app/api/v1/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"email":"test@test.com","password":"test"}'
+  -d '{
+    "name": "Av. Ahmet Yılmaz",
+    "email": "ahmet@lawfirm.com",
+    "phone": "+905551234567",
+    "password": "SecurePass123!",
+    "baroId": "34",
+    "licenseNumber": "12345"
+  }'
+```
+
+### AI Özetleme
+```bash
+curl -X POST https://api.refik.app/api/v1/ai/case-update \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "caseId": "uuid-here",
+    "newContent": "Bugün yeni bir tebligat geldi..."
+  }'
 ```
 
 ---
 
-## 12. Deploy
+## 📄 Lisans
 
-### 12.1 Docker
-
-```bash
-# Build
-docker build -t avocatpro-backend .
-
-# Run
-docker run -p 3000:3000 \
-  --env-file .env \
-  avocatpro-backend
-```
-
-### 12.2 PM2
-
-```bash
-# Build
-npm run build
-
-# Production'da çalıştır
-pm2 start dist/main.js --name avocatpro-backend
-
-# Monitor
-pm2 monit
-```
-
-### 12.3 Environment (Production)
-
-```bash
-# Production'da güvenli secret yönetimi kullanın
-# AWS Secrets Manager, HashiCorp Vault, vb.
-```
+**MIT License** - Detaylar için [LICENSE](../LICENSE) dosyasına bakınız.
 
 ---
 
 <div align="center">
 
-*Refik Backend API*
+**Vadi360** tarafından 💜 ile geliştirildi
 
-*© 2026 Refik. Tüm hakları saklıdır.*
+[refik.app](https://refik.app) | [github.com/vadi360](https://github.com/vadi360) | [vadi360.com](https://vadi360.com)
 
 </div>

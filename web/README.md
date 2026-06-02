@@ -1,804 +1,280 @@
-# Refik Web Uygulaması
+<p align="center">
+  <img src="https://refik.app/banner.png" alt="Refik Banner" width="100%" />
+</p>
 
 <div align="center">
 
-**Versiyon:** 1.0  
-**Tarih:** 02 Haziran 2026  
-**Proje:** Refik - Web Uygulaması (PWA)  
-**GitHub:** https://github.com/vadi360/Refik
+# Refik Web Uygulaması
 
 *Mobil öncelikli, AI destekli hukuk asistanı - Web Arayüzü*
 
+[![Next.js](https://img.shields.io/badge/nextjs-14-000000?style=flat-square&logo=Next.js&logoColor=white)](https://nextjs.org)
+[![React](https://img.shields.io/badge/react-18-61DAFB?style=flat-square&logo=React)](https://reactjs.org)
+[![TypeScript](https://img.shields.io/badge/typescript-5.3-3178C6?style=flat-square&logo=TypeScript)](https://www.typescriptlang.org)
+[![Tailwind](https://img.shields.io/badge/tailwindcss-3-06B6D4?style=flat-square&logo=TailwindCSS&logoColor=white)](https://tailwindcss.com)
+[![PWA](https://img.shields.io/badge/PWA-Ready-4B0082?style=flat-square)](https://web.dev/progressive-web-apps/)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+
 ---
 
-| Durum | Değer |
-|-------|-------|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript 5.3 |
-| UI Library | React 18 |
-| Styling | Tailwind CSS |
-| State | Zustand / Redux Toolkit |
-| PWA | ✅ Evet |
+| 🟡 | **Versiyon** | 1.0.0 (Planlanıyor) |
+|---|-------------|----------------------|
+| 🟡 | **Framework** | Next.js 14 (App Router) |
+| 🟡 | **Language** | TypeScript 5.3 |
+| 🟡 | **UI** | Tailwind CSS |
+| 🟡 | **State** | Zustand / Redux Toolkit |
+| 🟡 | **PWA** | ✅ Evet |
+
+**Backend:** [api.refik.app](https://api.refik.app) | **Ana Proje:** [Refik](../README.md)
 
 </div>
 
 ---
 
-## 📋 İçindekiler
+## 🎯 Ne İşe Yarar?
 
-1. [Hakkında](#1-hakkında)
-2. [Özellikler](#2-özellikler)
-3. [Teknoloji Stack](#3-teknoloji-stack)
-4. [Klasör Yapısı](#4-klasör-yapısı)
-5. [Sayfalar & Route'lar](#5-sayfalar--routelar)
-6. [Bileşenler](#6-bileşenler)
-7. [API Entegrasyonu](#7-api-entegrasyonu)
-8. [State Management](#8-state-management)
-9. [PWA Yapılandırması](#9-pwa-yapılandırması)
-10. [Kurulum](#10-kurulum)
-11. [Geliştirme](#11-geliştirme)
-12. [Üretim](#12-üretim)
+<p align="center">
+  <img src="https://img.shields.io/badge/📱-Responsive-10B981?style=for-the-badge" alt="Responsive" />
+  <img src="https://img.shields.io/badge/💻-Masaüstü%20Desteği-3B82F6?style=for-the-badge" alt="Desktop" />
+  <img src="https://img.shields.io/badge/🔔-Push%20Bildirim-8B5CF6?style=for-the-badge" alt="Push" />
+  <img src="https://img.shields.io/badge/📴-Offline%20Desteği-F59E0B?style=for-the-badge" alt="Offline" />
+</p>
+
+> Avukatların masaüstü veya dizüstü bilgisayardan kullanabileceği **responsive web arayüzü**. PWA özellikleri ile native uygulama deneyimi.
 
 ---
 
-## 1. Hakkında
+## ✨ Özellikler
 
-Refik Web Uygulaması, avukatların masaüstü veya dizüstü bilgisayardan kullanabileceği responsive web arayüzüdür. Next.js 14 ile geliştirilmiş, PWA (Progressive Web App) özellikleri desteklemektedir.
-
-### Temel Özellikler
-
-- **Responsive Tasarım** — Mobil, tablet ve masaüstü uyumlu
-- **PWA Desteği** — Ana ekrana ekle, çevrimdışı çalışma
-- **Türkçe Arayüz** — %100 Türkçe kullanıcı deneyimi
-- **AI Entegrasyonu** — Dilekçe üretimi, emsal araştırma
-- **Gerçek Zamanlı** — WebSocket veya SSE ile anlık bildirimler
-
----
-
-## 2. Özellikler
-
-### 2.1 Kimlik Doğrulama
-
-| Özellik | Açıklama |
-|---------|----------|
-| Telefon ile Kayıt | OTP doğrulamalı kayıt |
-| Şifre ile Giriş | Email + şifre girişi |
-| OTP Doğrulama | SMS ile 6 haneli kod |
-| Şifremi Unuttum | Email/sms ile sıfırlama |
-| Oturum Yönetimi | JWT token, refresh mekanizması |
-
-### 2.2 Dashboard (Ana Panel)
-
-| Widget | Açıklama |
-|--------|----------|
-| Yaklaşan Duruşmalar | Bu hafta/ay duruşma listesi |
-| Süre Uyarıları | Kritik süre takibi |
-| Son Tebligatlar | UETS'ten gelen son tebligatlar |
-| Aktif Tevkiller | Bekleyen/onaylanan tevkiller |
-| AI Asistan | Hızlı sorgu kutusu |
-
-### 2.3 Dava Yönetimi
-
-| Özellik | Açıklama |
-|---------|----------|
-| Dava Listesi | Filtreleme, arama, sıralama |
-| Dava Detay | Taraflar, duruşmalar, belgeler |
-| Yeni Dava | Form ile dava oluşturma |
-| Duruşma Takibi | Takvim görünümü |
-| Dosya Yükleme | PDF, Word belgeleri |
-
-### 2.4 Tebligat Yönetimi (UETS)
-
-| Özellik | Açıklama |
-|---------|----------|
-| Tebligat Listesi | Okundu/bekleyen filtreleme |
-| AI Özet | notification_summary ile özet |
-| Süre Çıkarımı | deadline_extract ile süre tespiti |
-| Dava Bağlama | Tebligatı davaya bağlama |
-| 5 Gün Kuralı | Açılmamış tebligat takibi |
-
-### 2.5 Tevkil Pazarı
-
-| Özellik | Açıklama |
-|---------|----------|
-| Tevkil Oluştur | Duruşma için tevkil talebi |
-| Avukat Bul | Konum, uzmanlık, puan ile arama |
-| Tevkil Onaylama | Gelen tevkil isteklerini onaylama/reddetme |
-| Değerlendirme | 5 yıldız puanlama sistemi |
-| Şikayet | Tevkil ile ilgili şikayet oluşturma |
-
-### 2.6 AI Asistan
-
-| Özellik | Açıklama |
-|---------|----------|
-| Sohbet Arayüzü | Genel soru-cevap |
-| Dilekçe Üretici | Belge türü seçimi ile üretim |
-| Emsal Araştırma | RAG destekli içtihat arama |
-| Karar Analizi | Mahkeme kararı lehte/aleyhte analiz |
-| İhtarname | Hukuki ihtarname üretimi |
-
-### 2.7 Takvim
-
-| Özellik | Açıklama |
-|---------|----------|
-| Birleşik Görünüm | Duruşmalar, hatırlatıcılar, tebligatlar |
-| Gün/Hafta/Ay | Farklı zaman görünümleri |
-| Renk Kodlaması | Dava türüne göre renkler |
-| Hatırlatıcı | Bildirim ayarları |
-| Export | ICS formatında dışa aktarma |
-
-### 2.8 İcra Takibi
-
-| Özellik | Açıklama |
-|---------|----------|
-| İcra Dosyaları | Toplu takip listesi |
-| Durum Takibi | Ödeme, satış, durdurma |
-| Mal Varlığı | AI destekli tespit |
-| Arama Kayıtları | Call center entegrasyonu |
-
-### 2.9 Profil & Ayarlar
-
-| Özellik | Açıklama |
-|---------|----------|
-| Profil Bilgileri | Ad, soyad, baro bilgisi |
-| Bildirim Tercihleri | Push, SMS, Email, WhatsApp, Telegram |
-| Abonelik | Paket bilgisi, token kullanımı |
-| Özlük Dosyası | Baro verification belgeleri |
+| Özellik | Açıklama | Durum |
+|---------|----------|-------|
+| 📱 **Responsive** | Mobil, tablet, masaüstü uyumlu | 🔄 |
+| 💾 **Offline** | Service Worker ile çevrimdışı çalışma | 🔄 |
+| 🔔 **Push Bildirim** | Tarayıcı bildirimleri | 🔄 |
+| 🔐 **JWT + OTP** | Güvenli kimlik doğrulama | 🔄 |
+| 📊 **Dashboard** | İstatistikler, yaklaşan duruşmalar | 🔄 |
+| 📋 **Dava Yönetimi** | CRUD, filtreleme, arama | 🔄 |
+| 📅 **Takvim** | Duruşma ve hatırlatıcı takvimi | 🔄 |
+| 🔍 **UYAP** | Dosya takibi, AI özetleme | 🔄 |
+| ⚖️ **Tevkil** | Tevkil pazarı, başvuru yönetimi | 🔄 |
+| 📄 **Belgeler** | RAG arama, belge yükleme | 🔄 |
+| 💳 **Ödemeler** | Abonelik, token paketleri | 🔄 |
+| ⚙️ **Ayarlar** | Profil, bildirim tercihleri | 🔄 |
 
 ---
 
-## 3. Teknoloji Stack
+## 🏗️ Teknoloji Stack
 
-### 3.1 Core Teknolojiler
+<div align="left">
 
-| Katman | Teknoloji | Versiyon |
-|--------|-----------|----------|
-| Framework | Next.js | 14.x |
-| Language | TypeScript | 5.3 |
-| UI Library | React | 18.x |
-| Styling | Tailwind CSS | 3.x |
-| State | Zustand | 4.x |
+![Next.js](https://img.shields.io/badge/-Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white)
+![React](https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=React&logoColor=black)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)
+![Tailwind](https://img.shields.io/badge/-Tailwind%20CSS-06B6D4?style=for-the-badge&logo=TailwindCSS&logoColor=white)
+![Zustand](https://img.shields.io/badge/-Zustand-F59E0B?style=for-the-badge&logo=Zustand&logoColor=white)
+![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white)
+![NextAuth](https://img.shields.io/badge/-NextAuth-000000?style=for-the-badge&logo=NextAuth&logoColor=white)
 
-### 3.2 Ek Kütüphaneler
-
-| Kütüphane | Kullanım |
-|-----------|----------|
-| React Query | Server state management |
-| React Hook Form | Form yönetimi |
-| Zod | Schema validation |
-| date-fns | Tarih işlemleri |
-| Lucide React | İkonlar |
-| Radix UI | Headless UI bileşenleri |
-| Recharts | Grafikler |
-| FullCalendar | Takvim görünümü |
-| React Hot Toast | Bildirimler |
-| Next Auth | Kimlik doğrulama (opsiyonel) |
-
-### 3.3 DevTools
-
-| Araç | Kullanım |
-|------|----------|
-| ESLint | Kod linting |
-| Prettier | Code formatting |
-| Husky | Git hooks |
-| lint-staged | Stage linting |
+</div>
 
 ---
 
-## 4. Klasör Yapısı
+## 📁 Klasör Yapısı
 
 ```
 web/
+├── public/
+│   ├── manifest.json       # PWA manifest
+│   └── icons/              # PWA ikonları
+│
 ├── src/
-│   ├── app/                        # Next.js App Router
-│   │   ├── (auth)/                # Auth sayfaları (route gruplama)
+│   ├── app/                # Next.js App Router
+│   │   ├── (auth)/         # Auth sayfaları
 │   │   │   ├── login/
-│   │   │   │   └── page.tsx
 │   │   │   ├── register/
-│   │   │   │   ├── page.tsx
-│   │   │   │   └── steps/          # Kayıt adımları
 │   │   │   └── forgot-password/
-│   │   │       └── page.tsx
 │   │   │
-│   │   ├── (app)/                  # Ana uygulama sayfaları
-│   │   │   ├── layout.tsx          # App layout (sidebar, header)
-│   │   │   │
+│   │   ├── (dashboard)/   # Dashboard routes
 │   │   │   ├── dashboard/
-│   │   │   │   └── page.tsx       # Ana panel
-│   │   │   │
 │   │   │   ├── cases/
-│   │   │   │   ├── list/
-│   │   │   │   │   └── page.tsx   # Dava listesi
-│   │   │   │   ├── detail/
-│   │   │   │   │   └── [id]/
-│   │   │   │   │       └── page.tsx # Dava detay
-│   │   │   │   ├── new/
-│   │   │   │   │   └── page.tsx   # Yeni dava
-│   │   │   │   └── page.tsx       # Dava ana (redirect)
-│   │   │   │
-│   │   │   ├── hearings/
-│   │   │   │   └── page.tsx       # Duruşmalar
-│   │   │   │
+│   │   │   ├── calendar/
 │   │   │   ├── notifications/
-│   │   │   │   ├── list/
-│   │   │   │   │   └── page.tsx   # Tebligat listesi
-│   │   │   │   ├── detail/
-│   │   │   │   │   └── [id]/
-│   │   │   │   │       └── page.tsx # Tebligat detay
-│   │   │   │   └── page.tsx       # Ana sayfa
-│   │   │   │
 │   │   │   ├── delegations/
-│   │   │   │   ├── sent/          # Gönderilen tevkiller
-│   │   │   │   ├── received/     # Alınan tevkiller
-│   │   │   │   ├── create/
-│   │   │   │   │   └── page.tsx   # Yeni tevkil
-│   │   │   │   └── page.tsx       # Tevkil ana
-│   │   │   │
 │   │   │   ├── documents/
-│   │   │   │   ├── list/
-│   │   │   │   │   └── page.tsx
-│   │   │   │   ├── create/
-│   │   │   │   │   └── page.tsx
-│   │   │   │   └── page.tsx
-│   │   │   │
-│   │   │   ├── calendar/
-│   │   │   │   └── page.tsx       # Birleşik takvim
-│   │   │   │
-│   │   │   ├── icra/
-│   │   │   │   ├── list/
-│   │   │   │   │   └── page.tsx   # İcra listesi
-│   │   │   │   ├── detail/
-│   │   │   │   │   └── [id]/
-│   │   │   │   │       └── page.tsx
-│   │   │   │   ├── new/
-│   │   │   │   │   └── page.tsx
-│   │   │   │   └── page.tsx
-│   │   │   │
-│   │   │   ├── ai/
-│   │   │   │   ├── chat/
-│   │   │   │   │   └── page.tsx   # AI Sohbet
-│   │   │   │   ├── document-generator/
-│   │   │   │   │   └── page.tsx   # Dilekçe üretici
-│   │   │   │   └── research/
-│   │   │   │       └── page.tsx   # Emsal araştırma
-│   │   │   │
-│   │   │   ├── profile/
-│   │   │   │   ├── edit/
-│   │   │   │   │   └── page.tsx
-│   │   │   │   ├── settings/
-│   │   │   │   │   └── page.tsx
-│   │   │   │   └── page.tsx
-│   │   │   │
-│   │   │   └── uets/
-│   │   │       └── page.tsx       # UETS bağlantısı
-│   │   │
-│   │   ├── (admin)/               # Admin panel sayfaları
-│   │   │   ├── layout.tsx         # Admin layout
-│   │   │   ├── dashboard/
-│   │   │   │   └── page.tsx
-│   │   │   ├── users/
-│   │   │   │   ├── list/
-│   │   │   │   │   └── page.tsx
-│   │   │   │   ├── detail/
-│   │   │   │   │   └── [id]/
-│   │   │   │   │       └── page.tsx
-│   │   │   │   └── approve/
-│   │   │   │       └── [id]/
-│   │   │   │           └── page.tsx
-│   │   │   ├── packages/
-│   │   │   │   └── page.tsx
-│   │   │   ├── ai-config/
-│   │   │   │   ├── page.tsx        # AI config list
-│   │   │   │   └── [taskType]/
-│   │   │   │       └── page.tsx   # Task config detay
-│   │   │   ├── complaints/
-│   │   │   │   └── page.tsx
-│   │   │   ├── delegations/
-│   │   │   │   └── page.tsx
-│   │   │   ├── notifications/
-│   │   │   │   └── page.tsx
-│   │   │   ├── analytics/
-│   │   │   │   └── page.tsx
+│   │   │   ├── payments/
 │   │   │   └── settings/
-│   │   │       └── page.tsx
 │   │   │
-│   │   ├── (landing)/              # Landing page
-│   │   │   └── page.tsx           # Ana sayfa (açılış)
-│   │   │
-│   │   ├── api/                    # API Routes (Next.js)
-│   │   │   ├── auth/
-│   │   │   │   └── [...nextauth]/
-│   │   │   │       └── route.ts
-│   │   │   └── webhooks/
-│   │   │       └── iyzico/
-│   │   │           └── route.ts
-│   │   │
-│   │   ├── layout.tsx             # Root layout
-│   │   └── globals.css            # Global stiller
+│   │   ├── api/            # API routes (serverless)
+│   │   ├── layout.tsx
+│   │   └── page.tsx
 │   │
-│   ├── components/                # Paylaşılan bileşenler
-│   │   ├── ui/                    # Base UI bileşenleri
-│   │   │   ├── button.tsx         # Buton
-│   │   │   ├── input.tsx          # Input
-│   │   │   ├── select.tsx         # Select
-│   │   │   ├── modal.tsx          # Modal
-│   │   │   ├── dropdown.tsx       # Dropdown
-│   │   │   ├── toast.tsx          # Toast bildirim
-│   │   │   ├── badge.tsx          # Badge/Tag
-│   │   │   ├── card.tsx           # Card
-│   │   │   ├── table.tsx          # Table
-│   │   │   ├── avatar.tsx         # Avatar
-│   │   │   ├── skeleton.tsx       # Loading skeleton
-│   │   │   └── spinner.tsx        # Loading spinner
-│   │   │
-│   │   ├── layout/                # Layout bileşenleri
-│   │   │   ├── sidebar.tsx        # Sidebar
-│   │   │   ├── header.tsx         # Header
-│   │   │   ├── footer.tsx         # Footer
-│   │   │   ├── mobile-nav.tsx     # Mobil navigasyon
-│   │   │   └── app-layout.tsx     # App layout wrapper
-│   │   │
-│   │   ├── forms/                 # Form bileşenleri
-│   │   │   ├── case-form.tsx      # Dava formu
-│   │   │   ├── delegation-form.tsx # Tevkil formu
-│   │   │   ├── search-form.tsx    # Arama formu
-│   │   │   └── filters.tsx        # Filtre bileşenleri
-│   │   │
-│   │   ├── features/              # Özellik bileşenleri
-│   │   │   ├── dashboard/
-│   │   │   │   ├── stats-card.tsx
-│   │   │   │   ├── upcoming-hearings.tsx
-│   │   │   │   ├── recent-notifications.tsx
-│   │   │   │   └── ai-quick-chat.tsx
-│   │   │   ├── cases/
-│   │   │   │   ├── case-card.tsx
-│   │   │   │   ├── case-list.tsx
-│   │   │   │   └── case-detail.tsx
-│   │   │   ├── notifications/
-│   │   │   │   ├── notification-card.tsx
-│   │   │   │   └── notification-list.tsx
-│   │   │   ├── delegations/
-│   │   │   │   ├── delegation-card.tsx
-│   │   │   │   ├── lawyer-card.tsx
-│   │   │   │   └── rating-modal.tsx
-│   │   │   ├── ai/
-│   │   │   │   ├── chat-window.tsx
-│   │   │   │   ├── document-generator.tsx
-│   │   │   │   └── research-results.tsx
-│   │   │   ├── calendar/
-│   │   │   │   ├── calendar-view.tsx
-│   │   │   │   ├── event-modal.tsx
-│   │   │   │   └── calendar-filter.tsx
-│   │   │   └── icra/
-│   │   │       ├── icra-card.tsx
-│   │   │       └── payment-tracking.tsx
-│   │   │
-│   │   └── shared/                # Paylaşılan bileşenler
-│   │       ├── loading.tsx
-│   │       ├── error-boundary.tsx
-│   │       ├── empty-state.tsx
-│   │       └── page-header.tsx
+│   ├── components/
+│   │   ├── ui/            # Base UI components
+│   │   ├── forms/         # Form bileşenleri
+│   │   ├── layouts/       # Layout bileşenleri
+│   │   └── features/      # Feature bileşenleri
 │   │
-│   ├── hooks/                     # Custom React hooks
-│   │   ├── useAuth.ts             # Auth hook
-│   │   ├── useCases.ts            # Dava hook'ları
-│   │   ├── useNotifications.ts    # Tebligat hook'ları
-│   │   ├── useDelegations.ts      # Tevkil hook'ları
-│   │   ├── useAI.ts               # AI hook'ları
-│   │   ├── useCalendar.ts         # Takvim hook'ları
-│   │   ├── useToast.ts            # Toast hook
-│   │   └── useMediaQuery.ts       # Media query hook
+│   ├── lib/
+│   │   ├── api/           # API client
+│   │   ├── auth/          # Auth utilities
+│   │   ├── hooks/         # Custom hooks
+│   │   └── utils/         # Helpers
 │   │
-│   ├── services/                  # API servisleri
-│   │   ├── api.ts                 # Axios instance
-│   │   ├── auth.service.ts        # Auth API
-│   │   ├── cases.service.ts        # Dava API
-│   │   ├── notifications.service.ts # Tebligat API
-│   │   ├── delegations.service.ts  # Tevkil API
-│   │   ├── ai.service.ts          # AI API
-│   │   ├── calendar.service.ts    # Takvim API
-│   │   ├── icra.service.ts        # İcra API
-│   │   └── upload.service.ts      # Dosya yükleme API
-│   │
-│   ├── store/                    # State management
-│   │   ├── auth.store.ts          # Auth state
-│   │   ├── cases.store.ts         # Dava state
-│   │   ├── notifications.store.ts  # Tebligat state
-│   │   ├── ui.store.ts            # UI state
-│   │   └── store.ts               # Store root
-│   │
-│   ├── utils/                     # Yardımcı fonksiyonlar
-│   │   ├── date.ts                # Tarih yardımcıları
-│   │   ├── format.ts              # Format yardımcıları
-│   │   ├── validation.ts          # Validasyon yardımcıları
-│   │   ├── constants.ts           # Sabitler
-│   │   └── helpers.ts             # Genel yardımcılar
-│   │
-│   ├── types/                    # TypeScript tipleri
-│   │   ├── auth.types.ts          # Auth tipleri
-│   │   ├── case.types.ts          # Dava tipleri
-│   │   ├── notification.types.ts  # Tebligat tipleri
-│   │   ├── delegation.types.ts    # Tevkil tipleri
-│   │   ├── ai.types.ts            # AI tipleri
-│   │   ├── api.types.ts           # Genel API tipleri
-│   │   └── index.ts              # Tipler index
-│   │
-│   └── styles/                   # Global stiller
-│       ├── globals.css           # Global CSS
-│       ├── variables.css          # CSS değişkenleri
-│       └── components/           # Bileşen stilleri
+│   ├── stores/            # Zustand stores
+│   └── types/             # TypeScript types
 │
-├── public/                       # Statik dosyalar
-│   ├── icons/                    # PWA ikonları
-│   │   ├── icon-192.png
-│   │   ├── icon-512.png
-│   │   ├── apple-touch-icon.png
-│   │   └── favicon.ico
-│   ├── images/                   # Görseller
-│   │   ├── logo.svg
-│   │   └── og-image.jpg
-│   ├── manifest.json             # PWA manifest
-│   ├── sw.js                     # Service worker
-│   └── robots.txt
-│
-├── .env.local                    # Environment (local)
-├── .env.example                  # Environment şablonu
-├── next.config.js                # Next.js config
-├── tailwind.config.js            # Tailwind config
-├── tsconfig.json                 # TypeScript config
-├── package.json
-└── README.md                     # (bu dosya)
+├── next.config.js
+├── tailwind.config.ts
+└── package.json
 ```
 
 ---
 
-## 5. Sayfalar & Route'lar
+## 📱 Ekranlar
 
-### 5.1 Auth Sayfaları
-
-| Route | Sayfa | Açıklama |
+| Ekran | Route | Açıklama |
 |-------|-------|----------|
-| `/login` | LoginPage | Email + şifre girişi |
-| `/register` | RegisterPage | Adım adım kayıt |
-| `/register/phone` | PhoneStep | Telefon doğrulama |
-| `/register/otp` | OtpStep | OTP girişi |
-| `/register/info` | InfoStep | Kişisel bilgiler |
-| `/register/baro` | BaroStep | Baro seçimi |
-| `/forgot-password` | ForgotPasswordPage | Şifre sıfırlama |
-
-### 5.2 App Sayfaları
-
-| Route | Sayfa | Açıklama |
-|-------|-------|----------|
-| `/dashboard` | DashboardPage | Ana panel |
-| `/cases` | CasesPage | Dava listesi |
-| `/cases/:id` | CaseDetailPage | Dava detay |
-| `/cases/new` | NewCasePage | Yeni dava |
-| `/hearings` | HearingsPage | Duruşmalar |
-| `/notifications` | NotificationsPage | Tebligatlar |
-| `/notifications/:id` | NotificationDetailPage | Tebligat detay |
-| `/delegations` | DelegationsPage | Tevkiller |
-| `/delegations/new` | NewDelegationPage | Yeni tevkil |
-| `/delegations/sent` | SentDelegationsPage | Gönderilenler |
-| `/delegations/received` | ReceivedDelegationsPage | Alınanlar |
-| `/documents` | DocumentsPage | Belgeler |
-| `/documents/new` | NewDocumentPage | Yeni belge |
-| `/calendar` | CalendarPage | Takvim |
-| `/icra` | IcraPage | İcra takibi |
-| `/icra/:id` | IcraDetailPage | İcra detay |
-| `/ai/chat` | AiChatPage | AI Sohbet |
-| `/ai/document-generator` | DocumentGeneratorPage | Dilekçe üretici |
-| `/ai/research` | ResearchPage | Emsal araştırma |
-| `/profile` | ProfilePage | Profil |
-| `/profile/edit` | EditProfilePage | Profil düzenle |
-| `/profile/settings` | SettingsPage | Ayarlar |
-| `/uets` | UetsPage | UETS bağlantısı |
-
-### 5.3 Admin Sayfaları
-
-| Route | Sayfa | Açıklama |
-|-------|-------|----------|
-| `/admin/dashboard` | AdminDashboardPage | İstatistikler |
-| `/admin/users` | AdminUsersPage | Kullanıcılar |
-| `/admin/users/:id` | AdminUserDetailPage | Kullanıcı detay |
-| `/admin/users/approve/:id` | ApproveUserPage | Onay bekleyen |
-| `/admin/packages` | AdminPackagesPage | Paketler |
-| `/admin/ai-config` | AiConfigPage | AI yapılandırma |
-| `/admin/ai-config/:task` | AiConfigDetailPage | AI görev detay |
-| `/admin/complaints` | AdminComplaintsPage | Şikayetler |
-| `/admin/delegations` | AdminDelegationsPage | Tevkiller |
-| `/admin/notifications` | AdminNotificationsPage | Bildirim gönder |
-| `/admin/analytics` | AdminAnalyticsPage | Analitik |
-| `/admin/settings` | AdminSettingsPage | Ayarlar |
+| 🏠 **Landing** | `/` | Tanıtım sayfası |
+| 🔐 **Login** | `/login` | Telefon + OTP giriş |
+| 📝 **Register** | `/register` | Yeni kayıt |
+| 📊 **Dashboard** | `/dashboard` | Ana panel, istatistikler |
+| 📋 **Davalarım** | `/cases` | Dava listesi, filtreleme |
+| 📁 **Dava Detay** | `/cases/:id` | Dosya detay, AI özet |
+| 📅 **Takvim** | `/calendar` | Birleşik takvim |
+| 🔔 **Bildirimler** | `/notifications` | Tebligatlar, hatırlatıcılar |
+| ⚖️ **Tevkil** | `/delegations` | Tevkil pazarı |
+| 📄 **Belgeler** | `/documents` | RAG arama, yükleme |
+| 💳 **Ödemeler** | `/payments` | Abonelik, token |
+| ⚙️ **Ayarlar** | `/settings` | Profil, bildirimler |
 
 ---
 
-## 6. Bileşenler
+## 🎨 Tasarım Sistemi
 
-### 6.1 UI Bileşenleri
+### Renk Paleti
 
-Base UI bileşenleri Atomic Design prensibine göre geliştirilmiştir.
+| Renk | Hex | Kullanım |
+|------|-----|----------|
+| 🟦 Primary | `#3B82F6` | Butonlar, linkler |
+| 🟩 Success | `#10B981` | Başarılı işlemler |
+| 🟨 Warning | `#F59E0B` | Uyarılar |
+| 🟥 Error | `#EF4444` | Hatalar |
+| ⬛ Dark | `#1F2937` | Metin, arka plan |
+| ⬜ Light | `#F9FAFB` | Arka plan |
 
-```
-components/ui/
-├── button.tsx          # Variants: primary, secondary, outline, ghost, destructive
-├── input.tsx           # Variants: default, error, success
-├── select.tsx          # Single & multi-select
-├── modal.tsx           # Dialog, Confirm, Alert
-├── dropdown.tsx        # Simple dropdown, select dropdown
-├── toast.tsx           # Success, error, warning, info
-├── badge.tsx           # Status badge, count badge
-├── card.tsx            # Elevated, outlined
-├── table.tsx           # Data table with sorting, pagination
-├── avatar.tsx          # User avatar with fallback
-├── skeleton.tsx        # Loading placeholder
-├── spinner.tsx         # Loading spinner
-└── tooltip.tsx        # Hover tooltip
-```
+### Typography
 
-### 6.2 Feature Bileşenleri
-
-Her özellik için özel bileşenler.
-
-#### Dashboard Bileşenleri
-- `StatsCard` - İstatistik kartı
-- `UpcomingHearings` - Yaklaşan duruşmalar listesi
-- `RecentNotifications` - Son tebligatlar
-- `AiQuickChat` - Hızlı AI sohbet
-
-#### Case Bileşenleri
-- `CaseCard` - Dava kartı
-- `CaseList` - Dava listesi
-- `CaseDetail` - Dava detay görünümü
-- `PartyInfo` - Taraf bilgisi
-
-#### Notification Bileşenleri
-- `NotificationCard` - Tebligat kartı
-- `NotificationList` - Tebligat listesi
-- `DeadlineBadge` - Süre badge'i
-- `AiSummary` - AI özet görünümü
-
-#### Delegation Bileşenleri
-- `DelegationCard` - Tevkil kartı
-- `LawyerCard` - Avukat kartı
-- `RatingModal` - Puanlama modalı
-- `StatusBadge` - Durum badge'i
-
-#### AI Bileşenleri
-- `ChatWindow` - Sohbet penceresi
-- `ChatMessage` - Mesaj balonu
-- `DocumentGenerator` - Belge üretici form
-- `ResearchResults` - Araştırma sonuçları
-
-#### Calendar Bileşenleri
-- `CalendarView` - Takvim görünümü (FullCalendar)
-- `EventModal` - Etkinlik modalı
-- `EventCard` - Etkinlik kartı
-- `CalendarFilter` - Filtre
+| Element | Font | Size |
+|---------|------|------|
+| H1 | Inter Bold | 32px |
+| H2 | Inter Semibold | 24px |
+| H3 | Inter Medium | 20px |
+| Body | Inter Regular | 16px |
+| Small | Inter Regular | 14px |
 
 ---
 
-## 7. API Entegrasyonu
+## 🔧 Kurulum
 
-### 7.1 API Servis Yapısı
+```bash
+# 1. Bağımlılıkları yükle
+npm install
+
+# 2. Environment dosyası
+cp .env.example .env.local
+
+# Environment değişkenleri:
+# NEXT_PUBLIC_API_URL=https://api.refik.app/api/v1
+# NEXT_PUBLIC_APP_URL=https://refik.app
+
+# 3. Geliştirme sunucusu
+npm run dev
+
+# 4. Production build
+npm run build
+npm start
+```
+
+### Docker
+
+```bash
+# Build
+docker build -t refik-web .
+
+# Run
+docker run -p 3000:3000 refik-web
+```
+
+---
+
+## 🔐 API Entegrasyonu
+
+### Endpoint'ler
 
 ```typescript
-// services/api.ts
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  timeout: 30000,
-});
+// API client
+import { refikApi } from '@/lib/api';
 
-// Interceptors
-api.interceptors.request.use(config => {
-  const token = getAuthToken();
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// Auth
+refikApi.post('/auth/login', { phone, password })
+refikApi.post('/auth/verify-otp', { phone, code })
 
-api.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.response?.status === 401) {
-      // Refresh token or logout
-    }
-    return Promise.reject(error);
-  }
-);
-```
+// Cases
+refikApi.get('/cases')
+refikApi.get('/cases/:id')
+refikApi.post('/cases')
+refikApi.put('/cases/:id')
 
-### 7.2 API Metodları
+// Notifications
+refikApi.get('/notifications')
+refikApi.post('/notifications/read')
 
-| Servis | Metodlar |
-|--------|----------|
-| `authService` | login, register, verifyOtp, forgotPassword, refreshToken |
-| `casesService` | getList, getById, create, update, delete, addHearing |
-| `notificationsService` | getList, getById, markRead, addReminder, linkToCase |
-| `delegationsService` | create, accept, reject, rate, complain |
-| `aiService` | summarize, extractDeadline, generateDocument, research |
-| `calendarService` | getItems, getThisWeek, getThisMonth, getUpcoming |
-| `icraService` | track, getById, addPayment, detectAssets |
-
-### 7.3 API Tipleri
-
-```typescript
-// types/api.types.ts
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
-}
-
-interface ApiError {
-  status: number;
-  message: string;
-  errors?: Record<string, string[]>;
-}
+// AI
+refikApi.post('/ai/case-update', { caseId, newContent })
 ```
 
 ---
 
-## 8. State Management
+## PWA Yapılandırması
 
-### 8.1 Zustand Store Yapısı
-
-```typescript
-// store/auth.store.ts
-interface AuthState {
-  user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
-  login: (credentials: LoginCredentials) => Promise<void>;
-  logout: () => void;
-  refreshToken: () => Promise<void>;
-}
-
-// store/cases.store.ts
-interface CasesState {
-  cases: Case[];
-  selectedCase: Case | null;
-  filters: CaseFilters;
-  fetchCases: () => Promise<void>;
-  createCase: (data: CreateCaseDto) => Promise<void>;
-  updateCase: (id: string, data: UpdateCaseDto) => Promise<void>;
-}
-```
-
-### 8.2 Store Listesi
-
-| Store | Açıklama |
-|-------|----------|
-| `authStore` | Kullanıcı, token, auth durumu |
-| `casesStore` | Dava listesi, seçili dava, filtreler |
-| `notificationsStore` | Tebligat listesi, okunma durumu |
-| `delegationsStore` | Tevkil listesi, durumlar |
-| `aiStore` | AI sohbet geçmişi, üretilen belgeler |
-| `uiStore` | Sidebar açık/kapalı, modal durumları, tema |
-
----
-
-## 9. PWA Yapılandırması
-
-### 9.1 manifest.json
+### manifest.json
 
 ```json
 {
   "name": "Refik",
   "short_name": "Refik",
-  "description": "Türkiye'nin Hukuk Asistanı",
+  "description": "AI destekli hukuk asistanı",
   "start_url": "/dashboard",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "theme_color": "#3B82F6",
   "icons": [
-    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }
 ```
 
-### 9.2 Service Worker
-
-```javascript
-// public/sw.js
-// Cache strategies:
-// - Static assets: Cache first
-// - API calls: Network first
-// - Images: Stale while revalidate
-```
-
-### 9.3 Kurulum
-
-```bash
-# Ana ekrana ekle butonu göster
-navigator.installPrompt
-```
-
 ---
 
-## 10. Kurulum
+## 📄 Lisans
 
-### 10.1 Gereksinimler
-
-- Node.js 18+
-- npm veya yarn
-
-### 10.2 Kurulum Adımları
-
-```bash
-# 1. Projeye git
-cd Refik/web
-
-# 2. Bağımlılıkları yükle
-npm install
-
-# 3. Environment oluştur
-cp .env.example .env.local
-# .env.local düzenle
-
-# 4. Geliştirme sunucusu başlat
-npm run dev
-```
-
-### 10.3 Environment Değişkenleri
-
-```bash
-NEXT_PUBLIC_API_URL=http://localhost:3000/api/v1
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
-
----
-
-## 11. Geliştirme
-
-### 11.1 Komutlar
-
-| Komut | Açıklama |
-|-------|----------|
-| `npm run dev` | Geliştirme sunucusu |
-| `npm run build` | Üretim build |
-| `npm run start` | Üretim sunucusu |
-| `npm run lint` | Lint kontrolü |
-| `npm run lint:fix` | Lint düzeltme |
-| `npm run format` | Prettier format |
-
-### 11.2 Klasör Yapısı Kuralları
-
-- **Sayfalar:** `app/` içinde route grupları ile organize
-- **Bileşenler:** Atomic design - `ui/` → `features/` → `shared/`
-- **Hook'lar:** Her özellik için ayrı hook dosyası
-- **API Servisleri:** Feature bazlı ayrı dosyalar
-- **Tipler:** Feature bazlı type dosyaları
-
----
-
-## 12. Üretim
-
-### 12.1 Build
-
-```bash
-npm run build
-```
-
-### 12.2 Deployment
-
-```bash
-# Vercel (önerilen)
-vercel deploy
-
-# Docker
-docker build -t avocatpro-web .
-docker run -p 3000:3000 avocatpro-web
-```
+**MIT License** - Detaylar için [LICENSE](../LICENSE) dosyasına bakınız.
 
 ---
 
 <div align="center">
 
-*Refik Web Uygulaması*
+**Vadi360** tarafından 💜 ile geliştirildi
 
-*© 2026 Refik. Tüm hakları saklıdır.*
+[refik.app](https://refik.app) | [github.com/vadi360](https://github.com/vadi360)
 
 </div>

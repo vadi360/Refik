@@ -1,465 +1,132 @@
-# Refik Chrome Eklentisi
+<p align="center">
+  <img src="https://raw.githubusercontent.com/vadi360/Refik/main/chrome-extension/icons/logo.svg" alt="Refik Logo" width="128" />
+</p>
 
 <div align="center">
 
-**Versiyon:** 1.0  
-**Tarih:** 02 Haziran 2026  
-**Proje:** Refik - UYAP Tarayıcı Eklentisi  
-**GitHub:** https://github.com/vadi360/Refik
+# Refik Chrome Eklentisi
 
-*UYAP'tan otomatik dosya çekme ve özetleme*
+*UYAP'tan otomatik dosya çekme ve AI özetleme*
+
+[![Chrome](https://img.shields.io/badge/Chrome-Extension-4285F4?style=flat-square&logo=Google-Chrome)](https://chrome.google.com/webstore)
+[![Manifest](https://img.shields.io/badge/Manifest-V3-FF6B6B?style=flat-square)](https://developer.chrome.com/docs/extensions/mv3/)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+[![Chrome 88+](https://img.shields.io/badge/Chrome-88+-82BASA?style=flat-square&logo=Google-Chrome)](https://www.google.com/chrome/)
 
 ---
 
-| Durum | Değer |
-|-------|-------|
-| **Kod** | ✅ %95 Tamamlandı |
-| **İkonlar** | ⚠️ Eklenmeli |
-| **Build** | ⚠️ npm install + npm run build gerekli |
-| **Yayın** | ⏳ Chrome Web Store'a yüklenecek |
-| Manifest | Version 3 |
-| Browser | Chrome 88+ |
-| Backend | NestJS API (api.refik.app) |
-| Framework | TypeScript + React (Popup) |
+| 🟢 | **Versiyon** | 1.0.0 |
+|---|-------------|-------|
+| 🟢 | **Manifest** | V3 |
+| 🟢 | **Browser** | Chrome 88+ |
+| 🟡 | **İkonlar** | ⚠️ Eklenmeli |
+| 🟡 | **Build** | ⚠️ `npm run build` gerekli |
+| 🟡 | **Store** | ⏳ Chrome Web Store'da |
+
+**Backend:** [api.refik.app](https://api.refik.app) | **Ana Proje:** [Refik](../README.md)
 
 </div>
 
 ---
 
-## 📋 İçindekiler
+## 🎯 Ne İşe Yarar?
 
-1. [Hakkında](#1-hakkında)
-2. [Özellikler](#2-özellikler)
-3. [Teknoloji Stack](#3-teknoloji-stack)
-4. [Klasör Yapısı](#4-klasör-yapısı)
-5. [Modüller](#5-modüller)
-6. [UYAP Entegrasyonu](#6-uyap-entegrasyonu)
-7. [Manifest Yapılandırması](#7-manifest-yapılandırması)
-8. [Kurulum](#8-kurulum)
-9. [Build & Deploy](#9-build--deploy)
+<p align="center">
+  <img src="https://img.shields.io/badge/📁-Otomatik%20Dosya%20Tanıma-10B981?style=for-the-badge" alt="Otomatik Dosya" />
+  <img src="https://img.shields.io/badge/🤖-AI%20Özetleme-F59E0B?style=for-the-badge" alt="AI Özetleme" />
+  <img src="https://img.shields.io/badge/⏰-Hatırlatıcı%20Oluşturma-3B82F6?style=for-the-badge" alt="Hatırlatıcı" />
+  <img src="https://img.shields.io/badge/🔔-5%20Gün%20Kuralı-8B5CF6?style=for-the-badge" alt="5 Gün Kuralı" />
+</p>
 
----
-
-## 1. Hakkında
-
-Refik Chrome Eklentisi, avukatların UYAP (Ulusal Yargı Ağı Platformu) sisteminden dosya bilgilerini otomatik olarak çekmesini ve AI destekli özetleme yapmasını sağlayan tarayıcı eklentisidir.
-
-### Temel Özellikler
-
-- **UYAP Otomatik Tanıma** — UYAP sayfalarını otomatik algılama
-- **Dosya Bilgisi Çekme** — Taraflar, duruşmalar, kararları çıkarma
-- **Tek Tıkla Özet** — Seçili dosyayı AI ile özetleme
-- **RAG Entegrasyonu** — Pinecone'da arama, benzer dosyaları bulma
-- **Hızlı Bildirim** — Duruşma hatırlatıcısı oluşturma
+> UYAP'ta her dosya açtığınızda **Refik** otomatik olarak bilgileri çeker, özetler ve hatırlatıcı oluşturur.
 
 ---
 
-## 2. Özellikler
+## ✨ Özellikler
 
-### 2.1 UYAP Scraping
-
-| Özellik | Açıklama |
-|---------|----------|
-| Sayfa Algılama | UYAP sayfa türlerini tanıma |
-| Dosya Numarası | Otomatik dosya numarası çıkarma |
-| Taraf Bilgileri | Davacı, davalı bilgileri |
-| Duruşma Bilgileri | Tarih, saat, salon, sonuç |
-| Karar Bilgileri | Karar tarihi, içerik özeti |
-
-### 2.2 AI Entegrasyonu
-
-| Özellik | Açıklama |
-|---------|----------|
-| Dosya Özeti | case_summary görevi |
-| Süre Çıkarımı | deadline_extract görevi |
-| Karar Analizi | decision_analysis görevi |
-| RAG Arama | Pinecone similarity search |
-
-### 2.3 Bildirim
-
-| Özellik | Açıklama |
-|---------|----------|
-| Duruşma Hatırlatıcı | Takvime ekleme |
-| Süre Uyarısı | Kritik süre bildirimi |
-| Tevkil Önerisi | UYAP'ta görülen duruşma için |
-
-### 2.4 Popup Arayüzü
-
-| Özellik | Açıklama |
-|---------|----------|
-| Hızlı İşlemler | Özet, ara, hatırlatıcı |
-| Dosya Geçmişi | Son taranan dosyalar |
-| Bağlantı Durumu | UYAP + Backend bağlantısı |
-| Ayarlar | Hesap, bildirim tercihleri |
+| Özellik | Açıklama | Durum |
+|---------|----------|-------|
+| 📁 **Otomatik Dosya Tanıma** | UYAP sayfalarını algılar | ✅ |
+| 🔍 **Veri Çekme** | Taraflar, duruşmalar, kararlar | ✅ |
+| 🤖 **AI Özetleme** | Dosya içeriğini analiz eder | ✅ |
+| ⏰ **Hatırlatıcı** | Duruşma hatırlatıcısı oluştur | ✅ |
+| 🔔 **Context Menu** | Sağ tık menüsü desteği | ✅ |
+| ⌨️ **Kısayol** | `Ctrl+Shift+R` popup aç | ✅ |
+| 🔐 **Güvenli** | JWT token ile iletişim | ✅ |
+| 🌐 **Çoklu Dil** | Türkçe destekli | ✅ |
 
 ---
 
-## 3. Teknoloji Stack
+## 📸 Desteklenen UYAP Sayfaları
 
-### 3.1 Core Teknolojiler
-
-| Katman | Teknoloji | Açıklama |
-|--------|-----------|----------|
-| Manifest | Chrome Manifest V3 | Güncel eklenti standardı |
-| Background | Service Worker | Chrome 88+ async model |
-| Content | Content Script | UYAP sayfa erişimi |
-| UI | React | Popup arayüzü |
-| Storage | Chrome Storage API | Local veri depolama |
-
-### 3.2 Ek Kütüphaneler
-
-| Kütüphane | Kullanım |
-|-----------|----------|
-| React | Popup UI |
-| React DOM | DOM rendering |
-| @tanstack/react-query | API istekleri |
-| date-fns | Tarih işlemleri |
+| Sayfa | Veriler |
+|-------|---------|
+| 📊 **Dashboard** | Genel bakış, özet istatistikler |
+| 🔍 **Dosya Arama** | Arama sonuçları |
+| 📋 **Dosya Detay** | Tam dosya bilgileri, taraflar |
+| 📅 **Duruşma Listesi** | Duruşma tarihleri, sonuçlar |
+| ⚖️ **Karar Görüntüleme** | Karar metinleri |
+| 👥 **Taraflar** | Davacı, davalı bilgileri |
+| 📄 **Belgeler** | Belge listesi |
 
 ---
 
-## 4. Klasör Yapısı
+## 🏗️ Teknoloji Stack
+
+<div align="left">
+
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)
+![React](https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=React&logoColor=black)
+![Vite](https://img.shields.io/badge/-Vite-646CFF?style=for-the-badge&logo=Vite&logoColor=white)
+![esbuild](https://img.shields.io/badge/-esbuild-FFCF00?style=for-the-badge&logo=esbuild&logoColor=black)
+![Chrome API](https://img.shields.io/badge/-Chrome%20API-4285F4?style=for-the-badge&logo=Google-Chrome&logoColor=white)
+
+</div>
+
+---
+
+## 📁 Klasör Yapısı
 
 ```
 chrome-extension/
-├── src/
-│   ├── background/                # Service Worker
-│   │   ├── service-worker.ts     # Background script
-│   │   ├── api.ts                # Backend API calls
-│   │   ├── storage.ts            # Chrome storage
-│   │   ├── uyap-detector.ts      # UYAP page detection
-│   │   └── message-handler.ts    # Message passing
-│   │
-│   ├── content/                  # Content Scripts
-│   │   ├── script.ts             # Ana content script
-│   │   ├── uyap-parser.ts        # UYAP sayfa parser
-│   │   │   ├── parser-utils.ts   # Helper fonksiyonlar
-│   │   │   └── selectors.ts      # DOM selector'ları
-│   │   ├── styles.css            # Content styles
-│   │   └── components/           # UI inject bileşenleri
-│   │       ├── highlight-overlay.tsx
-│   │       └── action-button.tsx
-│   │
-│   ├── popup/                    # Popup UI
-│   │   ├── popup.html            # HTML entry
-│   │   ├── popup.tsx             # React entry
-│   │   ├── App.tsx              # Main app component
-│   │   ├── components/
-│   │   │   ├── Header.tsx
-│   │   │   ├── QuickActions.tsx
-│   │   │   ├── FileHistory.tsx
-│   │   │   ├── StatusIndicator.tsx
-│   │   │   └── Settings.tsx
-│   │   ├── hooks/
-│   │   │   ├── useUYAPData.ts
-│   │   │   ├── useBackend.ts
-│   │   │   └── useStorage.ts
-│   │   └── styles/
-│   │       └── popup.css
-│   │
-│   ├── options/                  # Options Page
-│   │   ├── options.html
-│   │   ├── options.tsx
-│   │   └── options.css
-│   │
-│   └── utils/                    # Paylaşılan yardımcılar
-│       ├── storage.ts            # Chrome storage wrapper
-│       ├── api.ts               # API helpers
-│       ├── logger.ts            # Logging
-│       └── constants.ts          # Sabitler
-│
-├── icons/                        # Eklenti ikonları
-│   ├── icon16.png               # Toolbar icon (16x16)
-│   ├── icon32.png               # Toolbar icon (32x32)
-│   ├── icon48.png               # Extension page (48x48)
-│   ├── icon128.png              # Chrome Web Store (128x128)
-│   └── icon256.png              # Chrome Web Store (256x256)
-│
-├── _locales/                     # Localization
-│   └── tr/
-│       └── messages.json        # Türkçe çeviriler
-│
-├── assets/                       # Statik dosyalar
-│   ├── images/
-│   │   ├── uyap-logo.png
-│   │   └── placeholder.png
-│   └── sounds/
-│       └── notification.mp3
-│
-├── manifest.json                 # Manifest V3
+├── manifest.json           # Manifest V3 yapılandırması
 ├── package.json
-├── tsconfig.json
-├── vite.config.ts               # Vite build config
-├── webpack.config.js            # Webpack (alternative)
-└── README.md                    # (bu dosya)
+├── vite.config.ts          # Vite build config
+├── tsconfig.json           # TypeScript config
+│
+├── src/
+│   ├── background/
+│   │   └── service-worker.ts   # Ana background script
+│   │
+│   ├── content/
+│   │   ├── script.ts           # Content script (UYAP'ta çalışır)
+│   │   ├── uyap-parser.ts      # UYAP veri çekiciler
+│   │   └── styles.css          # Toast/stil dosyaları
+│   │
+│   └── popup/
+│       ├── popup.html         # Popup giriş noktası
+│       └── popup.tsx          # React popup UI
+│
+├── icons/                   # Eklenti ikonları
+├── _locales/
+│   └── tr/
+│       └── messages.json      # Türkçe lokalizasyon
+│
+└── dist/                   # Build çıktısı (Chrome'a yüklenecek)
 ```
 
 ---
 
-## 5. Modüller
+## 🔧 Kurulum
 
-### 5.1 Background Service Worker
-
-Background script, eklentinin merkezi yönetim noktasıdır.
-
-```typescript
-// src/background/service-worker.ts
-
-// Ana görevler:
-// 1. Message handling (content ↔ popup ↔ backend)
-// 2. Chrome storage yönetimi
-// 3. Context menu creation
-// 4. Alarm/Timer yönetimi
-// 5. Notification gönderme
-```
-
-#### Mesaj İşleyicisi
-
-```typescript
-// Message types
-type MessageType = 
-  | 'UYAP_PAGE_DETECTED'
-  | 'FETCH_FILE_DATA'
-  | 'SUMMARIZE_FILE'
-  | 'CREATE_REMINDER'
-  | 'CHECK_CONNECTION';
-```
-
-### 5.2 Content Script
-
-Content script, UYAP sayfalarında çalışır.
-
-```typescript
-// src/content/script.ts
-
-// UYAP sayfa türleri:
-// - Ana sayfa (dashboard)
-// - Dosya arama
-// - Dosya detay
-// - Duruşma listesi
-// - Karar görüntüleme
-```
-
-#### UYAP Parser
-
-```typescript
-// src/content/uyap-parser.ts
-
-interface UYAPFileData {
-  caseNumber: string;
-  court: string;
-  caseType: string;
-  parties: {
-    plaintiff: string;
-    defendant: string;
-  };
-  hearings: Hearing[];
-  decisions: Decision[];
-  status: string;
-}
-```
-
-### 5.3 Popup UI
-
-React tabanlı popup arayüzü.
-
-```
-┌────────────────────────────────────┐
-│  🔷 Refik           [⚙️] [❌]  │
-├────────────────────────────────────┤
-│                                    │
-│  [📋] Özet     [🔍] Ara    [⏰] Hatır│
-│                                    │
-│  ──────────────────────────────    │
-│                                    │
-│  SON TARANAN DOSYALAR              │
-│  ┌──────────────────────────────┐  │
-│  │ 2024/001 - Alacak Davası     │  │
-│  │ 15.06.2026 - İstanbul 5. AH  │  │
-│  │ [Özet] [Hatırlat]            │  │
-│  └──────────────────────────────┘  │
-│                                    │
-│  ──────────────────────────────    │
-│                                    │
-│  DURUM: ✅ Bağlı                   │
-│  UYAP: ✅ Bağlı                    │
-│                                    │
-└────────────────────────────────────┘
-```
-
-### 5.4 Options Page
-
-Kullanıcı ayarları sayfası.
-
-```
-┌────────────────────────────────────┐
-│  Refik Ayarlar                 │
-├────────────────────────────────────┤
-│                                    │
-│  HESAP                             │
-│  ├─ Backend URL: [https://...]    │
-│  ├─ Token: [••••••••]             │
-│  └─ [Çıkış Yap]                   │
-│                                    │
-│  BİLDİRİMLER                       │
-│  ├─ [✓] Duruşma hatırlatıcıları   │
-│  ├─ [✓] Süre uyarıları            │
-│  ├─ [✓] Tevkil önerileri          │
-│  └─ Ses: [🔔]                     │
-│                                    │
-│  YEREL VERİ                        │
-│  ├─ Önbellek: [🗑️] Temizle       │
-│  └─ Geçmiş: [🗑️] Sil             │
-│                                    │
-│  HAKKINDA                          │
-│  └─ Versiyon: 1.0.0               │
-│                                    │
-└────────────────────────────────────┘
-```
-
----
-
-## 6. UYAP Entegrasyonu
-
-### 6.1 Desteklenen Sayfalar
-
-| Sayfa | URL Pattern | Parser |
-|-------|-------------|--------|
-| Dashboard | `uyap.adalet.gov.tr` | Detects if logged in |
-| Dosya Arama | `/Dosya/DosyaArama` | Case search results |
-| Dosya Detay | `/Dosya/DosyaDetay` | Full file data |
-| Duruşma Listesi | `/Durusma/DurusmaListesi` | Hearing info |
-| Karar Görüntüleme | `/Karar/KararGoruntuleme` | Decision content |
-
-### 6.2 DOM Selector'ları
-
-```typescript
-// src/content/uyap-parser/selectors.ts
-
-export const SELECTORS = {
-  // Dosya detay sayfası
-  caseNumber: '.dosya-no',
-  court: '.mahkeme-adi',
-  caseType: '.dava-turu',
-  plaintiff: '.davaci',
-  defendant: '.davali',
-  hearingTable: 'table.durusma-tablo',
-  decisionContent: 'div.karar-icerik',
-  
-  // Genel
-  loadingIndicator: '.yukleniyor',
-  errorMessage: '.hata-mesaji',
-};
-```
-
-### 6.3 Veri Çıkarma Akışı
-
-```
-1. Kullanıcı UYAP'ta dosya açıyor
-           ↓
-2. Content script sayfayı algılıyor
-           ↓
-3. UYAP parser çalışıyor
-           ↓
-4. Veriler extract ediliyor
-           ↓
-5. Background'a mesaj gönderiliyor
-           ↓
-6. Backend'e POST isteği
-           ↓
-7. RAG/Pinecone araması (opsiyonel)
-           ↓
-8. Sonuç popup'ta gösteriliyor
-```
-
----
-
-## 7. Manifest Yapılandırması
-
-### 7.1 manifest.json
-
-```json
-{
-  "manifest_version": 3,
-  "name": "Refik - UYAP Yardımcısı",
-  "version": "1.0.0",
-  "description": "UYAP'tan otomatik dosya çekme ve AI özetleme",
-  "permissions": [
-    "storage",
-    "tabs",
-    "activeTab",
-    "notifications",
-    "contextMenus",
-    "alarms"
-  ],
-  "host_permissions": [
-    "https://uyap.adalet.gov.tr/*",
-    "https://api.refik.app/*"
-  ],
-  "background": {
-    "service_worker": "src/background/service-worker.js"
-  },
-  "content_scripts": [
-    {
-      "matches": ["https://uyap.adalet.gov.tr/*"],
-      "js": ["src/content/script.js"],
-      "css": ["src/content/styles.css"],
-      "run_at": "document_idle"
-    }
-  ],
-  "action": {
-    "default_popup": "src/popup/popup.html",
-    "default_icon": {
-      "16": "icons/icon16.png",
-      "32": "icons/icon32.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
-    },
-    "default_title": "Refik"
-  },
-  "icons": {
-    "16": "icons/icon16.png",
-    "32": "icons/icon32.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
-  },
-  "web_accessible_resources": [
-    {
-      "resources": ["assets/*"],
-      "matches": ["https://uyap.adalet.gov.tr/*"]
-    }
-  ]
-}
-```
-
-### 7.2 Context Menu
-
-```typescript
-// Background'da context menu oluşturma
-chrome.contextMenus.create({
-  id: 'summarize-file',
-  title: 'Bu Dosyayı Özetle',
-  contexts: ['page'],
-});
-
-chrome.contextMenus.create({
-  id: 'create-reminder',
-  title: 'Duruşma Hatırlatıcısı Oluştur',
-  contexts: ['page'],
-});
-```
-
----
-
-## 8. Kurulum
-
-### 8.1 Geliştirme Kurulumu
+### Geliştirme
 
 ```bash
-# 1. Projeye git
-cd Refik/chrome-extension
-
-# 2. Bağımlılıkları yükle
+# 1. Bağımlılıkları yükle
 npm install
+
+# 2. Development (watch mode)
+npm run dev
 
 # 3. Build et
 npm run build
@@ -467,69 +134,133 @@ npm run build
 # 4. Chrome'a yükle
 # - chrome://extensions aç
 # - Developer mode aç
-# - Load unpacked -> dist/ klasörünü seç
+# - "Load unpacked" → dist/ klasörünü seç
 ```
 
-### 8.2 Environment
+### Production (Chrome Web Store)
 
 ```bash
-# .env dosyası
-VITE_API_URL=https://api.refik.app/api/v1
-VITE_UYAP_URL=https://uyap.adalet.gov.tr
-```
-
----
-
-## 9. Build & Deploy
-
-### 9.1 Build
-
-```bash
-# Production build
+# 1. Build et
 npm run build
 
-# Output: dist/
-```
+# 2. dist/ klasörünü ZIP'le
+# Windows: Sağ tık → "Gönder" → "Sıkıştırılmış ZIP klasörü"
 
-### 9.2 Chrome Web Store
-
-```bash
-# Zip oluştur
-zip -r avocatpro-extension.zip dist/
-
-# Chrome Web Store Developer Dashboard:
+# 3. Chrome Web Store'a yükle
 # https://chrome.google.com/webstore/devconsole
 ```
 
-### 9.3 Güncelleme
+---
 
-1. `manifest.json` version artır
-2. `npm run build`
-3. `.zip` oluştur
-4. Developer Dashboard'a yükle
+## 🚀 Kullanım
+
+### 1. Giriş
+```
+• Popup'u aç (Ctrl+Shift+R veya eklenti ikonu)
+• Refik hesabı token'ını gir
+• "Giriş Yap" tıkla
+```
+
+### 2. UYAP'ta Kullanım
+```
+• UYAP'ta bir dosya aç
+• Refik otomatik olarak dosyayı algılar
+• Sağ üstte "Refik" butonu görünür
+```
+
+### 3. İşlemler
+```
+📋 Özet: AI ile dosyayı özetle
+⏰ Hatırlat: Duruşma hatırlatıcısı oluştur
+📁 Ekle: Dosyayı Refik hesabına ekle
+```
 
 ---
 
-## 10. Güvenlik
+## 🔐 Manifest Permissions
 
-### 10.1 Content Script İzolasyonu
+| Permission | Kullanım |
+|------------|----------|
+| `storage` | Token ve ayarları sakla |
+| `tabs` | Aktif sekme bilgisini al |
+| `activeTab` | UYAP sayfasına erişim |
+| `notifications` | Hatırlatıcı bildirimleri |
+| `contextMenus` | Sağ tık menüsü |
+| `alarms` | Periyodik kontrol |
+| `scripting` | UYAP'a script enjekte etme |
 
-- UYAP sayfasından veri çekme sadece parser üzerinden
-- Doğrudan DOM erişimi yasak
-- XSS koruması için sanitization
+---
 
-### 10.2 API Güvenliği
+## 🌐 Host Permissions
 
-- Backend API'ye sadece JWT token ile erişim
-- Token Chrome Storage'da şifrelenmiş saklanır
-- HTTPS zorunlu
+| Host | Kullanım |
+|------|----------|
+| `https://uyap.adalet.gov.tr/*` | UYAP sayfalarına erişim |
+| `https://api.refik.app/*` | Backend API iletişimi |
+
+---
+
+## 📡 API Entegrasyonu
+
+### Backend Endpoints
+
+| Endpoint | Method | Açıklama |
+|----------|--------|----------|
+| `/ai/case-update` | POST | Dosya güncelle + AI analiz |
+| `/ai/case-update/:id/summary` | GET | AI özet getir |
+| `/reminders` | POST | Hatırlatıcı oluştur |
+| `/cases` | POST | Dosya ekle |
+| `/auth/verify-token` | POST | Token doğrula |
+
+---
+
+## 🎨 UI Akışı
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│   │   LOGIN     │───▶│   POPUP     │───▶│   UYAP      │     │
+│   │   SCREEN    │    │   MAIN      │    │   DETECT    │     │
+│   └─────────────┘    └──────┬──────┘    └──────┬──────┘     │
+│                             │                    │            │
+│                             │              ┌─────▼─────┐     │
+│                             │              │  EXTRACT  │     │
+│                             │              │   DATA    │     │
+│                             │              └─────┬─────┘     │
+│                             │                    │            │
+│                             │    ┌───────────────┼────────┐  │
+│                             │    ▼               ▼        │  │
+│                             │  ┌───────┐    ┌────────┐  │  │
+│                             └─▶│ SUMMARIZE │  │REMINDER│────┘  │
+│                                └───────┘    └────────┘       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🐛 Troubleshooting
+
+| Sorun | Çözüm |
+|-------|-------|
+| Popup açılmıyor | `chrome://extensions` → Eklentiyi yeniden yükle |
+| UYAP algılanmıyor | UYAP'ta dosya açık olduğundan emin ol |
+| Token hatası | Token'ın geçerli olduğunu kontrol et |
+| Build hatası | `npm install` çalıştır, sonra tekrar dene |
+
+---
+
+## 📄 Lisans
+
+**MIT License** - Detaylar için [LICENSE](../LICENSE) dosyasına bakınız.
 
 ---
 
 <div align="center">
 
-*Refik Chrome Eklentisi*
+**Vadi360** tarafından 💜 ile geliştirildi
 
-*© 2026 Refik. Tüm hakları saklıdır.*
+[refik.app](https://refik.app) | [github.com/vadi360](https://github.com/vadi360)
 
 </div>

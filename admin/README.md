@@ -1,443 +1,274 @@
-# Refik Admin Panel
+<p align="center">
+  <img src="https://refik.app/banner.png" alt="Refik Banner" width="100%" />
+</p>
 
 <div align="center">
 
-**Versiyon:** 1.0  
-**Tarih:** 02 Haziran 2026  
-**Proje:** Refik - Yönetici Paneli  
-**GitHub:** https://github.com/vadi360/Refik
+# Refik Admin Panel
 
-*Türkiye'nin Hukuk Asistanı - Yönetim Arayüzü*
+*Yönetim Arayüzü - Kullanıcı, AI ve İçerik Yönetimi*
+
+[![Next.js](https://img.shields.io/badge/nextjs-14-000000?style=flat-square&logo=Next.js&logoColor=white)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/typescript-5.3-3178C6?style=flat-square&logo=TypeScript)](https://www.typescriptlang.org)
+[![React](https://img.shields.io/badge/react-18-61DAFB?style=flat-square&logo=React)](https://reactjs.org)
+[![Tailwind](https://img.shields.io/badge/tailwindcss-3-06B6D4?style=flat-square&logo=TailwindCSS&logoColor=white)](https://tailwindcss.com)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 
 ---
 
-| Durum | Değer |
-|-------|-------|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript 5.3 |
-| UI Library | React 18 |
-| Styling | Tailwind CSS |
-| Auth | JWT + Role-based |
-| Charts | Recharts |
+| 🟡 | **Versiyon** | 1.0.0 (Planlanıyor) |
+|---|-------------|----------------------|
+| 🟡 | **Framework** | Next.js 14 (App Router) |
+| 🟡 | **Language** | TypeScript 5.3 |
+| 🟡 | **UI** | Tailwind CSS + shadcn/ui |
+| 🟡 | **Charts** | Recharts |
+| 🟡 | **Auth** | JWT + Role-based |
+
+**Backend:** [api.refik.app](https://api.refik.app) | **Ana Proje:** [Refik](../README.md)
 
 </div>
 
 ---
 
-## 📋 İçindekiler
+## 🎯 Ne İşe Yarar?
 
-1. [Hakkında](#1-hakkında)
-2. [Özellikler](#2-özellikler)
-3. [Teknoloji Stack](#3-teknoloji-stack)
-4. [Klasör Yapısı](#4-klasör-yapısı)
-5. [Sayfalar](#5-sayfalar)
-6. [Bileşenler](#6-bileşenler)
-7. [API Entegrasyonu](#7-api-entegrasyonu)
-8. [Kurulum](#8-kurulum)
+<p align="center">
+  <img src="https://img.shields.io/badge/👥-Kullanıcı%20Yönetimi-10B981?style=for-the-badge" alt="Users" />
+  <img src="https://img.shields.io/badge/🤖-AI%20Config-3B82F6?style=for-the-badge" alt="AI" />
+  <img src="https://img.shields.io/badge/📊-Analitik-8B5CF6?style=for-the-badge" alt="Analytics" />
+  <img src="https://img.shields.io/badge/📝-Moderasyon-F59E0B?style=for-the-badge" alt="Moderation" />
+</p>
 
----
-
-## 1. Hakkında
-
-Refik Admin Panel, sistem yöneticilerinin ve operasyon ekibinin Refik platformunu yönetmek için kullandığı web tabanlı yönetim arayüzüdür. Kullanıcı yönetimi, AI yapılandırma, içerik moderation ve analitik raporlar sunar.
-
-### Temel Özellikler
-
-- **Kullanıcı Yönetimi** — Avukat kayıtları, onay, ban/suspend
-- **AI Yapılandırma** — Görev başına model seçimi
-- **İçerik Moderasyon** — Tevkil şikayetleri, puanlama inceleme
-- **Analitik Dashboard** — Kullanıcı, gelir, aktiflik raporları
-- **Bildirim Gönderme** — Toplu push, SMS, email
+> Sistem yöneticileri ve operasyon ekibinin **Refik platformunu yönetmek** için kullandığı arayüz. Kullanıcı yönetimi, AI yapılandırma, içerik moderasyonu ve analitik raporlar.
 
 ---
 
-## 2. Özellikler
+## ✨ Özellikler
 
-### 2.1 Dashboard
-
-| Widget | Açıklama |
-|--------|----------|
-| Toplam Kullanıcı | Aktif, pasif, beklemede sayıları |
-| Yeni Kayıtlar | Bu hafta/ay yeni kayıtlar |
-| Gelir Özeti | Aylık gelir, paket dağılımı |
-| Aktiflik Grafikleri | Günlük/haftalık aktiflik |
-| Sistem Sağlığı | API durumu, sunucu sağlığı |
-
-### 2.2 Kullanıcı Yönetimi
-
-| Özellik | Açıklama |
-|---------|----------|
-| Kullanıcı Listesi | Arama, filtre, sıralama |
-| Kullanıcı Detay | Profil, abonelik, aktivite |
-| Onay Bekleyen | Baro verification bekleyenler |
-| Ban/Suspend | Kullanıcı engelleme |
-| Özlük Dosyası | Belgeleri inceleme |
-
-### 2.3 Paket Yönetimi
-
-| Özellik | Açıklama |
-|---------|----------|
-| Paket Listesi | 4 paket (Basic-Enterprise) |
-| Paket Düzenleme | Fiyat, token limit güncelleme |
-| Paket İstatistikleri | Satış, kullanan sayısı |
-| Token Paketleri | Ek token paketleri |
-
-### 2.4 AI Yapılandırma
-
-| Özellik | Açıklama |
-|---------|----------|
-| Görev Listesi | 9 AI görevi listesi |
-| Model Seçimi | MINIMAX veya CLAUDE seçimi |
-| Kritik Görev | İşaretleme (token limit yoksuz) |
-| İstatistikler | Görev başına kullanım |
-
-### 2.5 Şikayet Yönetimi
-
-| Özellik | Açıklama |
-|---------|----------|
-| Şikayet Listesi | Bekleyen, çözümlenmiş |
-| Şikayet Detay | Tevkil bilgisi, taraflar |
-| Karar Ver | Onay red, uyarı, ban |
-| İstatistikler | Şikayet oranları |
-
-### 2.6 Tevkiller
-
-| Özellik | Açıklama |
-|---------|----------|
-| Tevkil Listesi | Tüm tevkiller |
-| Durum Filtreleme | Beklemede, onaylandı, reddedildi |
-| Detay İnceleme | Taraflar, mahkeme, tarih |
-| İstatistikler | Tamamlama oranı, süre |
-
-### 2.7 Bildirim Gönderme
-
-| Özellik | Açıklama |
-|---------|----------|
-| Toplu Bildirim | Tüm kullanıcılara |
-| Hedefli Bildirim | Belirli kullanıcı grupları |
-| Kanal Seçimi | Push, SMS, Email, WhatsApp, Telegram |
-| Şablon Oluşturma | Bildirim şablonları |
-| Gönderim Raporu | Başarı/başarısızlık |
-
-### 2.8 Analitik
-
-| Özellik | Açıklama |
-|---------|----------|
-| Kullanıcı Analitik | Büyüme, retention, demografik |
-| Gelir Analitik | Aylık gelir, paket dağılımı |
-| AI Kullanımı | Görev başına kullanım |
-| Tevkil Analitik | Eşleşme oranı, puan dağılımı |
-| Rapor Export | CSV, PDF export |
+| Özellik | Açıklama | Durum |
+|---------|----------|-------|
+| 👥 **Kullanıcı Yönetimi** | Avukat kayıtları, onay, ban/suspend | 🔄 |
+| 🤖 **AI Yapılandırma** | Görev başına model seçimi | 🔄 |
+| 📊 **Analitik Dashboard** | Kullanıcı, gelir, aktiflik | 🔄 |
+| 📝 **İçerik Moderasyon** | Tevkil şikayetleri, puanlama | 🔄 |
+| 🔔 **Bildirim Gönderme** | Toplu push, SMS, email | 🔄 |
+| 💳 **Ödeme Yönetimi** | Abonelikler, iadeler | 🔄 |
+| ⚙️ **Sistem Ayarları** | Uygulama konfigürasyonu | 🔄 |
+| 📋 **Audit Log** | Tüm işlemlerin kaydı | 🔄 |
+| 🏥 **Health Monitor** | Sistem sağlık kontrolü | 🔄 |
+| 📧 **Şablon Yönetimi** | Email, SMS şablonları | 🔄 |
 
 ---
 
-## 3. Teknoloji Stack
+## 🏗️ Teknoloji Stack
 
-### 3.1 Core Teknolojiler
+<div align="left">
 
-| Katman | Teknoloji | Versiyon |
-|--------|-----------|----------|
-| Framework | Next.js | 14.x |
-| Language | TypeScript | 5.3 |
-| UI Library | React | 18.x |
-| Styling | Tailwind CSS | 3.x |
-| Charts | Recharts | 2.x |
-| Forms | React Hook Form | 7.x |
+![Next.js](https://img.shields.io/badge/-Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white)
+![React](https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=React&logoColor=black)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)
+![Tailwind](https://img.shields.io/badge/-Tailwind%20CSS-06B6D4?style=for-the-badge&logo=TailwindCSS&logoColor=white)
+![shadcn/ui](https://img.shields.io/badge/-shadcn%20ui-000000?style=for-the-badge&logo=shadcn&logoColor=white)
+![Recharts](https://img.shields.io/badge/-Recharts-FF6B6B?style=for-the-badge&logo=Recharts&logoColor=white)
+![NextAuth](https://img.shields.io/badge/-NextAuth-000000?style=for-the-badge&logo=NextAuth&logoColor=white)
 
-### 3.2 Ek Kütüphaneler
-
-| Kütüphane | Kullanım |
-|-----------|----------|
-| @tanstack/react-query | Data fetching |
-| zod | Schema validation |
-| date-fns | Tarih işlemleri |
-| lucide-react | İkonlar |
-| radix-ui | Headless UI |
-| next-auth | Auth (opsiyonel) |
-| recharts | Grafikler |
+</div>
 
 ---
 
-## 4. Klasör Yapısı
+## 📁 Klasör Yapısı
 
 ```
 admin/
-├── src/
-│   ├── app/                        # Next.js App Router
-│   │   ├── (auth)/                # Auth sayfaları
-│   │   │   ├── login/
-│   │   │   │   └── page.tsx
-│   │   │   └── page.tsx            # Redirect to login
-│   │   │
-│   │   ├── (dashboard)/           # Dashboard sayfaları
-│   │   │   ├── layout.tsx         # Admin layout
-│   │   │   │
-│   │   │   ├── dashboard/
-│   │   │   │   └── page.tsx       # Ana panel
-│   │   │   │
-│   │   │   ├── users/
-│   │   │   │   ├── list/
-│   │   │   │   │   └── page.tsx   # Kullanıcı listesi
-│   │   │   │   ├── detail/
-│   │   │   │   │   └── [id]/
-│   │   │   │   │       └── page.tsx # Kullanıcı detay
-│   │   │   │   └── approve/
-│   │   │   │       └── [id]/
-│   │   │   │           └── page.tsx # Onay sayfası
-│   │   │   │
-│   │   │   ├── packages/
-│   │   │   │   └── page.tsx       # Paket yönetimi
-│   │   │   │
-│   │   │   ├── ai-config/
-│   │   │   │   ├── page.tsx       # AI config list
-│   │   │   │   └── [taskType]/
-│   │   │   │       └── page.tsx   # Task config detay
-│   │   │   │
-│   │   │   ├── complaints/
-│   │   │   │   ├── page.tsx       # Şikayet listesi
-│   │   │   │   └── [id]/
-│   │   │   │       └── page.tsx   # Şikayet detay
-│   │   │   │
-│   │   │   ├── delegations/
-│   │   │   │   └── page.tsx       # Tevkiller
-│   │   │   │
-│   │   │   ├── notifications/
-│   │   │   │   ├── page.tsx       # Bildirim listesi
-│   │   │   │   └── send/
-│   │   │   │       └── page.tsx   # Bildirim gönder
-│   │   │   │
-│   │   │   ├── analytics/
-│   │   │   │   ├── page.tsx       # Genel analitik
-│   │   │   │   └── export/
-│   │   │   │       └── page.tsx   # Rapor export
-│   │   │   │
-│   │   │   └── settings/
-│   │   │       └── page.tsx       # Ayarlar
-│   │   │
-│   │   ├── layout.tsx             # Root layout
-│   │   └── globals.css            # Global CSS
-│   │
-│   ├── components/                # Paylaşılan bileşenler
-│   │   ├── ui/                    # Base UI
-│   │   │   ├── button.tsx
-│   │   │   ├── input.tsx
-│   │   │   ├── select.tsx
-│   │   │   ├── modal.tsx
-│   │   │   ├── table.tsx
-│   │   │   ├── badge.tsx
-│   │   │   ├── card.tsx
-│   │   │   └── spinner.tsx
-│   │   │
-│   │   ├── layout/                # Layout
-│   │   │   ├── sidebar.tsx
-│   │   │   ├── header.tsx
-│   │   │   └── admin-layout.tsx
-│   │   │
-│   │   └── features/              # Feature bileşenleri
-│   │       ├── dashboard/
-│   │       │   ├── stats-card.tsx
-│   │       │   ├── stats-chart.tsx
-│   │       │   └── activity-feed.tsx
-│   │       ├── users/
-│   │       │   ├── user-table.tsx
-│   │       │   ├── user-detail.tsx
-│   │       │   └── user-actions.tsx
-│   │       ├── packages/
-│   │       │   ├── package-list.tsx
-│   │       │   └── package-form.tsx
-│   │       ├── ai-config/
-│   │       │   ├── task-list.tsx
-│   │       │   └── task-form.tsx
-│   │       ├── complaints/
-│   │       │   ├── complaint-list.tsx
-│   │       │   └── complaint-detail.tsx
-│   │       ├── notifications/
-│   │       │   ├── notification-form.tsx
-│   │       │   └── notification-list.tsx
-│   │       └── analytics/
-│   │           ├── revenue-chart.tsx
-│   │           ├── user-chart.tsx
-│   │           └── export-button.tsx
-│   │
-│   ├── hooks/                     # Custom hooks
-│   │   ├── useAuth.ts
-│   │   ├── useUsers.ts
-│   │   ├── usePackages.ts
-│   │   ├── useAIConfig.ts
-│   │   ├── useComplaints.ts
-│   │   └── useAnalytics.ts
-│   │
-│   ├── services/                  # API servisleri
-│   │   ├── api.ts
-│   │   ├── auth.service.ts
-│   │   ├── users.service.ts
-│   │   ├── packages.service.ts
-│   │   ├── ai-config.service.ts
-│   │   ├── complaints.service.ts
-│   │   ├── notifications.service.ts
-│   │   └── analytics.service.ts
-│   │
-│   ├── store/                    # State management
-│   │   ├── auth.store.ts
-│   │   └── ui.store.ts
-│   │
-│   ├── utils/                    # Yardımcılar
-│   │   ├── date.ts
-│   │   ├── format.ts
-│   │   └── helpers.ts
-│   │
-│   └── types/                    # TypeScript tipleri
-│       ├── user.types.ts
-│       ├── package.types.ts
-│       ├── ai.types.ts
-│       ├── complaint.types.ts
-│       └── index.ts
-│
 ├── public/
-│   ├── favicon.ico
-│   └── og-image.jpg
+│   └── icons/
 │
-├── .env.local
-├── .env.example
-├── next.config.js
-├── tailwind.config.js
-├── tsconfig.json
-├── package.json
-└── README.md                     # (bu dosya)
+├── src/
+│   ├── app/                # Next.js App Router
+│   │   ├── (auth)/        # Auth sayfaları
+│   │   │   ├── login/
+│   │   │   └── logout/
+│   │   │
+│   │   ├── (dashboard)/   # Dashboard routes
+│   │   │   ├── _layout.tsx
+│   │   │   ├── dashboard/  # Ana panel
+│   │   │   ├── users/      # Kullanıcılar
+│   │   │   ├── cases/      # Dava/İçerik
+│   │   │   ├── ai/         # AI config
+│   │   │   ├── payments/   # Ödemeler
+│   │   │   ├── notifications/
+│   │   │   ├── delegations/ # Tevkil moderasyon
+│   │   │   ├── audit/      # Audit log
+│   │   │   ├── settings/   # Sistem ayarları
+│   │   │   └── health/     # Health monitor
+│   │   │
+│   │   ├── api/           # Admin API routes
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   │
+│   ├── components/
+│   │   ├── ui/           # Base UI (shadcn/ui)
+│   │   ├── layouts/      # Admin layouts
+│   │   ├── charts/       # Recharts bileşenleri
+│   │   └── features/     # Feature bileşenleri
+│   │
+│   ├── lib/
+│   │   ├── api.ts       # Admin API client
+│   │   ├── auth.ts      # Auth utilities
+│   │   └── utils.ts     # Helpers
+│   │
+│   └── types/            # TypeScript types
+│
+├── tailwind.config.ts
+└── package.json
 ```
 
 ---
 
-## 5. Sayfalar
+## 📊 Dashboard Paneli
 
-### 5.1 Auth Sayfaları
+### Ana Metrikler
 
-| Route | Sayfa | Açıklama |
-|-------|-------|----------|
-| `/admin/login` | LoginPage | Admin girişi |
+| Metric | Açıklama |
+|--------|----------|
+| 👥 **Toplam Kullanıcı** | Kayıtlı avukat sayısı |
+| 📋 **Aktif Dosyalar** | Takip edilen dava sayısı |
+| 💰 **Aylık Gelir** | MRR (Monthly Recurring Revenue) |
+| 📅 **Bu Ay Dönüşüm** | Yeni abonelikler |
+| 🔔 **5 Gün Kuralı** | Bekleyen tebligat sayısı |
+| ⚖️ **Aktif Tevkiller** | Açık tevkil başvuruları |
 
-### 5.2 Dashboard Sayfaları
+### Grafikler
 
-| Route | Sayfa | Açıklama |
-|-------|-------|----------|
-| `/admin/dashboard` | DashboardPage | İstatistikler, grafikler |
-| `/admin/users` | UsersPage | Kullanıcı listesi |
-| `/admin/users/:id` | UserDetailPage | Kullanıcı detay |
-| `/admin/users/approve/:id` | ApproveUserPage | Baro onayı |
-| `/admin/packages` | PackagesPage | Paket yönetimi |
-| `/admin/ai-config` | AiConfigPage | AI görev listesi |
-| `/admin/ai-config/:task` | AiConfigDetailPage | Görev yapılandırma |
-| `/admin/complaints` | ComplaintsPage | Şikayetler |
-| `/admin/complaints/:id` | ComplaintDetailPage | Şikayet detay |
-| `/admin/delegations` | DelegationsPage | Tevkiller |
-| `/admin/notifications` | NotificationsPage | Bildirim geçmişi |
-| `/admin/notifications/send` | SendNotificationPage | Bildirim gönder |
-| `/admin/analytics` | AnalyticsPage | Analitik |
-| `/admin/analytics/export` | ExportPage | Rapor export |
-| `/admin/settings` | SettingsPage | Sistem ayarları |
+| Grafik | Tip | Veri |
+|--------|-----|------|
+| Kullanıcı Büyümesi | Line | Aylık yeni kayıtlar |
+| Gelir | Area | MRR trend |
+| AI Kullanımı | Bar | Görev bazlı token |
+| Paket Dağılımı | Pie | Basic/Standard/Pro/Enterprise |
+| Aktiflik | Heatmap | Günlük aktif kullanıcılar |
 
 ---
 
-## 6. Bileşenler
+## 👥 Kullanıcı Yönetimi
 
-### 6.1 UI Bileşenleri
+| Özellik | Açıklama |
+|---------|----------|
+| **Liste** | Filtreleme, arama, sayfalama |
+| **Detay** | Tüm bilgiler, aktivite logu |
+| **Onay** | Baro doğrulama, özlük dosyası |
+| **Ban/Suspend** | Geçici veya kalıcı engelleme |
+| **Rol Değiştir** | User → Admin |
 
-```
-components/ui/
-├── button.tsx        # Admin action buttons
-├── input.tsx         # Form inputs
-├── select.tsx        # Dropdowns
-├── modal.tsx         # Confirmation modals
-├── table.tsx         # Data tables with pagination
-├── badge.tsx         # Status badges
-├── card.tsx          # Dashboard cards
-├── spinner.tsx       # Loading states
-└── toast.tsx         # Notifications
-```
+### Kullanıcı Durumları
 
-### 6.2 Dashboard Bileşenleri
-
-```
-components/features/dashboard/
-├── stats-card.tsx       # Statistic card
-├── stats-chart.tsx      # Line/bar chart
-├── activity-feed.tsx    # Recent activity
-└── quick-actions.tsx     # Quick action buttons
-```
-
-### 6.3 Kullanıcı Bileşenleri
-
-```
-components/features/users/
-├── user-table.tsx        # User data table
-├── user-detail.tsx       # User profile view
-├── user-actions.tsx      # Ban, suspend, approve
-└── documents-view.tsx    # Özlük dosyası viewer
-```
+| Durum | Renk | Açıklama |
+|-------|------|----------|
+| 🟡 **Beklemede** | Yellow | Baro onayı bekliyor |
+| 🟢 **Aktif** | Green | Tam erişim |
+| 🔴 **Askıda** | Red | Banlı veya süresi dolmuş |
+| ⬜ **Pasif** | Gray | Hiç giriş yapmamış |
 
 ---
 
-## 7. API Entegrasyonu
+## 🤖 AI Yapılandırma
 
-### 7.1 Admin API Endpoints
+### Görev Bazlı Model Seçimi
 
-| Servis | Endpoint | Açıklama |
-|--------|----------|----------|
-| `usersService` | GET /admin/users | Kullanıcı listesi |
-| `usersService` | GET /admin/users/:id | Kullanıcı detay |
-| `usersService` | PUT /admin/users/:id | Güncelle/ban |
-| `packagesService` | GET /admin/packages | Paketler |
-| `packagesService` | PUT /admin/packages/:id | Paket güncelle |
-| `aiConfigService` | GET /admin/ai-config | AI görevleri |
-| `aiConfigService` | PUT /admin/ai-config/:task | Model seçimi |
-| `complaintsService` | GET /admin/complaints | Şikayetler |
-| `complaintsService` | PUT /admin/complaints/:id | Karar ver |
-| `analyticsService` | GET /admin/stats | İstatistikler |
-| `analyticsService` | GET /admin/analytics/users | Kullanıcı analitik |
-| `analyticsService` | GET /admin/analytics/revenue | Gelir analitik |
+| Görev | Varsayılan Model | Alternatif |
+|-------|-------------------|------------|
+| `notification_summary` | MINIMAX | - |
+| `deadline_extract` | CLAUDE | - |
+| `case_summary` | MINIMAX | CLAUDE |
+| `document_generate` | MINIMAX | CLAUDE |
+| `legal_research` | CLAUDE | - |
 
-### 7.2 Raporlama
+### Model Değiştirme
 
 ```typescript
-// Export to CSV/PDF
-const exportReport = async (type: 'users' | 'revenue' | 'complaints') => {
-  const data = await analyticsService.getReport(type);
-  // Convert to CSV/PDF
-};
+// AI görev modelini değiştir
+PUT /admin/ai-config
+{
+  "taskType": "case_summary",
+  "aiModel": "CLAUDE",
+  "tokenLimit": 5000
+}
 ```
 
 ---
 
-## 8. Kurulum
-
-### 8.1 Gereksinimler
-
-- Node.js 18+
-- npm veya yarn
-
-### 8.2 Kurulum Adımları
+## 🔧 Kurulum
 
 ```bash
-# 1. Projeye git
-cd Refik/admin
-
-# 2. Bağımlılıkları yükle
+# 1. Bağımlılıkları yükle
 npm install
 
-# 3. Environment oluştur
+# 2. Environment dosyası
 cp .env.example .env.local
-# .env.local düzenle
 
-# 4. Geliştirme sunucusu başlat
+# Environment değişkenleri:
+# ADMIN_API_URL=https://api.refik.app/api/v1/admin
+# ADMIN_JWT_SECRET=your-secret
+# NEXT_PUBLIC_APP_URL=https://admin.refik.app
+
+# 3. Geliştirme sunucusu
 npm run dev
+
+# 4. Production
+npm run build
+npm start
 ```
+
+---
+
+## 🔐 Adminrolleri
+
+| Rol | İzinler |
+|-----|---------|
+| **Super Admin** | Tüm işlemler, sistem ayarları |
+| **Admin** | Kullanıcı yönetimi, AI config |
+| **Moderator** | İçerik moderasyonu, şikayetler |
+| **Support** | Sadece görüntüleme, kullanıcı desteği |
+
+---
+
+## 📡 API Entegrasyonu
+
+### Admin Endpoints
+
+```typescript
+// Admin API client
+import { adminApi } from '@/lib/api';
+
+// Kullanıcılar
+adminApi.get('/users')
+adminApi.put('/users/:id/approve')
+adminApi.put('/users/:id/ban')
+
+// AI Config
+adminApi.get('/ai-config')
+adminApi.put('/ai-config/:taskType')
+
+// Payments
+adminApi.get('/payments')
+adminApi.post('/payments/:id/refund')
+
+// Notifications
+adminApi.post('/notifications/broadcast')
+```
+
+---
+
+## 📄 Lisans
+
+**MIT License** - Detaylar için [LICENSE](../LICENSE) dosyasına bakınız.
 
 ---
 
 <div align="center">
 
-*Refik Admin Panel*
+**Vadi360** tarafından 💜 ile geliştirildi
 
-*© 2026 Refik. Tüm hakları saklıdır.*
+[refik.app](https://refik.app) | [github.com/vadi360](https://github.com/vadi360)
 
 </div>
