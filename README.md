@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="https://refik.app/banner.png" alt="Refik Banner" width="100%" />
+  <a href="docs/Refik_Logo.html" target="_blank">
+    <img src="docs/Refik_Logo.html" alt="Refik Logo" width="100%" />
+  </a>
 </p>
 
 <div align="center">
