@@ -369,7 +369,7 @@ Açık kaynak, ancak:
 
 **Web:** [refik.app](https://refik.app)  
 **API:** [api.refik.app](https://api.refik.app)  
-**Email:** info@refik.app  
+**Email:** bilgi@refik.app  
 **GitHub:** [github.com/vadi360/Refik](https://github.com/vadi360/Refik)
 
 ---
