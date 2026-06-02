@@ -1,12 +1,6 @@
-<p align="center">
-  <a href="docs/Refik_Logo.html" target="_blank">
-    <img src="docs/Refik_Logo.html" alt="Refik Logo" width="100%" />
-  </a>
-</p>
-
 <div align="center">
 
-# Refik
+# REFIK ⭐
 
 *Mobil öncelikli, AI destekli hukuk asistanı ve tevkil pazar yeri*
 
