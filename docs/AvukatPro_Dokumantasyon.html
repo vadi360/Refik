@@ -331,10 +331,10 @@
         
         /* Architecture Diagram */
         .architecture-container {
-            background: var(--white);
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 24px;
             padding: 50px;
-            box-shadow: var(--shadow);
         }
         
         .arch-diagram {
@@ -352,25 +352,40 @@
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--text-light);
+            color: rgba(255,255,255,0.5);
             margin-bottom: 20px;
         }
         
         .arch-box {
-            background: var(--bg-light);
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 16px;
             padding: 25px;
             margin-bottom: 15px;
             transition: all 0.3s ease;
+            color: var(--white);
+        }
+        
+        .arch-box strong {
+            color: var(--white);
+        }
+        
+        .arch-box small {
+            color: rgba(255,255,255,0.7);
         }
         
         .arch-box:hover {
-            transform: scale(1.02);
-            box-shadow: var(--shadow);
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-3px);
         }
         
         .arch-box-highlight {
             background: var(--gradient-primary);
+            color: var(--white);
+        }
+        
+        .arch-box-highlight strong,
+        .arch-box-highlight small {
             color: var(--white);
         }
         
@@ -383,7 +398,7 @@
         .arch-arrow {
             width: 60px;
             height: 3px;
-            background: var(--text-light);
+            background: rgba(255,255,255,0.4);
             position: relative;
         }
         
@@ -393,7 +408,7 @@
             right: -8px;
             top: -5px;
             border: 8px solid transparent;
-            border-left-color: var(--text-light);
+            border-left-color: rgba(255,255,255,0.4);
         }
         
         /* Pricing Table */
