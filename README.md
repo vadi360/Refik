@@ -324,17 +324,15 @@ Q3 2026 (Temmuz - Eylül)
     └── Android
 
 Q4 2026 (Ekim - Aralık)
-└── 🎛️ Admin Panel
+└── 🎛️ Admin Panel + Enterprise
     ├── Kullanıcı yönetimi
     ├── AI config
-    └── İstatistikler
-
-2027
-└── 🚀 Enterprise Özellikler
-    ├── B2B API
-    ├── White-label
-    └── Custom integrations
+    ├── İstatistikler
+    ├── B2B API (opsiyonel)
+    └── White-label (opsiyonel)
 ```
+
+**Tüm geliştirmeler 2026 yılında tamamlanacak.**
 
 ---
 
