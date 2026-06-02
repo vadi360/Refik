@@ -96,11 +96,11 @@
 |------|-------|---------|---------------|
 | **Basic** | Ücretsiz | — | Tevkil Pazarı, Takvim, Bilgi Bankası, Kanun Arama *(Sınırsız)* |
 | **Standard** | ₺299/ay | — | + Tebligat Takibi (AI analizli), UYAP Entegrasyonu, Dosya Yönetimi *(Sınırsız)* |
-| **Professional** | ₺749/ay | 500/ay | + AI Belge Üretimi, Özet Çıkarma, Dilekçe Hazırlama |
-| **Enterprise** | ₺1.299/ay | 2.000/ay | + İçtihat/Emsal Arama, Otomatik İcra Takibi, AI Haciz |
-| **B2B** | ₺1.999/ay | 10.000/ay | + B2B API, White-label, Özel Entegrasyonlar |
+| **Professional** | ₺749/ay | 500 Token/ay | + AI Belge Üretimi, Özet Çıkarma, Dilekçe Hazırlama, İçtihat Arama |
 
-> ⚠️ **Önemli:** Tevkil, takvim, bilgi bankası ve kanun arama **tüm planlarda sınırsız** kullanılabilir. AI token'ı yalnızca AI destekli özelliklerde (belge üretimi, özet çıkarma, içtihat araştırması vb.) kullanılır.
+> ⚠️ **Token Sistemi:** Professional paketinde her ay 500 AI token verilir. Token bitince otomatik bakiye yüklemesi yapılır (kredi kartı tanımlanır). Kullanım başına token düşer.
+
+> 💡 **Sınırsız Özellikler:** Tevkil, Takvim, Bilgi Bankası, Kanun Arama, Tebligat ve UYAP tüm paketlerde sınırsızdır. AI token'ı yalnızca AI destekli özelliklerde (belge üretimi, özet, içtihat araştırması vb.) kullanılır.
 
 ---
 
