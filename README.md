@@ -90,16 +90,17 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 📊 Token Sistemi
+### 💰 Fiyatlandırma
 
-| Plan | Fiyat | Token | AI Özellikler |
-|------|-------|-------|---------------|
-| **Basic** | Ücretsiz | 100/ay | Tebligat takibi, Tevkil pazarı, Takvim |
-| **Standard** | ₺299/ay | 500/ay | + UYAP entegrasyonu, RAG arama |
-| **Professional** | ₺599/ay | 2000/ay | + AI belge üretimi, dilekçe hazırlama |
-| **Enterprise** | ₺1499/ay | Sınırsız | + İçtihat araştırması, İcra takibi, B2B API |
+| Plan | Fiyat | AI Token | Özellikler |
+|------|-------|---------|---------------|
+| **Basic** | Ücretsiz | — | Tevkil Pazarı, Takvim, Bilgi Bankası, Kanun Arama *(Sınırsız)* |
+| **Standard** | ₺299/ay | — | + Tebligat Takibi (AI analizli), UYAP Entegrasyonu, Dosya Yönetimi *(Sınırsız)* |
+| **Professional** | ₺749/ay | 500/ay | + AI Belge Üretimi, Özet Çıkarma, Dilekçe Hazırlama |
+| **Enterprise** | ₺1.299/ay | 2.000/ay | + İçtihat/Emsal Arama, Otomatik İcra Takibi, AI Haciz |
+| **B2B** | ₺1.999/ay | 10.000/ay | + B2B API, White-label, Özel Entegrasyonlar |
 
-> ⚠️ **UETS AI görevleri (notification_summary, deadline_extract) tüm planlarda **sınırsız** - tebligat takibi temel özellik!**
+> ⚠️ **Önemli:** Tevkil, takvim, bilgi bankası ve kanun arama **tüm planlarda sınırsız** kullanılabilir. AI token'ı yalnızca AI destekli özelliklerde (belge üretimi, özet çıkarma, içtihat araştırması vb.) kullanılır.
 
 ---
 
