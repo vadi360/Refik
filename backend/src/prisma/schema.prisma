@@ -1,1146 +1,2062 @@
 // ============================================================================
 // Refik Veritabanı Şeması (Prisma)
-// Açıklama: Refik uygulamasının veritabanı yapısı
-// Bu şema PostgreSQL için tasarlanmıştır
+// Açıklama: Refik uygulamasının veritabanı yapısı - PostgreSQL
 // 
-// Şema Yapısı:
-// - users: Avukat kullanıcılar
-// - subscriptions: Abonelik bilgileri
-// - cases: Dosya/dava bilgileri
-// - hearings: Duruşmalar
-// - notifications: Tebligatlar
-// - delegations: Tevkiller
-// - documents: Belgeler
-// - document_embeddings: RAG için vektör embeddings
-// - reminders: Hatırlatıcılar
-// - ai_config: AI yapılandırma
-// - user_tokens: Token kullanım takibi
-// - uets_sessions: UETS oturum bilgileri
-// - audit_logs: Denetim kayıtları
-// - complaints: Tevkil şikayetleri
+// Şema Yapısı (23 Model):
+// 1. User - Avukat kullanıcılar
+// 2. Subscription - Abonelik bilgileri
+// 3. Case - Dosya/dava bilgileri
+// 4. Hearing - Duruşmalar
+// 5. Notification - Tebligatlar (UETS)
+// 6. Delegation - Tevkiller (duruşma devri)
+// 7. Complaint - Tevkil şikayetleri
+// 8. Document - Belgeler
+// 9. DocumentEmbedding - RAG için vektör embeddings (Pinecone)
+// 10. Reminder - Hatırlatıcılar
+// 11. AiConfig - AI yapılandırma (görev bazlı model seçimi)
+// 12. AiConfigUpdate - AI config değişiklik logu
+// 13. UserToken - Token kullanım takibi
+// 14. UetsSession - UETS oturum bilgileri
+// 15. AuditLog - Denetim kayıtları
+// 16. Payment - Ödemeler
+// 17. UserDocument - Kullanıcı belgeleri (Kişisel dosyalar)
+// 18. IcraFile - İcra dosyaları
+// 19. IcraPayment - İcra ödemeleri
+// 20. IcraCallRecord - İcra borçlu arama kayıtları
+// 21. IcraAssetHistory - Mal varlığı tespit history
+// 22. NotificationTemplate - Bildirim şablonları
+// 23. NotificationLog - Bildirim gönderim logları
+// 
+// Not: Tüm field'lar Türkçe açıklamalarla belgelenmiştir
 // ============================================================================
 
 generator client {
   // Prisma Client oluşturucu ayarları
   // Çıktı klasörü: src/database/generated-client
+  // Migration ve seed için prisma migrate kullanılır
   provider = "prisma-client-js"
 }
 
 datasource db {
-  // Veritabanı bağlantı ayarları
+  // PostgreSQL veritabanı bağlantı ayarları
   // DATABASE_URL environment değişkeninden okunur
+  // Format: postgresql://user:password@host:5432/database
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 // ============================================================================
-// KULLANICI (USERS) TABLOSU
+// USER MODELİ
 // Açıklama: Avukat kullanıcılarının temel bilgilerini saklar
-// Diğer tablolarla ilişkiler:
+// 
+// İlişkiler:
 // - subscriptions (1:N) - Her kullanıcının bir aboneliği olabilir
 // - cases (1:N) - Her kullanıcının birden fazla dosyası olabilir
-// - delegations (1:N, from) - Gönderilen tevkiller
-// - delegations (1:N, to) - Alınan tevkiller
+// - sentDelegations (1:N) - Gönderilen tevkiller
+// - receivedDelegations (1:N) - Alınan tevkiller
 // - notifications (1:N) - Kullanıcının tebligatları
 // - documents (1:N) - Kullanıcının belgeleri
 // - reminders (1:N) - Kullanıcının hatırlatıcılar
+// - tokenUsage (1:N) - Token kullanım kayıtları
+// - complaints (1:N, filed) - Kullanıcının yaptığı şikayetler
+// - complaints (1:N, against) - Kullanıcıya yapılan şikayetler
 // ============================================================================
 model User {
-  id            String    @id @default(uuid()) // Benzersiz kullanıcı ID (UUID formatında)
-  email         String    @unique // E-posta adresi - benzersiz olmalı
-  passwordHash  String    @map("password_hash") // Şifrelenmiş şifre (bcrypt ile)
-  name          String // Ad soyad
-  phone         String?   @unique // Telefon numarası (opsiyonel, benzersiz)
-  phoneVerified Boolean   @default(false) @map("phone_verified") // Telefon doğrulandı mı?
-  avatarUrl     String?   @map("avatar_url") // Profil fotoğrafı URL'i
+  // -----------------------------------------------------------------------------
+  // TEMEL KİŞİSEL BİLGİLER
+  // -----------------------------------------------------------------------------
+  
+  // Benzersiz tanımlayıcı - UUID formatında otomatik oluşturulur
+  // UUID: 128-bitlik benzersiz bir ID, dağıtık sistemlerde kullanılır
+  id            String    @id @default(uuid())
+  
+  // E-posta adresi - kullanıcı girişi için kullanılır
+  // @unique: Aynı e-posta ile birden fazla kayıt olamaz
+  email         String    @unique
+  
+  // Şifre hash'i - bcrypt ile şifrelenmiş olarak saklanır
+  // Güvenlik: 12 round bcrypt kullanılır
+  passwordHash  String    @map("password_hash")
+  
+  // Ad soyad - profil görüntüleme ve tevkil başvurusu için
+  name          String
+  
+  // Telefon numarası - OTP girişi ve bildirimler için
+  // Opsiyonel: Bazı kullanıcılar e-posta ile giriş yapabilir
+  // @unique: Aynı telefon numarası ile birden fazla kayıt olamaz
+  phone         String?   @unique
+  
+  // Telefon doğrulama durumu - OTP ile doğrulandı mı?
+  // Varsayılan: false (doğrulanmamış)
+  phoneVerified Boolean   @default(false) @map("phone_verified")
+  
+  // Profil fotoğrafı URL'i - Gravatar veya yüklenen fotoğraf
+  // Opsiyonel: Yüklenmezse varsayılan avatar gösterilir
+  avatarUrl     String?   @map("avatar_url")
 
-  // Mesleki bilgiler
-  baroReg       String?   @map("baro_reg") // Baro kayıt numarası
-  expertise     String[]  @default([]) // Uzmanlık alanları (dizi olarak saklanır)
-  city          String? // Çalışma şehri
-  district      String? // Çalışma ilçesi
-  court         String? // Çalışma adliyesi
+  // -----------------------------------------------------------------------------
+  // MESLEKİ BİLGİLER
+  // -----------------------------------------------------------------------------
+  
+  // Baro kayıt numarası - Türkiye'de avukatların zorunlu kaydı
+  // TBB (Türkiye Barolar Birliği) sisteminden alınır
+  baroReg       String?   @map("baro_reg")
+  
+  // Uzmanlık alanları dizisi - Hukuk alanları (iş hukuku, ceza hukuku vb.)
+  // Örnek: ["iş hukuku", "ceza hukuku", "aile hukuku"]
+  expertise     String[]  @default([])
+  
+  // Çalışma şehri - Tevkil pazarı için lokasyon bazlı eşleştirme
+  city          String?
+  
+  // Çalışma ilçesi - Daha detaylı lokasyon
+  district      String?
+  
+  // Çalışma adliyesi - Genellikle bulunduğu il veya ilçe mahkemesi
+  court         String?
 
-  // Rol sistemi - Büro yönetimi için
-  role          UserRole  @default(LAWYER) // lawyer, office_admin, super_admin
-  officeId      String?   @map("office_id") // Büro ID (ekip yönetimi için)
+  // -----------------------------------------------------------------------------
+  // YETKİ VE ROL SİSTEMİ
+  // -----------------------------------------------------------------------------
+  
+  // Kullanıcı rolü - Sistem yetkilerini belirler
+  // lawyer: Standart avukat, sadece kendi verilerine erişebilir
+  // office_admin: Büro yöneticisi, ekip üyelerinin verilerini görebilir
+  // super_admin: Sistem yöneticisi, tüm verilere erişebilir
+  role          UserRole  @default(LAWYER)
+  
+  // Büro ID'si - Ekip yönetimi için kullanılır
+  // office_admin rolündeki kullanıcılar bu ID altındaki ekibi yönetir
+  officeId      String?   @map("office_id")
 
-  // Puanlama sistemi
-  rating        Decimal   @default(0) @db.Decimal(3,2) // Ortalama puan (0-5 arası)
-  ratingCount   Int       @default(0) @map("rating_count") // Toplam puan sayısı
+  // -----------------------------------------------------------------------------
+  // PUANLAMA SİSTEMİ
+  // -----------------------------------------------------------------------------
+  
+  // Ortalama puan - 0 ile 5 arasında ( virgülle 2 ondalık basamak )
+  // Toplam puan / puan sayısı = ortalama
+  rating        Decimal   @default(0) @db.Decimal(3,2)
+  
+  // Toplam puan sayısı - Kaç kişi puan vermiş (hesaplama için)
+  ratingCount   Int       @default(0) @map("rating_count")
 
-  // Abonelik durumu
+  // -----------------------------------------------------------------------------
+  // ABONELİK DURUMU
+  // -----------------------------------------------------------------------------
+  
+  // Abonelik durumu metni - "free", "basic", "standard", "professional", "enterprise"
+  // Veritabanında enum yerine String kullanıldı (esneklik için)
   subscriptionStatus String   @default("free") @map("subscription_status")
 
-  // Doğrulama durumu (Admin onayı)
-  isVerified     Boolean   @default(false) @map("is_verified") // Admin tarafından onaylandı mı
+  // -----------------------------------------------------------------------------
+  // DOĞRULAMA DURUMU
+  // -----------------------------------------------------------------------------
+  
+  // Admin onayı - Baro doğrulaması ve özlük dosyası kontrolü
+  // false: Admin panelinde onay bekliyor
+  // true: Onaylanmış, sisteme tam erişim
+  isVerified     Boolean   @default(false) @map("is_verified")
+  
+  // Özlük dosyası URL'i - Barodan alınan onay belgesi
+  // Admin panelinde görüntülenir ve onay için gereklidir
+  verificationDoc String?   @map("verification_doc")
 
-  // KVKK ve açık rıza
-  kvkkConsent   Boolean   @default(false) @map("kvkk_consent") // KVKK metni kabul edildi mi
-  kvkkConsentAt DateTime? @map("kvkk_consent_at") // KVKK kabul tarihi
-  claudeConsent Boolean   @default(false) @map("claude_consent") // Claude kullanımı için açık rıza
-  claudeConsentAt DateTime? @map("claude_consent_at") // Claude rıza tarihi
+  // -----------------------------------------------------------------------------
+  // KVKK ve AÇIK RIZA
+  // -----------------------------------------------------------------------------
+  
+  // KVKK metni kabul edildi mi? - Zorunlu onay
+  // 6698 sayılı Kişisel Verilerin Korunması Kanunu
+  kvkkConsent   Boolean   @default(false) @map("kvkk_consent")
+  
+  // KVKK kabul tarihi - İleride sorun olursa kanıt olarak kullanılır
+  kvkkConsentAt DateTime? @map("kvkk_consent_at")
+  
+  // Claude kullanımı için açık rıza - Ekstra AI hizmetleri için
+  claudeConsent Boolean   @default(false) @map("claude_consent")
+  
+  // Claude rıza tarihi
+  claudeConsentAt DateTime? @map("claude_consent_at")
 
-  // Push bildirim token'ları
-  pushToken     String?   @map("push_token") // FCM push token
-  whatsappNotif Boolean   @default(false) @map("whatsapp_notif") // WhatsApp bildirim aktif mi
+  // -----------------------------------------------------------------------------
+  // BİLDİRİM AYARLARI
+  // -----------------------------------------------------------------------------
+  
+  // Firebase Cloud Messaging push token'ı - Anlık bildirimler için
+  // Kullanıcı uygulamayı ilk açtığında alınır ve saklanır
+  pushToken     String?   @map("push_token")
+  
+  // WhatsApp bildirimleri aktif mi?
+  // true: Tebligat ve hatırlatıcılar WhatsApp'tan da gönderilir
+  whatsappNotif Boolean   @default(false) @map("whatsapp_notif")
+  
+  // Telegram kullanıcı ID'si - Telegram bot üzerinden bildirim
+  // Bot /start komutu çalıştırıldığında alınır
+  telegramId    String?   @map("telegram_id")
+  
+  // Bildirim tercihleri (JSON formatında) - Her kanal için ayrı ayar
+  // Örnek: { "push": true, "email": true, "sms": false, "whatsapp": true, "telegram": true }
+  notificationPreferences Json?   @map("notification_preferences")
 
-  // Telegram
-  telegramId    String?   @map("telegram_id") // Telegram kullanıcı ID'si
-
-  // Bildirim tercihleri (JSON)
-  notificationPreferences Json?   @map("notification_preferences") // { push: true, email: true, sms: false, whatsapp: true }
-
-  // Zaman bilgileri
+  // -----------------------------------------------------------------------------
+  // ZAMAN BİLGİLERİ
+  // -----------------------------------------------------------------------------
+  
+  // Kayıt oluşturulma tarihi - Otomatik olarak şimdiki zaman alınır
   createdAt     DateTime  @default(now()) @map("created_at")
+  
+  // Son güncelleme tarihi - Kayıt her değiştiğinde otomatik güncellenir
   updatedAt     DateTime  @updatedAt @map("updated_at")
-  deletedAt     DateTime? @map("deleted_at") // Soft delete için
+  
+  // Soft delete (geçici silme) - Veri fiziksel olarak silinmez
+  // Sorgularda WHERE deletedAt IS NULL ile filtrelenir
+  deletedAt     DateTime? @map("deleted_at")
 
-  // --------------------------------------------------------------------
-  // İLİŞKİLER
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
+  // İLİŞKİLER (Relations)
+  // -----------------------------------------------------------------------------
+  
   // Abonelik - Bire çok ilişki (1 User : N Subscription)
+  // Bir kullanıcının birden fazla subscription history olabilir
+  // Ama sadece biri isActive=true olmalı
   subscriptions  Subscription[]
+  
   // Dosyalar - Bire çok ilişki (1 User : N Case)
+  // Avukat kendi dosyalarını görüntüler ve yönetir
   cases          Case[]
+  
   // Bildirimler - Bire çok ilişki (1 User : N Notification)
+  // Kullanıcıya gelen tebligatlar
   notifications  Notification[]
+  
   // Belgeler - Bire çok ilişki (1 User : N Document)
+  // Yüklenen ve oluşturulan belgeler
   documents      Document[]
+  
   // Hatırlatıcılar - Bire çok ilişki (1 User : N Reminder)
+  // Duruşma, süre, genel hatırlatıcılar
   reminders      Reminder[]
-  // Gönderilen tevkiller - Bire çok ilişki (1 User : N Delegation)
+  
+  // Gönderilen tevkiller - Bire çok ilişki
+  // Kullanıcı başka bir avukata tevkil gönderdi
   sentDelegations Delegation[] @relation("SentDelegations")
-  // Alınan tevkiller - Bire çok ilişki (1 User : N Delegation)
+  
+  // Alınan tevkiller - Bire çok ilişki
+  // Kullanıcı başkasından tevkil aldı
   receivedDelegations Delegation[] @relation("ReceivedDelegations")
+  
   // Token kullanımı - Bire çok ilişki (1 User : N UserToken)
+  // Her AI görevinde token tüketimi kaydedilir
   tokenUsage     UserToken[]
+  
   // UETS oturumları - Bire çok ilişki (1 User : N UetsSession)
+  // UETS'e her girişte yeni oturum kaydı oluşur
   uetsSessions   UetsSession[]
-  // AI yapılandırma güncellemeleri - Bire çok ilişki (1 User : N AiConfig)
+  
+  // AI yapılandırma güncellemeleri - Bire çok ilişki (1 User : N AiConfigUpdate)
+  // Admin config değişikliği yaptığında loglanır
   aiConfigUpdates AiConfigUpdate[]
+  
   // Denetim kayıtları - Bire çok ilişki (1 User : N AuditLog)
+  // Kritik işlemlerin logu (giriş, çıkış, ödeme vb.)
   auditLogs      AuditLog[]
-  // Şikayetler - Bire çok ilişki (1 User : N Complaint)
+  
+  // Yapılan şikayetler - Bire çok ilişki
+  // Kullanıcı başkasını şikayet etti
   complaintsFiled Complaint[] @relation("ComplaintsFiled")
+  
+  // Yapılan şikayetler (ters) - Bire çok ilişki
+  // Başkası kullanıcıyı şikayet etti
   complaintsAgainst Complaint[] @relation("ComplaintsAgainst")
 
-  @@index([email]) // E-posta ile hızlı arama
-  @@index([phone]) // Telefon ile hızlı arama
-  @@index([city]) // Şehir ile arama (tevkil eşleştirme için)
-  @@index([role]) // Rol ile arama
+  // Kullanıcıya özel belgeler
+  userDocuments   UserDocument[]
+
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER (Performance optimization)
+  // -----------------------------------------------------------------------------
+  
+  // E-posta ile hızlı arama (login için her seferinde kullanılır)
+  @@index([email])
+  
+  // Telefon ile hızlı arama (OTP login için)
+  @@index([phone])
+  
+  // Şehir ile arama (tevkil eşleştirme için)
+  @@index([city])
+  
+  // Rol ile arama (admin sorguları için)
+  @@index([role])
+  
+  // Tablo adı: "users"
   @@map("users")
 }
 
 // Kullanıcı rolü enum'u
+// Not: PostgreSQL'de enum tipi olarak saklanır
 enum UserRole {
-  LAWYER      // Sıradan avukat
-  OFFICE_ADMIN // Büro yöneticisi (ekip yönetebilir)
-  SUPER_ADMIN  // Sistem yöneticisi (tam yetki)
+  // Sıradan avukat - Kendi verilerine erişebilir
+  LAWYER
+  // Büro yöneticisi - Ekip üyelerinin verilerini görebilir ve yönetebilir
+  OFFICE_ADMIN
+  // Sistem yöneticisi - Tüm verilere erişim, sistem ayarları
+  SUPER_ADMIN
 }
 
 // ============================================================================
-// ABONELİK (SUBSCRIPTIONS) TABLOSU
+// SUBSCRIPTION MODELİ
 // Açıklama: Kullanıcıların abonelik bilgilerini saklar
-// Her kullanıcının bir aktif aboneliği olabilir
-// Diğer tablolarla ilişkiler:
+// Her kullanıcının bir aktif aboneliği olabilir (isActive = true)
+// 
+// İlişkiler:
 // - user (N:1) - Aboneliğin sahibi
 // ============================================================================
 model Subscription {
+  // -----------------------------------------------------------------------------
+  // TEMEL ALANLAR
+  // -----------------------------------------------------------------------------
+  
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // Kullanıcı ID'si - Hangi kullanıcıya ait olduğu
+  // NOT: Burada @unique YOK, çünkü bir kullanıcının birden fazla subscription
+  // history olabilir (geçmiş paketler, iadeler vb.)
   userId        String    @map("user_id")
-  packageType   SubscriptionPackage @default(BASIC) // basic, standard, professional, enterprise
-  tokenLimit    Int       @map("token_limit") // Aylık token limiti
-  tokensUsed    Int       @default(0) @map("tokens_used") // Kullanılan token sayısı
+  
+  // Paket tipi - Hangi plan seçilmiş
+  // Enum değerleri: FREE, BASIC, STANDARD, PROFESSIONAL, ENTERPRISE
+  packageType   SubscriptionPackage @default(BASIC)
+  
+  // Aylık token limiti - Pakete göre değişir
+  // FREE: 100, BASIC: 500, STANDARD: 2000, PROFESSIONAL: 10000, ENTERPRISE: sınırsız
+  tokenLimit    Int       @map("token_limit")
+  
+  // Kullanılan token sayısı - Ay başında sıfırlanır (cron job ile)
+  // Her AI görevinde recordTokenUsage() fonksiyonu ile güncellenir
+  tokensUsed    Int       @default(0) @map("tokens_used")
+  
+  // Abonelik başlangıç tarihi
   startDate     DateTime  @map("start_date")
+  
+  // Abonelik bitiş tarihi - Bu tarihte otomatik yenileme veya iptal
   endDate       DateTime  @map("end_date")
+  
+  // Abonelik aktif mi? - true: kullanılabilir, false: iptal edilmiş/süresi dolmuş
   isActive      Boolean   @default(true) @map("is_active")
+  
+  // Otomatik yenileme - true: her ay otomatik ödeme
+  // false: Manuel olarak yenilenmeli
   autoRenew     Boolean   @default(true) @map("auto_renew")
+  
+  // Kayıt oluşturulma tarihi
   createdAt     DateTime  @default(now()) @map("created_at")
 
-  // --------------------------------------------------------------------
+  // Ödeme bilgileri (opsiyonel)
+  paymentId     String?   @map("payment_id") // Ödeme kaydı ID'si
+  paymentProvider String? @map("payment_provider") // iyzico, paytr, stripe
+
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Kullanıcı - Çoktan bire ilişki (N User : 1 Subscription)
+  // -----------------------------------------------------------------------------
+  
+  // Kullanıcı - Çoktan bire ilişki (N Subscription : 1 User)
+  // Her subscription bir kullanıcıya aittir
   user          User      @relation(fields: [userId], references: [id])
 
-  @@index([userId]) // Kullanıcı ID ile arama
-  @@index([isActive]) // Aktif aboneleri bulma
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([userId])
+  @@index([isActive])
+  
   @@map("subscriptions")
 }
 
 // Abonelik paketi enum'u
+// Fiyatlar Türkiye pazarı için optimize edilmiştir
 enum SubscriptionPackage {
-  FREE        // Ücretsiz paket (temel özellikler)
-  BASIC       // 199₺/ay - Tebligat, Tevkil, Hatırlatıcı
-  STANDARD    // 499₺/ay - Basic + UYAP, Dosya analizi, Aleyhe/Lehe
-  PROFESSIONAL // 999₺/ay - Standard + Dilekçe, İhtarname, Revize, 10.000 token/ay
-  ENTERPRISE  // 1999₺/ay - Professional + İçtihat, Sınırsız RAG, 50.000 token/ay
+  // Ücretsiz paket - Temel özellikler
+  // - Tebligat takibi (sınırsız)
+  // - Tevkil pazarı
+  // - Takvim
+  // - Hatırlatıcılar
+  FREE
+  
+  // Basic paket - 199₺/ay
+  // - FREE özellikleri +
+  // - 500 token/ay
+  // - AI özetleme (case_summary)
+  BASIC
+  
+  // Standard paket - 499₺/ay
+  // - BASIC özellikleri +
+  // - 2000 token/ay
+  // - UYAP entegrasyonu (dosya takibi)
+  // - RAG arama (Pinecone)
+  STANDARD
+  
+  // Professional paket - 999₺/ay
+  // - STANDARD özellikleri +
+  // - 10000 token/ay
+  // - AI dilekçe hazırlama
+  // - İhtarname üretimi
+  // - Dilekçe revizyonu
+  PROFESSIONAL
+  
+  // Enterprise paket - 1999₺/ay
+  // - PROFESSIONAL özellikleri +
+  // - Sınırsız token
+  // - İçtihat araştırması (legal_research)
+  // - İcra takibi
+  // - B2B API erişimi
+  ENTERPRISE
 }
 
 // ============================================================================
-// DOSYA/CASE (CASES) TABLOSU
-// Açıklama: Avukatların takip ettiği dava dosyalarını saklar
-// Diğer tablolarla ilişkiler:
+// CASE MODELİ
+// Açıklama: Avukatların takip ettiği dava/dosya bilgileri
+// 
+// İlişkiler:
 // - user (N:1) - Dosyanın sahibi avukat
-// - hearings (1:N) - Dosyaya ait duruşmalar
-// - notifications (1:N) - Dosyaya ait tebligatlar
-// - delegations (1:N) - Dosya ile ilgili tevkiller
-// - documents (1:N) - Dosyaya ait belgeler
-// - reminders (1:N) - Dosyaya ait hatırlatıcılar
+// - hearings (1:N) - Dosyanın duruşmaları
+// - notifications (1:N) - Dosyaya gelen tebligatlar
+// - documents (1:N) - Dosyaya eklenen belgeler
 // ============================================================================
 model Case {
-  id            String    @id @default(uuid())
-  userId        String    @map("user_id")
-  caseNumber    String    @map("case_number") // Dosya numarası
-  court         String? // Mahkeme adı
-  parties       Json? // Taraflar bilgisi (JSON formatında saklanır)
-  subject       String? // Dava konusu
-  status        CaseStatus @default(ACTIVE) // active, closed, archived
-  aiSummary     String?   @map("ai_summary") // AI tarafından oluşturulan özet
-  decisionAnalysis Json? @map("decision_analysis") // Karar analizi sonuçları
-  decisionSide  Json?     @map("decision_side") // Aleyhte/Lehte tespiti (aleyh: [], lehte: [])
+  // -----------------------------------------------------------------------------
+  // TEMEL DOSYA BİLGİLERİ
+  // -----------------------------------------------------------------------------
   
-  // Yapılacaklar ve kronoloji (AI tarafından önerilen)
-  actionItems   Json?     @default("[]") @map("action_items") // AI önerili yapılacaklar [{task, deadline, priority, status}]
-  timelineUpdates Json?   @default("[]") @map("timeline_updates") // Kronolojik gelişmeler [{date, type, description}]
+  // Benzersiz tanımlayıcı
+  id            String    @id @default(uuid())
+  
+  // Dosya sahibi (avukat) ID'si
+  userId        String    @map("user_id")
+  
+  // Dosya numarası - Mahkemelerdeki resmi numara
+  // Format: "2024/1234 E." (E. = Esas numarası)
+  caseNumber    String
+  
+  // Mahkeme adı - Örnek: "İstanbul Asliye Hukuk Mahkemesi"
+  court         String?
+  
+  // Dosya türü - İş hukuku, ceza hukuku, aile hukuku vb.
+  caseType      String?   @map("case_type")
+  
+  // Dosya konusu/başlığı - Kısa açıklama
+  subject       String?
+  
+  // Dosya durumu - Açık, kapalı, bekleyen vb.
+  status        CaseStatus @default(ACTIVE)
+  
+  // -----------------------------------------------------------------------------
+  // DOSYA DETAYLARI (JSON olarak saklanır)
+  // -----------------------------------------------------------------------------
+  
+  // Taraflar bilgisi - JSON array formatında
+  // Örnek: [{"type": "davacı", "name": "Ahmet Yılmaz", "tc": "123..."}]
+  parties       Json?
+  
+  // Dosya özeti - AI tarafından oluşturulan özet
+  // notification_summary veya case_summary görevinden gelir
+  aiSummary     String?   @map("ai_summary")
+  
+  // AI özet tarihi - Son güncelleme zamanı
+  aiSummaryAt   DateTime? @map("ai_summary_at")
+  
+  // AI modeli - Özet hangi model ile oluşturuldu (minimax/claude)
+  aiModel       String?   @map("ai_model")
+  
+  // -----------------------------------------------------------------------------
+  // YAPILACAKLAR LİSTESİ (Case Update Modülü)
+  // -----------------------------------------------------------------------------
+  
+  // AI tarafından önerilen yapılacaklar - JSON array
+  // Her item: { "text": "Duruşma için dilekçe hazırla", "priority": "high", "dueDate": "..." }
+  actionItems    Json?     @map("action_items")
+  
+  // Kronolojik kayıtlar - JSON array
+  // Her item: { "date": "...", "event": "...", "source": "uyap/manual/ai" }
+  timelineUpdates Json?    @map("timeline_updates")
 
-  // UYAP bilgileri (Chrome eklentisi için)
-  uyapId        String?   @map("uyap_id") // UYAP'taki dosya ID'si
-  uyapUrl       String?   @map("uyap_url") // UYAP dosya URL'i
+  // -----------------------------------------------------------------------------
+  // UYAP ENTEGRASYON
+  // -----------------------------------------------------------------------------
+  
+  // UYAP dosya ID'si - UYAP sistemindeki resmi ID
+  uyapFileId    String?   @map("uyap_file_id")
+  
+  // UYAP son sync zamanı
+  uyapSyncedAt  DateTime? @map("uyap_synced_at")
 
-  // Tahkim/RAG için dosya durumu
-  ragIndexed    Boolean   @default(false) @map("rag_indexed") // RAG sistemine eklenmiş mi
-  lastRagSyncAt DateTime? @map("last_rag_sync_at") // Son RAG senkronizasyonu
+  // -----------------------------------------------------------------------------
+  // OTOMATİŞ İŞLEME (5 GÜN KURALI)
+  // -----------------------------------------------------------------------------
+  
+  // UETS otomatik işlem zamanı - 5 gün kuralı için
+  // Bu tarihte cron job otomatik olarak işlem yapacak
+  // Format: createdAt + 5 iş günü
+  uetsAutoProcessAt DateTime? @map("uets_auto_process_at")
+  
+  // 5 gün kuralı işlendi mi? - Tekrar işlenmemesi için flag
+  uetsAutoProcessed Boolean   @default(false) @map("uets_auto_processed")
 
-  // Zaman bilgileri
+  // -----------------------------------------------------------------------------
+  // ZAMAN BİLGİLERİ
+  // -----------------------------------------------------------------------------
+  
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
   deletedAt     DateTime? @map("deleted_at")
 
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Kullanıcı - Çoktan bire ilişki (N Case : 1 User)
+  // -----------------------------------------------------------------------------
+  
+  // Sahip - Çoktan bire ilişki (N Case : 1 User)
   user          User      @relation(fields: [userId], references: [id])
+  
   // Duruşmalar - Bire çok ilişki (1 Case : N Hearing)
   hearings      Hearing[]
+  
   // Bildirimler - Bire çok ilişki (1 Case : N Notification)
   notifications Notification[]
-  // Tevkiller - Bire çok ilişki (1 Case : N Delegation)
-  delegations  Delegation[]
+  
   // Belgeler - Bire çok ilişki (1 Case : N Document)
-  documents     Document[]
-  // Hatırlatıcılar - Bire çok ilişki (1 Case : N Reminder)
-  reminders     Reminder[]
-  // Belge embedding'leri - Bire çok ilişki (1 Case : N DocumentEmbedding)
-  embeddings    DocumentEmbedding[]
+  documents      Document[]
 
-  @@unique([userId, caseNumber]) // Aynı kullanıcıda dosya numarası benzersiz olmalı
-  @@index([userId]) // Kullanıcı ID ile arama
-  @@index([status]) // Durum ile arama
-  @@index([uyapId]) // UYAP ID ile arama (eklenti için)
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([userId])
+  @@index([caseNumber])
+  @@index([status])
+  @@index([uyapFileId])
+  
   @@map("cases")
 }
 
-// Duruşma durumu enum'u
+// Dosya durumu enum'u
 enum CaseStatus {
-  ACTIVE   // Aktif dava
-  CLOSED   // Kapatılmış dava
-  ARCHIVED // Arşivlenmiş dava
+  // Dosya aktif, takip devam ediyor
+  ACTIVE
+  // Dosya kapatıldı (mahkeme karar verdi)
+  CLOSED
+  // Beklemede (karar bekleniyor)
+  PENDING
+  // Dosya askıda (duraklatıldı)
+  SUSPENDED
 }
 
 // ============================================================================
-// DURUŞMA (HEARINGS) TABLOSU
-// Açıklama: Her davaya ait duruşma bilgilerini saklar
-// Diğer tablolarla ilişkiler:
-// - case (N:1) - Duruşmanın ait olduğu dava
+// HEARING (DURUŞMA) MODELİ
+// Açıklama: Mahkeme duruşma bilgileri
+// 
+// İlişkiler:
+// - case (N:1) - Hangi dosyaya ait olduğu
 // ============================================================================
 model Hearing {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // Dosya ID'si - Hangi case'e ait olduğu
   caseId        String    @map("case_id")
-  hearingDate   DateTime  @map("hearing_date") // Duruşma tarihi ve saati
-  court         String? // Mahkeme adı (dava mahkemesinden farklı olabilir)
-  status        HearingStatus @default(SCHEDULED) // scheduled, held, postponed, cancelled
-  notes         String? // Notlar
-  result        String? // Duruşma sonucu
-  createdAt     DateTime  @default(now()) @map("created_at")
+  
+  // Duruşma tarihi ve saati
+  hearingDate   DateTime  @map("hearing_date")
+  
+  // Duruşma saati (saat:dakika formatında)
+  hearingTime   String?   @map("hearing_time")
+  
+  // Duruşma yeri - Salon numarası veya adı
+  location      String?
+  
+  // Duruşma durumu - Yapıldı, ertelendi, bekliyor vb.
+  status        HearingStatus @default(SCHEDULED)
+  
+  // Duruşma sonucu - Gelecek duruşma, karar, erteleme vb.
+  result        String?
+  
+  // Duruşma notu - Avukatın kendi notu
+  notes         String?
+  
+  // AI tarafından çıkarılan özet - Duruşma öncesi not
+  aiSummary     String?   @map("ai_summary")
 
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Dava - Çoktan bire ilişki (N Hearing : 1 Case)
+  // -----------------------------------------------------------------------------
+  
+  // Dosya - Çoktan bire ilişki (N Hearing : 1 Case)
+  // Dosya silinirse duruşmalar da silinir (Cascade)
   case          Case      @relation(fields: [caseId], references: [id], onDelete: Cascade)
 
-  @@index([caseId]) // Dava ID ile arama
-  @@index([hearingDate]) // Tarih ile arama (yaklaşan duruşmaları bulmak için)
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([caseId])
+  @@index([hearingDate])
+  
   @@map("hearings")
 }
 
 // Duruşma durumu enum'u
 enum HearingStatus {
-  SCHEDULED // Planlanmış
-  HELD // Yapıldı
-  POSTPONED // Ertelendi
-  CANCELLED // İptal edildi
+  // Planlanmış - Gelecek duruşma
+  SCHEDULED
+  // Yapıldı - Duruşma gerçekleşti
+  HELD
+  // Ertelendi - Sonraki tarihe ertelendi
+  POSTPONED
+  // İptal edildi - Mahkeme iptal etti
+  CANCELLED
 }
 
 // ============================================================================
-// TEBLİGAT (NOTIFICATIONS) TABLOSU
-// Açıklama: UETS'ten gelen tebligatları ve sistem bildirimlerini saklar
-// Diğer tablolarla ilişkiler:
-// - user (N:1) - Tebligatın alıcısı
-// - case (N:1) - İlgili dava (opsiyonel)
+// NOTIFICATION (TEBLİGAT) MODELİ
+// Açıklama: UETS'ten gelen tebligatlar ve bildirimler
+// 5 gün kuralı otomasyonu için kritik model
 // 
-// 5 GÜN KURALI:
-// - uetsRead = false AND sentDate + 5 gün < now → Otomatik indir ve işle
-// - uetsRead = true → Hemen indir, süre başladı
+// İlişkiler:
+// - user (N:1) - Kime gönderildi
+// - case (N:1) - Hangi dosyaya ait
 // ============================================================================
 model Notification {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // Kullanıcı ID'si - Tebligat kime geldi
   userId        String    @map("user_id")
-  caseId        String?   @map("case_id")
-  type          NotificationType // Ara karar, duruşma, süreli bildirim, tevkil
-  title         String // Başlık
-  content       String? // İçerik özeti
-
-  // Süre bilgisi - AI tarafından çıkarılır
-  deadline      DateTime? // Süre bitiş tarihi (hesaplanmış)
-  deadlineDays  Int? @map("deadline_days") // Kaç gün kaldı (kalan süre)
-  deadlineStart DateTime? @map("deadline_start") // Süre başlangıç tarihi (okunma veya 5. gün)
-  deadlineType  String?   @map("deadline_type") // itiraz, temyiz, cevap, vs.
-
-  // Tebligat detayları
-  sentDate      DateTime? @map("sent_date") // Gönderim tarihi (UETS'ten)
-  readDate      DateTime? @map("read_date") // Okunma tarihi
+  
+  // Dosya ID'si - Hangi case ile ilgili
+  caseId        String    @map("case_id")
+  
+  // Tebligat türü - ihbar, karar, davet vb.
+  type          NotificationType @default(GENERAL)
+  
+  // Tebligat başlığı/konusu
+  subject       String
+  
+  // Tebligat içeriği - Detaylı metin
+  content       String?
+  
+  // Gönderen kurum - Mahkeme, icra dairesi vb.
+  sender        String?
+  
+  // Tebligat tarihi - UETS'ten geldiği tarih
+  notificationDate DateTime @map("notification_date")
+  
+  // Tebligat numarası - UETS'teki resmi numara
+  notificationNumber String? @map("notification_number")
+  
+  // Okundu mu? - false: yeni tebligat, true: görüldü
   isRead        Boolean   @default(false) @map("is_read")
-  isStarred     Boolean   @default(false) @map("is_starred")
+  
+  // Okunma tarihi
+  readAt        DateTime? @map("read_at")
+  
+  // AI özet - notification_summary görevinden gelir
+  // Kullanıcı tebligatı açtığında AI otomatik özet çıkarır
+  aiSummary     String?   @map("ai_summary")
+  
+  // AI süre çıkarımı - deadline_extract görevinden gelir
+  // Örnek: "15 gün içinde cevap verilmeli"
+  aiDeadline    String?   @map("ai_deadline")
+  
+  // 5 gün kuralı son tarihi - notificationDate + 5 iş günü
+  // Bu tarihte otomatik hatırlatıcı oluşturulur
+  deadline5Days DateTime? @map("deadline_5_days")
+  
+  // Hatırlatıcı oluşturuldu mu?
+  reminderCreated Boolean @default(false) @map("reminder_created")
+  
+  // Kaynak - uets, manual, email
+  source        String    @default("uets")
 
-  // UETS bilgileri - 5 gün kuralı için
-  uetsId        String?   @map("uets_id") // UETS'teki tebligat ID'si
-  uetsRead      Boolean   @default(false) @map("uets_read") // UETS'te okundu mu?
-  uetsOpenedAt  DateTime? @map("uets_opened_at") // UETS'te açılma tarihi
-  uetsProcessed Boolean   @default(false) @map("uets_processed") // İşlendi mi (AI özet, hatırlatıcı)
-  uetsAutoProcessAt DateTime? @map("uets_auto_process_at") // Otomatik işleme tarihi (sentDate + 5 gün)
-
-  // AI analiz sonuçları
-  aiSummary     String?   @map("ai_summary") // AI özeti
-  aiConfidence  Decimal?  @db.Decimal(3,2) @map("ai_confidence") // AI güven skoru
-  aiModelUsed   String?   @map("ai_model_used") // Hangi AI ile analiz edildi
-
-  // Dosya bilgisi
-  fileUrl       String?   @map("file_url") // Tebligat dosyası URL'i (R2'de)
-  fileName      String?   @map("file_name") // Dosya adı
-
-  createdAt     DateTime  @default(now()) @map("created_at")
-  deletedAt     DateTime? @map("deleted_at")
-
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
+  
   // Kullanıcı - Çoktan bire ilişki (N Notification : 1 User)
   user          User      @relation(fields: [userId], references: [id])
-  // Dava - Çoktan bire ilişki (N Notification : 1 Case) - opsiyonel
-  case          Case?     @relation(fields: [caseId], references: [id])
+  
+  // Dosya - Çoktan bire ilişki (N Notification : 1 Case)
+  case          Case      @relation(fields: [caseId], references: [id])
 
-  @@index([userId]) // Kullanıcı ID ile arama
-  @@index([caseId]) // Dava ID ile arama
-  @@index([isRead]) // Okunmamış tebligatları bulma
-  @@index([deadline]) // Yaklaşan süreleri bulma
-  @@index([uetsAutoProcessAt]) // 5 gün kuralı için otomatik işleme
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([userId])
+  @@index([caseId])
+  @@index([notificationDate])
+  @@index([deadline5Days])
+  
   @@map("notifications")
 }
 
 // Tebligat türü enum'u
 enum NotificationType {
-  DECISION // Ara karar
-  HEARING // Duruşma bildirimi
-  DEADLINE // Süreli bildirim
-  DELEGATION // Tevkil bildirimi
-  SYSTEM // Sistem bildirimi
+  // Genel tebligat
+  GENERAL
+  // İhbar - Tarafı bilgilendirme
+  IHBAR
+  // Karar - Mahkeme kararı
+  DECISION
+  // Davet - Duruşma daveti
+  SUMMON
+  // İcra - İcra takibi
+  ICRA
+  // Diğer
+  OTHER
 }
 
 // ============================================================================
-// TEVKİL (DELEGATIONS) TABLOSU
-// Açıklama: Avukatlar arası duruşma tevkillerini saklar
-// Diğer tablolarla ilişkiler:
-// - fromUser (N:1) - Tevkili gönderen avukat
-// - toUser (N:1) - Tevkili alan avukat
-// - case (N:1) - İlgili dava
+// DELEGATION (TEVKİL) MODELİ
+// Açıklama: Avukatlar arası duruşma devri (tevkil)
+// 
+// İlişkiler:
+// - sentBy (N:1) - Gönderen avukat
+// - receivedBy (N:1) - Alan avukat
+// - complaints (1:N) - Şikayetler
 // ============================================================================
 model Delegation {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
   
-  // Gönderen ve alan avukatlar
-  fromUserId    String    @map("from_user_id")
-  toUserId      String?   @map("to_user_id") // Null = henüz kimse kabul etmedi
+  // -----------------------------------------------------------------------------
+  // TEVKİL BİLGİLERİ
+  // -----------------------------------------------------------------------------
   
-  // İlgili dava ve duruşma
-  caseId        String?   @map("case_id")
+  // Gönderen avukat ID'si - Duruşmayı devreden
+  sentById      String    @map("sent_by_id")
+  
+  // Alan avukat ID'si - Duruşmayı devralan
+  receivedById  String    @map("received_by_id")
+  
+  // Dosya ID'si - Hangi case devredildi
+  caseId        String    @map("case_id")
+  
+  // Dosya numarası - Görüntüleme için
+  caseNumber    String?   @map("case_number")
+  
+  // Duruşma tarihi - Devredilen duruşma
   hearingDate   DateTime? @map("hearing_date")
-  court         String? // Mahkeme adı
   
-  // Durum ve not
+  // Duruşma yeri - Mahkeme salonu
+  location      String?
+  
+  // -----------------------------------------------------------------------------
+  // TEVKİL DURUMU
+  // -----------------------------------------------------------------------------
+  
+  // Durum: pending, accepted, rejected, cancelled
   status        DelegationStatus @default(PENDING)
-  message       String? // Gönderenin notu
-  adminNote     String?   @map("admin_note") // Admin notu
   
-  // Puanlama
-  rating        Int? // 1-5 arası puan
-  ratingComment String?   @map("rating_comment") // Puan yorumu
+  // Açıklama - Neden tevkil edildiği
+  description   String?
   
-  // Yük dengeleme - Bu avukata ne kadar tevkil verildi
-  fromUserDelegationCount Int @default(0) @map("from_user_delegation_count") // Bu kullanıcının gönderdiği toplam tevkil
-  toUserDelegationCount   Int @default(0) @map("to_user_delegation_count") // Bu avukatın aldığı toplam tevkil (yük dengeleme için)
+  // Ücret teklifi - TL cinsinden
+  // null: Ücretsiz teklif
+  // değer: Bu ücret karşılığında devir
+  fee           Decimal?  @db.Decimal(10,2)
+  
+  // Ücret kabul edildi mi?
+  feeAccepted   Boolean?  @default(false) @map("fee_accepted")
+  
+  // -----------------------------------------------------------------
+  // KARŞILIKLI DEĞERLENDİRME (PUANLAMA)
+  // -----------------------------------------------------------------
+  
+  // Gönderenin alana puanı (1-5)
+  sentByRating  Int?      @map("sent_by_rating")
+  
+  // Alanın gönderene puanı (1-5)
+  receivedByRating Int?   @map("received_by_rating")
+  
+  // Gönderenin yorumu
+  sentByComment String?  @map("sent_by_comment")
+  
+  // Alanın yorumu
+  receivedByComment String? @map("received_by_comment")
+  
+  // Kabul/reddetme tarihi
+  respondedAt   DateTime? @map("responded_at")
+  
+  // İptal sebebi
+  cancelReason  String?  @map("cancel_reason")
 
-  // Zaman bilgileri
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
-  completedAt   DateTime? @map("completed_at")
-  expiresAt     DateTime? @map("expires_at") // 24 saat sonra otomatik iptal
-  deletedAt     DateTime? @map("deleted_at")
-
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
+  
   // Gönderen - Çoktan bire ilişki (N Delegation : 1 User)
-  fromUser      User      @relation("SentDelegations", fields: [fromUserId], references: [id])
-  // Alan - Çoktan bire ilişki (N Delegation : 1 User) - opsiyonel
-  toUser        User?     @relation("ReceivedDelegations", fields: [toUserId], references: [id])
-  // Dava - Çoktan bire ilişki (N Delegation : 1 Case) - opsiyonel
-  case          Case?     @relation(fields: [caseId], references: [id])
-  // Şikayetler - Bire çok ilişki (N Delegation : N Complaint)
+  sentBy        User      @relation("SentDelegations", fields: [sentById], references: [id])
+  
+  // Alan - Çoktan bire ilişki (N Delegation : 1 User)
+  receivedBy    User      @relation("ReceivedDelegations", fields: [receivedById], references: [id])
+  
+  // Şikayetler - Bire çok ilişki
   complaints    Complaint[]
 
-  @@index([fromUserId]) // Gönderen ID ile arama
-  @@index([toUserId]) // Alan ID ile arama
-  @@index([status]) // Durum ile arama
-  @@index([expiresAt]) // Süresi dolan tevkilleri bulma
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([sentById])
+  @@index([receivedById])
+  @@index([status])
+  
   @@map("delegations")
 }
 
 // Tevkil durumu enum'u
 enum DelegationStatus {
-  PENDING // Beklemede - tevkil gönderildi, henüz kabul edilmedi
-  APPROVED // Onaylandı - tevkil kabul edildi
-  REJECTED // Reddedildi - tevkil reddedildi
-  CANCELLED // İptal edildi - gönderen iptal etti
-  COMPLETED // Tamamlandı - duruşma yapıldı
+  // Beklemede - Gönderildi, yanıt bekleniyor
+  PENDING
+  // Kabul edildi - Alan kabul etti
+  ACCEPTED
+  // Reddedildi - Alan reddetti
+  REJECTED
+  // İptal - Gönderen iptal etti
+  CANCELLED
 }
 
 // ============================================================================
-// ŞİKAYET (COMPLAINTS) TABLOSU
-// Açıklama: Tevkiller hakkında şikayetleri saklar
+// COMPLAINT (ŞİKAYET) MODELİ
+// Açıklama: Tevkil ile ilgili şikayetler
+// 
+// İlişkiler:
+// - filedBy (N:1) - Şikayet eden
+// - against (N:1) - Şikayet edilen
+// - delegation (N:1) - İlgili tevkil
 // ============================================================================
 model Complaint {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
-  delegationId  String    @map("delegation_id")
-  filedById     String    @map("filed_by_id") // Şikayeti eden
-  againstId     String    @map("against_id") // Şikayet edilen
-  reason        ComplaintReason // Sebep
-  description   String // Detaylı açıklama
-  status        ComplaintStatus @default(PENDING) // pending, reviewed, resolved, dismissed
   
-  // Admin değerlendirmesi
+  // Şikayet eden kullanıcı ID'si
+  filedById     String    @map("filed_by_id")
+  
+  // Şikayet edilen kullanıcı ID'si
+  againstId     String    @map("against_id")
+  
+  // İlgili tevkil ID'si
+  delegationId  String    @map("delegation_id")
+  
+  // Şikayet sebebi
+  reason        ComplaintReason
+  
+  // Şikayet açıklaması - Detaylı anlatım
+  description   String
+  
+  // Şikayet durumu - pending, resolved, dismissed
+  status        ComplaintStatus @default(PENDING)
+  
+  // Admin notu - Yönetici çözüm notu
   adminNote     String?   @map("admin_note")
+  
+  // Çözüm tarihi
   resolvedAt    DateTime? @map("resolved_at")
 
-  createdAt     DateTime  @default(now()) @map("created_at")
-
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Tevkil - Çoktan bire ilişki (N Complaint : 1 Delegation)
-  delegation    Delegation @relation(fields: [delegationId], references: [id])
-  // Şikayet eden - Çoktan bire ilişki (N Complaint : 1 User)
+  // -----------------------------------------------------------------------------
+  
+  // Şikayet eden - Çoktan bire ilişki
   filedBy       User      @relation("ComplaintsFiled", fields: [filedById], references: [id])
-  // Şikayet edilen - Çoktan bire ilişki (N Complaint : 1 User)
+  
+  // Şikayet edilen - Çoktan bire ilişki
   against       User      @relation("ComplaintsAgainst", fields: [againstId], references: [id])
+  
+  // Tevkil - Çoktan bire ilişki
+  delegation    Delegation @relation(fields: [delegationId], references: [id])
 
-  @@index([delegationId])
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
   @@index([filedById])
   @@index([againstId])
   @@index([status])
+  
   @@map("complaints")
 }
 
+// Şikayet sebebi enum'u
 enum ComplaintReason {
-  NO_SHOW       // Duruşmaya gelmedi
-  POOR_QUALITY  // Kötü takip
-  LATE_RESPONSE // Geç cevap
-  UNPROFESSIONAL // Uygunsuz davranış
-  OTHER         // Diğer
+  // Görüşmemezlik - Gelen tevkile cevap vermedi
+  NO_RESPONSE
+  // Geç yanıt - Çok geç cevap verdi
+  LATE_RESPONSE
+  // Kalitesiz hizmet - Beklentileri karşılamadı
+  POOR_SERVICE
+  // Dolandırıcılık - Para alıp işi yapmadı
+  FRAUD
+  // Uygunsuz davranış - Kötü muamele
+  MISCONDUCT
+  // Diğer
+  OTHER
 }
 
+// Şikayet durumu enum'u
 enum ComplaintStatus {
-  PENDING    // Beklemede
-  REVIEWED   // İncelendi
-  RESOLVED   // Çözüldü
-  DISMISSED  // Reddedildi
+  // Beklemede - Admin incelemesi bekleniyor
+  PENDING
+  // Çözüldü - Olumlu sonuçlandı
+  RESOLVED
+  // Reddedildi - Şikayet haksız
+  DISMISSED
 }
 
 // ============================================================================
-// BELGE (DOCUMENTS) TABLOSU
-// Açıklama: AI tarafından üretilen veya yüklenen belgeleri saklar
-// Diğer tablolarla ilişkiler:
-// - user (N:1) - Belgeyi oluşturan/indiren avukat
-// - case (N:1) - İlgili dava (opsiyonel)
+// DOCUMENT (BELGE) MODELİ
+// Açıklama: Dosyalara eklenen belgeler ve AI belgeleri
+// 
+// İlişkiler:
+// - user (N:1) - Yükleyen
+// - case (N:1) - Hangi case'e ait
+// - embeddings (1:N) - Pinecone vector embeddings
 // ============================================================================
 model Document {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
-  userId        String    @map("user_id")
-  caseId        String?   @map("case_id")
-  type          DocumentType // dilekçe, ihtarname, ara karar, diğer
-  title         String // Belge başlığı
-  content       String? // Belge içeriği (metin olarak)
-  fileUrl       String?   @map("file_url") // Dosya URL'i (CloudFlare R2'de)
-  fileSize      Int?      @map("file_size") // Dosya boyutu (byte)
-  fileType      String?   @map("file_type") // Dosya tipi (pdf, docx, vs)
-  status        DocumentStatus @default(DRAFT) // draft, approved, rejected
-  aiModelUsed   String?   @map("ai_model_used") // Hangi AI ile oluşturuldu
   
-  // İnsan onayı zorunluluğu (AI üretimi belgeler için)
-  requiresApproval Boolean @default(true) @map("requires_approval") // AI üretimi ise true
-  approvedBy     String?   @map("approved_by") // Onaylayan kullanıcı ID
-  approvedAt     DateTime? @map("approved_at") // Onay tarihi
+  // -----------------------------------------------------------------------------
+  // BELGE BİLGİLERİ
+  // -----------------------------------------------------------------------------
+  
+  // Dosya URL'i - Storage'daki dosya yolu (S3, GCS vb.)
+  fileUrl       String    @map("file_url")
+  
+  // Orijinal dosya adı
+  fileName      String    @map("file_name")
+  
+  // MIME type - pdf, docx, image vb.
+  mimeType      String    @map("mime_type")
+  
+  // Dosya boyutu (byte)
+  fileSize      Int       @map("file_size")
+  
+  // Belge türü -ai, uploaded, uyap
+  type          DocumentType @default(UPLOADED)
+  
+  // Belge kategorisi - dilekçe, karar, sözleşme vb.
+  category      String?
+  
+  // Belge başlığı
+  title         String?
+  
+  // Açıklama
+  description   String?
+  
+  // Durumu - active, archived, deleted
+  status        DocumentStatus @default(ACTIVE)
+  
+  // AI ile indekslendi mi? (Pinecone)
+  isIndexed     Boolean   @default(false) @map("is_indexed")
+  
+  // Pinecone namespace - Hangi vector space'e ait
+  namespace     String?   @map("namespace")
+  
+  // Chunk sayısı - Kaç parçaya bölündü (RAG için)
+  chunkCount    Int?      @map("chunk_count")
 
-  // RAG için embedding durumu
-  embedded      Boolean   @default(false) // Embedding oluşturuldu mu
-  embeddingModel String?   @map("embedding_model") // Embedding modeli
+  // -----------------------------------------------------------------------------
+  // İLİŞKİ BİLGİLERİ
+  // -----------------------------------------------------------------------------
+  
+  // Sahip - Yükleyen kullanıcı ID'si
+  userId        String?   @map("user_id")
+  
+  // Dosya ID'si - Hangi case'e ait
+  caseId        String?   @map("case_id")
 
-  // İstatistikler
-  wordCount     Int?      @map("word_count") // Kelime sayısı
-  revisionCount Int       @default(0) @map("revision_count") // Revizyon sayısı
+  // AI çıktısı mı? - true: AI tarafından oluşturuldu
+  isAiGenerated Boolean   @default(false) @map("is_ai_generated")
+  
+  // AI görev ID'si - Hangi görevle oluşturuldu
+  aiTaskId      String?   @map("ai_task_id")
 
+  // -----------------------------------------------------------------------------
+  // ZAMAN BİLGİLERİ
+  // -----------------------------------------------------------------------------
+  
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
   deletedAt     DateTime? @map("deleted_at")
 
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Kullanıcı - Çoktan bire ilişki (N Document : 1 User)
-  user          User      @relation(fields: [userId], references: [id])
-  // Dava - Çoktan bire ilişki (N Document : 1 Case) - opsiyonel
+  // -----------------------------------------------------------------------------
+  
+  // Sahibi - Çoktan bire ilişki (opsiyonel)
+  user          User?     @relation(fields: [userId], references: [id])
+  
+  // Dosyası - Çoktan bire ilişki (opsiyonel)
   case          Case?     @relation(fields: [caseId], references: [id])
-  // Embedding'ler - Bire çok ilişki (1 Document : N DocumentEmbedding)
+  
+  // Vektör embeddings - Bire çok ilişki
   embeddings    DocumentEmbedding[]
 
-  @@index([userId]) // Kullanıcı ID ile arama
-  @@index([caseId]) // Dava ID ile arama
-  @@index([type]) // Belge türü ile arama
-  @@index([status]) // Durum ile arama
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([userId])
+  @@index([caseId])
+  @@index([type])
+  @@index([isIndexed])
+  
   @@map("documents")
 }
 
 // Belge türü enum'u
 enum DocumentType {
-  PETITION // Dilekçe
-  LEGAL_NOTICE // İhtarname
-  DECISION // Ara karar
-  CONTRACT // Sözleşme
-  CORRESPONDENCE // Yazışma
-  UDF // UDF formatında çıktı
-  OTHER // Diğer
+  // Kullanıcı yükledi
+  UPLOADED
+  // AI tarafından oluşturuldu
+  AI_GENERATED
+  // UYAP'tan çekildi
+  UYAP
+  // RAG çıktısı
+  RAG_OUTPUT
 }
 
 // Belge durumu enum'u
 enum DocumentStatus {
-  DRAFT // Taslak
-  PENDING_REVIEW // İncelemede
-  APPROVED // Onaylandı
-  REJECTED // Reddedildi
+  // Aktif - kullanılabilir
+  ACTIVE
+  // Arşivlendi
+  ARCHIVED
+  // Silindi (soft delete)
+  DELETED
 }
 
 // ============================================================================
-// BELGE EMBEDDING (DOCUMENT_EMBEDDINGS) TABLOSU
-// Açıklama: RAG sistemi için belgelerin vektör embedding'lerini saklar
-// Pinecone vektör veritabanı ile senkronize çalışır
+// DOCUMENT EMBEDDING MODELİ
+// Açıklama: RAG sistemi için belgelerin vektör embedding'leri
+// Pinecone vektör veritabanında saklanır, bu model metadata tutar
+// 
+// İlişkiler:
+// - document (N:1) - Hangi belge
 // ============================================================================
 model DocumentEmbedding {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // Belge ID'si - Hangi belgeye ait
   documentId    String    @map("document_id")
-  caseId        String    @map("case_id") // Üst dava - daha hızlı sorgulama için
-
-  // Embedding bilgileri
-  vectorId      String    @map("vector_id") // Pinecone'daki vector ID
-  chunkIndex    Int       @map("chunk_index") // Belgedeki chunk sırası (0, 1, 2, ...)
-  chunkText     String    @map("chunk_text") // Chunk metni (arama için)
   
-  // Embedding metadata
-  model         String    @default("minimax-embedding") @map("embedding_model") // Embedding modeli
-  dimensions    Int       @default(1536) @map("dimensions") // Vector boyutu
-  tokenCount    Int       @map("token_count") // Bu chunk'ın token sayısı
+  // Pinecone vector ID - Pinecone'daki unique ID
+  pineconeId    String    @map("pinecone_id")
   
-  // Konum bilgisi (belge içinde)
-  pageNumber    Int?      @map("page_number") // Sayfa numarası (PDF için)
-  positionStart Int?      @map("position_start") // Belgedeki başlangıç pozisyonu
+  // Embedding modeli - minimax-embedding, text-embedding-3-small vb.
+  embeddingModel String   @default("minimax-embedding") @map("embedding_model")
+  
+  // Chunk index - Belge kaçıncı parçada (0, 1, 2...)
+  chunkIndex    Int       @map("chunk_index")
+  
+  // Chunk boyutu (token sayısı)
+  chunkSize     Int       @map("chunk_size")
+  
+  // Metadata - İsteğe bağlı ek bilgiler
+  metadata       Json?
 
-  createdAt     DateTime  @default(now()) @map("created_at")
-
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Belge - Çoktan bire ilişki (N DocumentEmbedding : 1 Document)
+  // -----------------------------------------------------------------------------
+  
+  // Belge - Çoktan bire ilişki (N Embedding : 1 Document)
   document      Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
-  // Dava - Çoktan bire ilişki (N DocumentEmbedding : 1 Case)
-  case          Case      @relation(fields: [caseId], references: [id])
 
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
   @@index([documentId])
-  @@index([caseId])
-  @@index([vectorId])
+  @@index([pineconeId])
+  
   @@map("document_embeddings")
 }
 
 // ============================================================================
-// HATIRLATICI (REMINDERS) TABLOSU
-// Açıklama: Kullanıcıların oluşturduğu hatırlatıcıları saklar
-// Diğer tablolarla ilişkiler:
-// - user (N:1) - Hatırlatıcının sahibi
-// - case (N:1) - İlgili dava (opsiyonel)
-// - notification (N:1) - İlgili tebligat (opsiyonel)
+// REMINDER (HATIRLATICI) MODELİ
+// Açıklama: Kullanıcı hatırlatıcıları - duruşma, süre, genel
+// 
+// İlişkiler:
+// - user (N:1) - Kime ait
 // ============================================================================
 model Reminder {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // Kullanıcı ID'si
   userId        String    @map("user_id")
+  
+  // Hatırlatıcı türü
+  type          ReminderType
+  
+  // Hatırlatıcı başlığı
+  title         String
+  
+  // Hatırlatıcı açıklaması
+  description   String?
+  
+  // Hatırlatılacak tarih ve saat
+  remindAt      DateTime  @map("remind_at")
+  
+  // Bildirim kanalları - JSON array
+  // ["push", "sms", "email", "whatsapp", "telegram"]
+  notifyChannels Json     @default(Json["push"]) @map("notify_channels")
+  
+  // Bildirim türü - once, daily, weekly
+  notifyType    ReminderNotifyType @default(ONCE)
+  
+  // Hatırlatıcı oluşturulma kaynağı - manual, ai, uets
+  source        String    @default("manual")
+  
+  // İlgili dosya ID'si (opsiyonel)
   caseId        String?   @map("case_id")
-  notificationId String? @map("notification_id")
-  type          ReminderType // Duruşma, süre, toplantı, genel
-  title         String // Hatırlatıcı başlığı
-  description   String? // Açıklama
-  dueDate       DateTime  @map("due_date") // Hatırlatma tarihi
-  remindAt      DateTime? @map("remind_at") // Hatırlatma zamanı
   
-  // Bildirim türleri
-  notifyTypes   ReminderNotifyType[] @default([PUSH, EMAIL]) @map("notify_types") // push, sms, email, whatsapp
+  // İlgili tebligat ID'si (opsiyonel)
+  notificationId String?  @map("notification_id")
   
-  // Hatırlatıcı durumu
-  status        ReminderStatus @default(ACTIVE)
-  isCompleted   Boolean   @default(false) @map("is_completed")
+  // İlgili duruşma ID'si (opsiyonel)
+  hearingId     String?   @map("hearing_id")
   
-  // Tekrar bilgisi (cronjob için)
-  repeatType    String?   @map("repeat_type") // none, daily, weekly, monthly
-  repeatInterval Int?     @map("repeat_interval") // Tekrar aralığı
+  // Durumu - pending, sent, cancelled, completed
+  status        ReminderStatus @default(PENDING)
+  
+  // İlk bildirim gönderildi mi?
+  firstSent     Boolean   @default(false) @map("first_sent")
+  
+  // Son bildirim zamanı
+  lastSentAt    DateTime? @map("last_sent_at")
+  
+  // Kaç kez gönderildi
+  sendCount     Int       @default(0) @map("send_count")
+  
+  // Gönderim hatası var mı?
+  errorMessage  String?   @map("error_message")
 
-  createdAt     DateTime  @default(now()) @map("created_at")
-  completedAt   DateTime? @map("completed_at")
-
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Kullanıcı - Çoktan bire ilişki (N Reminder : 1 User)
+  // -----------------------------------------------------------------------------
+  
+  // Sahibi - Çoktan bire ilişki (N Reminder : 1 User)
   user          User      @relation(fields: [userId], references: [id])
-  // Dava - Çoktan bire ilişki (N Reminder : 1 Case) - opsiyonel
-  case          Case?     @relation(fields: [caseId], references: [id])
-  // Bildirim - Çoktan bire ilişki (N Reminder : 1 Notification) - opsiyonel
-  notification  Notification? @relation(fields: [notificationId], references: [id])
 
-  @@index([userId]) // Kullanıcı ID ile arama
-  @@index([caseId]) // Dava ID ile arama
-  @@index([dueDate]) // Tarih ile arama
-  @@index([status]) // Durum ile arama
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([userId])
+  @@index([remindAt])
+  @@index([status])
+  
   @@map("reminders")
 }
 
 // Hatırlatıcı türü enum'u
 enum ReminderType {
-  HEARING // Duruşma hatırlatıcı
-  DEADLINE // Süre hatırlatıcı
-  MEETING // Toplantı hatırlatıcı
-  GENERAL // Genel hatırlatıcı
+  // Duruşma hatırlatıcısı
+  HEARING
+  // Yasal süre hatırlatıcısı
+  DEADLINE
+  // Genel hatırlatıcı
+  GENERAL
+  // Ödeme hatırlatıcısı
+  PAYMENT
+  // Toplantı hatırlatıcısı
+  MEETING
 }
 
-// Hatırlatıcı bildirim türü enum'u
+// Bildirim türü enum'u
 enum ReminderNotifyType {
-  PUSH     // Push bildirim
-  SMS      // SMS (NetGSM)
-  EMAIL    // E-posta (SendGrid)
-  WHATSAPP // WhatsApp
+  // Sadece bir kez hatırla
+  ONCE
+  // Her gün hatırla (remindAt tarihine kadar)
+  DAILY
+  // Her hafta hatırla
+  WEEKLY
 }
 
 // Hatırlatıcı durumu enum'u
 enum ReminderStatus {
-  ACTIVE // Aktif
-  COMPLETED // Tamamlandı
-  CANCELLED // İptal edildi
+  // Beklemede - Henüz gönderilmedi
+  PENDING
+  // Gönderildi - Bildirim gönderildi
+  SENT
+  // İptal edildi - Kullanıcı iptal etti
+  CANCELLED
+  // Tamamlandı - Tarih geçti ve gönderildi
+  COMPLETED
 }
 
 // ============================================================================
-// AI YAPILANDIRMA (AI_CONFIG) TABLOSU
-// Açıklama: Her AI görevi için hangi modelin kullanılacağını saklar
-// Admin panelden yapılandırılır
+// AI CONFIG MODELİ
+// Açıklama: AI görev yapılandırması - Admin panel üzerinden yönetilir
+// Her AI görevi için hangi modelin kullanılacağı belirlenir
 // ============================================================================
 model AiConfig {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
-  taskName      String    @unique @map("task_name") // Görev adı (örn: notification_summary)
-  displayName   String?   @map("display_name") // Gösterim adı
-  description   String? // Görev açıklaması
-  model         AiModel   @default(MINIMAX) // minimax veya claude
+  
+  // AI görev adı - notification_summary, deadline_extract vb.
+  // @unique: Her görev için sadece bir config olabilir
+  taskName      String    @unique @map("task_name")
+  
+  // Kullanılacak AI modeli - minimax veya claude
+  model         AiModel   @default(MINIMAX)
+  
+  // Token limiti - Bu görev için aylık limit
+  // null: Sınırsız (örneğin notification_summary)
+  tokenLimit    Int?
+  
+  // Görev açıklaması - Admin panelinde gösterilir
+  description   String?
+  
+  // Bu görev için System Prompt
+  systemPrompt  String?   @map("system_prompt")
+  
+  // Görev aktif mi?
   isActive      Boolean   @default(true) @map("is_active")
-  priority      Int       @default(0) // Öncelik sırası
-  settings      Json? // Ek ayarlar (temperature, max_tokens, vs)
+  
+  // Admin tarafından son güncelleme
+  updatedBy     String?   @map("updated_by")
+  
+  updatedAt     DateTime  @updatedAt
 
-  updatedAt     DateTime  @updatedAt @map("updated_at")
-  updatedById   String?   @map("updated_by_id")
-
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Güncelleyen - Çoktan bire ilişki (N AiConfig : 1 User)
-  updatedBy     User?     @relation(fields: [updatedById], references: [id])
+  // -----------------------------------------------------------------------------
+  
+  // Güncellemeler - Bire çok ilişki (her değişiklik loglanır)
+  updates       AiConfigUpdate[]
 
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
   @@map("ai_config")
 }
 
-// AI modeli enum'u
+// AI Model enum'u
 enum AiModel {
-  MINIMAX // Minimax M2.7 Türkiye sunucusu
-  CLAUDE // Claude (Sonnet)
+  // Minimax M2.7 - Türkiye'de KVKK uyumlu, hızlı, ucuz
+  MINIMAX
+  // Claude Sonnet - Yüksek kalite, daha pahalı
+  CLAUDE
 }
 
 // ============================================================================
-// AI YAPILANDIRMA GÜNCELLEME (AI_CONFIG_UPDATE) TABLOSU
-// Açıklama: AI yapılandırma değişikliklerinin geçişini saklar
-// Diğer tablolarla ilişkiler:
-// - config (N:1) - İlgili yapılandırma
-// - updatedBy (N:1) - Değişikliği yapan kullanıcı
+// AI CONFIG UPDATE MODELİ
+// Açıklama: AI config değişikliklerinin log kaydı
 // ============================================================================
 model AiConfigUpdate {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // AI Config ID'si
   configId      String    @map("config_id")
-  oldModel      String?   @map("old_model")
-  newModel      String    @map("new_model")
-  reason        String? // Değişiklik nedeni
-  updatedById   String    @map("updated_by_id")
-  createdAt     DateTime  @default(now()) @map("created_at")
+  
+  // Değişiklik yapan kullanıcı (admin)
+  userId        String    @map("user_id")
+  
+  // Eski değerler (JSON)
+  oldValue      Json      @map("old_value")
+  
+  // Yeni değerler (JSON)
+  newValue      Json      @map("new_value")
+  
+  // Değişiklik sebebi
+  reason        String?
+  
+  // Değişiklik tarihi
+  createdAt     DateTime  @default(now())
 
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Yapılandırma - Çoktan bire ilişki
+  // -----------------------------------------------------------------------------
+  
+  // AI Config - Çoktan bire ilişki (N Update : 1 Config)
   config        AiConfig  @relation(fields: [configId], references: [id])
-  // Güncelleyen - Çoktan bire ilişki (N AiConfigUpdate : 1 User)
-  updatedBy     User      @relation(fields: [updatedById], references: [id])
+  
+  // Kullanıcı - Çoktan bire ilişki (N Update : 1 User)
+  user          User      @relation(fields: [userId], references: [id])
 
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([configId])
+  @@index([userId])
+  
   @@map("ai_config_updates")
 }
 
 // ============================================================================
-// TOKEN KULLANIMI (USER_TOKENS) TABLOSU
-// Açıklama: Kullanıcıların aylık token kullanımını takip eder
-// Diğer tablolarla ilişkiler:
-// - user (N:1) - Token kullanan kullanıcı
+// USER TOKEN MODELİ
+// Açıklama: AI kullanım takibi - Token tüketimi kayıtları
 // ============================================================================
 model UserToken {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // Kullanıcı ID'si
   userId        String    @map("user_id")
-  tokenAmount   Int       @default(0) @map("token_amount") // Harcanan token sayısı
-  aiModel       String    @map("ai_model") // Hangi modelde kullanıldı
-  taskType      String    @map("task_type") // Görev türü
-  periodStart   DateTime  @map("period_start") // Dönem başı
-  periodEnd     DateTime  @map("period_end") // Dönem sonu
+  
+  // AI modeli - minimax veya claude
+  aiModel       String    @map("ai_model")
+  
+  // AI görev türü - notification_summary, case_summary vb.
+  taskType      String    @map("task_type")
+  
+  // Tüketilen token sayısı
+  tokenAmount   Int       @map("token_amount")
+  
+  // Maliyet (TL cinsinden) - Finansal raporlama için
+  cost          Decimal?  @db.Decimal(10,4)
+  
+  // Dönem başlangıcı - Ay başı (token limit yenileme için)
+  periodStart   DateTime  @map("period_start")
+  
+  // Dönem bitişi - Ay sonu
+  periodEnd     DateTime  @map("period_end")
 
-  createdAt     DateTime  @default(now()) @map("created_at")
+  // İlgili case ID'si (opsiyonel)
+  caseId        String?   @map("case_id")
+  
+  // İşlem açıklaması
+  description   String?
 
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Kullanıcı - Çoktan bire ilişki (N UserToken : 1 User)
+  // -----------------------------------------------------------------------------
+  
+  // Kullanıcı - Çoktan bire ilişki (N Token : 1 User)
   user          User      @relation(fields: [userId], references: [id])
 
-  @@index([userId]) // Kullanıcı ID ile arama
-  @@index([periodStart, periodEnd]) // Dönem ile arama
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([userId])
+  @@index([periodStart])
+  @@index([periodEnd])
+  
   @@map("user_tokens")
 }
 
 // ============================================================================
-// UETS OTURUMU (UETS_SESSIONS) TABLOSU
-// Açıklama: Kullanıcıların UETS bağlantı bilgilerini saklar
-// Diğer tablolarla ilişkiler:
-// - user (N:1) - Oturum sahibi
+// UETS SESSION MODELİ
+// Açıklama: UETS oturum bilgileri - Avukat UETS'e giriş yapınca
 // ============================================================================
 model UetsSession {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
-  userId        String    @unique @map("user_id") // Her kullanıcının sadece bir aktif oturumu olabilir
-  encryptedCredentials String @map("encrypted_credentials") // Şifrelenmiş UETS bilgileri
-  sessionData   Json?     @map("session_data") // Ek oturum verileri (cookies, token, vs)
-  lastSyncAt    DateTime? @map("last_sync_at") // Son senkronizasyon zamanı
-  isActive      Boolean   @default(true) @map("is_active")
   
-  // Oturum zaman aşımı
-  expiresAt     DateTime? @map("expires_at") // UETS oturumunun expires zamanı
+  // Kullanıcı ID'si
+  userId        String    @map("user_id")
   
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  // UETS session ID
+  uetsSessionId String?   @map("uets_session_id")
+  
+  // UETS kullanıcı TCKN
+  uetsTckn      String?   @map("uets_tckn")
+  
+  // Başlangıç zamanı
+  startedAt     DateTime  @map("started_at")
+  
+  // Bitiş zamanı
+  endedAt       DateTime? @map("ended_at")
+  
+  // Son aktivite zamanı
+  lastActivityAt DateTime @map("last_activity_at")
+  
+  // IP adresi
+  ipAddress     String?   @map("ip_address")
+  
+  // User agent
+  userAgent     String?   @map("user_agent")
 
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Kullanıcı - Çoktan bire ilişki (N UetsSession : 1 User)
+  // -----------------------------------------------------------------------------
+  
+  // Kullanıcı - Çoktan bire ilişki (N Session : 1 User)
   user          User      @relation(fields: [userId], references: [id])
 
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([userId])
+  @@index([startedAt])
+  
   @@map("uets_sessions")
 }
 
 // ============================================================================
-// DENETİM KAYITLARI (AUDIT_LOGS) TABLOSU
-// Açıklama: Sistemdeki önemli işlemlerin geçmişini saklar
-// Diğer tablolarla ilişkiler:
-// - user (N:1) - İşlemi yapan kullanıcı (opsiyonel - sistem işlemleri için null olabilir)
+// AUDIT LOG MODELİ
+// Açıklama: Sistem denetim kayıtları - Kritik işlemlerin logu
 // ============================================================================
 model AuditLog {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // İşlemi yapan kullanıcı
   userId        String?   @map("user_id")
-  action        String // İşlem tipi (örn: LOGIN, CREATE_CASE, UPDATE_AI_CONFIG)
-  entityType    String?   @map("entity_type") // Etkilenen tablo (users, cases, vs)
-  entityId      String?   @map("entity_id") // Etkilenen kayıt ID'si
-  oldValue      Json?     @map("old_value") // Eski değerler (JSON)
-  newValue      Json?     @map("new_value") // Yeni değerler (JSON)
-  ipAddress     String?   @map("ip_address") // İşlemi yapan IP
-  userAgent     String?   @map("user_agent") // Tarayıcı bilgisi
-  createdAt     DateTime  @default(now()) @map("created_at")
+  
+  // İşlem türü - login, logout, payment, config_change vb.
+  action        String
+  
+  // İşlem açıklaması
+  description   String?
+  
+  // İşlem detayları (JSON)
+  details       Json?
+  
+  // İşlem IP'si
+  ipAddress     String?   @map("ip_address")
+  
+  // İşlem user agent'ı
+  userAgent     String?   @map("user_agent")
+  
+  // Başarılı mı?
+  success       Boolean   @default(true)
+  
+  // Hata mesajı (varsa)
+  errorMessage  String?   @map("error_message")
+  
+  // İşlem zamanı
+  createdAt     DateTime  @default(now())
 
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Kullanıcı - Çoktan bire ilişki (N AuditLog : 1 User) - opsiyonel
+  // -----------------------------------------------------------------------------
+  
+  // Kullanıcı - Çoktan bire ilişki (opsiyonel)
   user          User?     @relation(fields: [userId], references: [id])
 
-  @@index([userId]) // Kullanıcı ID ile arama
-  @@index([action]) // İşlem tipi ile arama
-  @@index([entityType, entityId]) // Belirli kayıtların geçmişini bulma
-  @@index([createdAt]) // Tarih ile arama
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  
   @@map("audit_logs")
 }
+
 // ============================================================================
-// ÖDEME (PAYMENTS) TABLOSU
-// Açıklama: Ödeme işlemlerini saklar
-// Diğer tablolarla ilişkiler:
-// - user (N:1) - Ödeme yapan kullanıcı
+// PAYMENT MODELİ
+// Açıklama: Ödeme kayıtları - Abonelik ve token paketleri
 // ============================================================================
 model Payment {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // Kullanıcı ID'si
   userId        String    @map("user_id")
-  type          PaymentType @default(SUBSCRIPTION) @map("type") // Ödeme türü
-  status        PaymentStatus @default(PENDING) @map("status") // Ödeme durumu
-  provider      String?   // Ödeme sağlayıcısı (iyzico/paytr/stripe)
-  transactionId String?   @map("transaction_id") // Sağlayıcıdaki işlem ID
-  amount        Decimal   @db.Decimal(10,2) @map("amount") // Ödeme tutarı
-  currency      String    @default("TRY") @map("currency") // Para birimi
-  metadata      Json?     @map("metadata") // Ek veriler (paket tipi, period, vs)
-  errorMessage  String?   @map("error_message") // Hata mesajı
-  completedAt   DateTime? @map("completed_at") // Ödeme tamamlanma zamanı
+  
+  // -----------------------------------------------------------------------------
+  // ÖDEME BİLGİLERİ
+  // -----------------------------------------------------------------------------
+  
+  // Ödeme türü - subscription, token_package, delegation_fee
+  type          PaymentType
+  
+  // Ödeme miktarı (TL)
+  amount        Decimal   @db.Decimal(10,2)
+  
+  // İndirim tutarı
+  discount      Decimal   @default(0) @db.Decimal(10,2)
+  
+  // Son ödeme tutarı (amount - discount)
+  finalAmount   Decimal   @map("final_amount") @db.Decimal(10,2)
+  
+  // -----------------------------------------------------------------------------
+  // ÖDEME DURUMU
+  // -----------------------------------------------------------------------------
+  
+  // Durum - pending, completed, failed, refunded, cancelled
+  status        PaymentStatus @default(PENDING)
+  
+  // Ödeme sağlayıcısı - iyzico, paytr, stripe
+  provider      String?
+  
+  // Provider transaction ID
+  providerTransactionId String? @map("provider_transaction_id")
+  
+  // Provider order ID
+  providerOrderId String?  @map("provider_order_id")
+  
+  // -----------------------------------------------------------------------------
+  // PAKET BİLGİLERİ
+  // -----------------------------------------------------------------------------
+  
+  // Abonelik paketi (eğer type = subscription)
+  packageType   SubscriptionPackage? @map("package_type")
+  
+  // Token paketi (eğer type = token_package)
+  tokenPackage  String?   @map("token_package")
+  
+  // Token miktarı (eğer token paketi ise)
+  tokenAmount   Int?      @map("token_amount")
+  
+  // -----------------------------------------------------------------------------
+  // FATURA
+  // -----------------------------------------------------------------------------
+  
+  // Fatura ID (opsiyonel)
+  invoiceId     String?   @map("invoice_id")
+  
+  // Fatura kesildi mi?
+  invoiced      Boolean   @default(false)
+  
+  // Fatura tarihi
+  invoicedAt    DateTime? @map("invoiced_at")
 
+  // -----------------------------------------------------------------------------
+  // İADE
+  // -----------------------------------------------------------------------------
+  
+  // İade edildi mi?
+  isRefunded    Boolean   @default(false) @map("is_refunded")
+  
+  // İade tarihi
+  refundedAt    DateTime? @map("refunded_at")
+  
+  // İade sebebi
+  refundReason  String?   @map("refund_reason")
+  
+  // İade eden admin
+  refundedBy    String?   @map("refunded_by")
+
+  // -----------------------------------------------------------------------------
+  // ZAMAN BİLGİLERİ
+  // -----------------------------------------------------------------------------
+  
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  // --------------------------------------------------------------------
-  // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Kullanıcı - Çoktan bire ilişki (N Payment : 1 User)
-  user          User      @relation(fields: [userId], references: [id])
-
-  @@index([userId]) // Kullanıcı ID ile arama
-  @@index([status]) // Durum ile arama
-  @@index([provider]) // Sağlayıcı ile arama
-  @@index([createdAt]) // Tarih ile arama
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  
   @@map("payments")
 }
 
 // Ödeme türü enum'u
 enum PaymentType {
-  SUBSCRIPTION   // Abonelik ödemesi
-  TOKEN_PACKAGE  // Token paketi satın alma
+  // Abonelik ödemesi
+  SUBSCRIPTION
+  // Token paketi satın alma
+  TOKEN_PACKAGE
+  // Tevkil ücreti
+  DELEGATION_FEE
 }
 
 // Ödeme durumu enum'u
 enum PaymentStatus {
-  PENDING      // Beklemede
-  COMPLETED    // Tamamlandı
-  FAILED       // Başarısız
-  REFUNDED     // İade edildi
-  CANCELLED    // İptal edildi
+  // Beklemede - Ödeme başlatıldı ama tamamlanmadı
+  PENDING
+  // Tamamlandı - Başarılı ödeme
+  COMPLETED
+  // Başarısız - Ödeme reddedildi
+  FAILED
+  // İade edildi
+  REFUNDED
+  // İptal edildi
+  CANCELLED
 }
 
 // ============================================================================
-// KULLANICI EVRAKLARI (USER_DOCUMENTS) TABLOSU
-// Açıklama: Avukatların özlük dosyalarını saklar
-// Kimlik, baro belgesi, vergi levhası gibi evraklar
-// Diğer tablolarla ilişkiler:
-// - user (N:1) - Evrak sahibi
+// USER DOCUMENT MODELİ
+// Açıklama: Kullanıcının kişisel belgeleri (portfolyo, sertifikalar vb.)
+// Case'e bağlı olmayan kişisel dosyalar
 // ============================================================================
 model UserDocument {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // Sahip kullanıcı
   userId        String    @map("user_id")
-  category      UserDocCategory @map("category") // Evrak kategorisi
-  fileUrl       String    @map("file_url") // Dosya URL (R2'de)
-  originalName  String    @map("original_name") // Orijinal dosya adı
-  status        VerificationStatus @default(PENDING) @map("status") // Onay durumu
-  verifiedBy    String?   @map("verified_by") // Onaylayan admin ID
-  verifiedAt    DateTime? @map("verified_at") // Onay zamanı
-  adminNotes    String?   @map("admin_notes") // Admin notları
+  
+  // Dosya URL'i
+  fileUrl       String    @map("file_url")
+  
+  // Dosya adı
+  fileName      String    @map("file_name")
+  
+  // MIME type
+  mimeType      String    @map("mime_type")
+  
+  // Dosya boyutu (byte)
+  fileSize      Int       @map("file_size")
+  
+  // Kategori - cv, sertifika, ruhsat, diploma, diğer
+  category      UserDocCategory @default(OTHER)
+  
+  // Başlık
+  title         String?
+  
+  // Açıklama
+  description   String?
+  
+  // Görünürlük - private, public, shared
+  visibility    String    @default("private")
+  
+  // Paylaşılan kullanıcılar (JSON array - user ID'leri)
+  sharedWith    Json?     @map("shared_with")
+  
+  // -----------------------------------------------------------------
+  // ONAY DURUMU (Özlük dosyası için)
+  // -----------------------------------------------------------------
+  
+  // Admin onayı gerekiyor mu?
+  requiresApproval Boolean @default(false) @map("requires_approval")
+  
+  // Onaylandı mı?
+  isApproved    Boolean   @default(false) @map("is_approved")
+  
+  // Onaylanma tarihi
+  approvedAt    DateTime? @map("approved_at")
+  
+  // Onaylayan admin
+  approvedBy    String?   @map("approved_by")
 
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
-
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  // Kullanıcı - Çoktan bire ilişki (N UserDocument : 1 User)
+  // -----------------------------------------------------------------------------
+  
+  // Sahibi - Çoktan bire ilişki (N Doc : 1 User)
   user          User      @relation(fields: [userId], references: [id])
 
-  @@index([userId]) // Kullanıcı ID ile arama
-  @@index([status]) // Durum ile arama
-  @@index([category]) // Kategori ile arama
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([userId])
+  @@index([category])
+  
   @@map("user_documents")
 }
 
-// Evrak kategorisi enum'u
+// Kullanıcı belge kategorisi enum'u
 enum UserDocCategory {
-  IDENTITY         // TC Kimlik fotokopisi
-  BARO_CERTIFICATE // Baro kayıt belgesi
-  TAX_PLAQUE       // Vergi levhası
-  SIGNATURE_CIRCLE // İmza sirküleri
-  DIPLOMA          // Diploma
-  NOTARY_CONTRACT  // Noter sözleşmesi
-  PROXY            // Vekilname
-  OTHER            // Diğer
-}
-
-// Evrak onay durumu enum'u
-enum VerificationStatus {
-  PENDING   // Beklemede
-  APPROVED  // Onaylandı
-  REJECTED  // Reddedildi
-  REVISION  // Revizyon istendi
+  // Özgeçmiş
+  CV
+  // Baro ruhsatı
+  LICENSE
+  // Sertifikalar
+  CERTIFICATE
+  // Diploma
+  DIPLOMA
+  // Referans mektubu
+  REFERENCE
+  // Kimlik fotokopisi
+  ID_COPY
+  // Diğer
+  OTHER
 }
 
 // ============================================================================
-// İCRA DOSYASI (ICRA_FILES) TABLOSU
-// Açıklama: İcra takip dosyalarını saklar
-// Diğer tablolarla ilişkiler:
-// - user (N:1) - Takip sahibi avukat
+// ICRA FILE MODELİ
+// Açıklama: İcra takip dosyaları
 // ============================================================================
 model IcraFile {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // -----------------------------------------------------------------------------
+  // DOSYA BİLGİLERİ
+  // -----------------------------------------------------------------------------
+  
+  // Kullanıcı ID'si - Takip eden avukat
   userId        String    @map("user_id")
-  takipNumarasi String    @map("takip_numarasi") // İcra takip numarası
-  alacakli      String    @map("alacakli") // Alacaklı (müvekkil)
-  borclu        String    @map("borclu") // Borçlu
-  borcluTC      String?   @map("borclu_tc") // Borçlu TC
-  borcluAdres   String?   @map("borclu_adres") // Borçlu adresi
-  takipTarihi   DateTime  @map("takip_tarihi") // Takip başlangıç tarihi
-  takipTuru     IcraTrackingType @map("takip_turu") // Takip türü
-  durum         IcraFileStatus @default(AKTIF) @map("durum") // Dosya durumu
-  takipMiktari  Decimal   @db.Decimal(15,2) @map("takip_miktari") // Takip edilen miktar
-  odemeMiktari  Decimal   @default(0) @db.Decimal(15,2) @map("odeme_miktari") // Ödenen miktar
-  kalanMiktar   Decimal   @default(0) @db.Decimal(15,2) @map("kalan_miktar") // Kalan miktar
-  satişTarihi   DateTime? @map("satis_tarihi") // Satış tarihi
-  sonrakiAsama  String?   @map("sonraki_asama") // Sonraki aşama bilgisi
-  aiAnaliz      Json?     @map("ai_analiz") // AI analiz sonucu
-  aktif         Boolean   @default(true) @map("aktif") // Takip aktif mi
-  kapatmaNedeni String?   @map("kapatma_nedeni") // Kapatma nedeni
-  closedAt      DateTime? @map("closed_at") // Kapatma tarihi
-  lastRefreshAt DateTime? @map("last_refresh_at") // Son güncelleme zamanı
+  
+  // Dosya numarası - İcra dosya numarası
+  fileNumber    String    @map("file_number")
+  
+  // Takip türü - borclu, alacakli
+  trackingType  IcraTrackingType @map("tracking_type")
+  
+  // Borçlu adı
+  debtorName    String?   @map("debtor_name")
+  
+  // Borçlu TCKN
+  debtorTckn    String?   @map("debtor_tckn")
+  
+  // Alacaklı adı
+  creditorName  String?   @map("creditor_name")
+  
+  // Alacaklı TCKN
+  creditorTckn  String?   @map("creditor_tckn")
+  
+  // Asıl alacak (TL)
+  principalAmount Decimal? @map("principal_amount") @db.Decimal(12,2)
+  
+  // Faiz tutarı
+  interestAmount Decimal? @map("interest_amount") @db.Decimal(12,2)
+  
+  // Toplam borç
+  totalAmount   Decimal?  @map("total_amount") @db.Decimal(12,2)
+  
+  // -----------------------------------------------------------------------------
+  // TAKİP DURUMU
+  // -----------------------------------------------------------------------------
+  
+  // Durumu - active, paid, cancelled, transferred
+  status        IcraFileStatus @default(ACTIVE)
+  
+  // İcra dairesi
+  icraOffice    String?   @map("icra_office")
+  
+  // Dosya açılış tarihi
+  fileOpenDate  DateTime? @map("file_open_date")
+  
+  // Tahsil edilen tutar
+  collectedAmount Decimal  @default(0) @map("collected_amount") @db.Decimal(12,2)
+  
+  // Tahsil tarihi
+  paidAt        DateTime? @map("paid_at")
 
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
-  deletedAt     DateTime? @map("deleted_at") // Soft delete
+  // -----------------------------------------------------------------------------
+  // AI MAL VARLIĞI TESPİTİ
+  // -----------------------------------------------------------------------------
+  
+  // Mal varlığı tespit edildi mi?
+  assetsDetected Boolean  @default(false) @map("assets_detected")
+  
+  // Son tarama tarihi
+  lastAssetScanAt DateTime? @map("last_asset_scan_at")
+  
+  // Tespit edilen varlıklar (JSON)
+  detectedAssets  Json?    @map("detected_assets")
 
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  user          User      @relation(fields: [userId], references: [id])
-  reminders     Reminder[]
-  documents     Document[]
+  // -----------------------------------------------------------------------------
+  
+  // Ödemeler - Bire çok ilişki
   payments      IcraPayment[]
+  
+  // Arama kayıtları - Bire çok ilişki
+  callRecords   IcraCallRecord[]
+  
+  // Mal varlığı history - Bire çok ilişki
+  assetHistory  IcraAssetHistory[]
 
-  @@unique([userId, takipNumarasi]) // Aynı kullanıcıda takip numarası benzersiz
-  @@index([userId]) // Kullanıcı ID ile arama
-  @@index([durum]) // Durum ile arama
-  @@index([aktif]) // Aktif takipleri bulma
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([userId])
+  @@index([fileNumber])
+  @@index([status])
+  
   @@map("icra_files")
 }
 
 // İcra takip türü enum'u
 enum IcraTrackingType {
-  ALACAK      // Alacak davası icrası
-  TAKIP       // Genel icra takibi
-  İSTİHKAK   // İstihkak iddiası
-  HACİZ       // Haciz işlemleri
-  SATIŞ       // Satış işlemleri
-  TAHSİLAT    // Tahsilat takibi
+  // Borçlu takibi - Alacaklı adına takip
+  BORCLU
+  // Alacaklı takibi - Borçlu adına takip
+  ALACAKLI
 }
 
 // İcra dosya durumu enum'u
 enum IcraFileStatus {
-  AKTIF      // aktif takip
-  KESİNLEŞEN // Kesinleşmiş
-  SONA EREN   // Sona eren
-  HACİZ       // Haciz aşamasında
-  SATIŞ       // Satış aşamasında
-  TAHSİLAT    // Tahsilat aşamasında
+  // Aktif - Takip devam ediyor
+  ACTIVE
+  // Ödendi - Borç tamamen ödendi
+  PAID
+  // İptal edildi
+  CANCELLED
+  // Başkasına devredildi
+  TRANSFERRED
 }
 
 // ============================================================================
-// İCRA TAHSİLAT (ICRA_PAYMENTS) TABLOSU
-// Açıklama: İcra takiplerinden yapılan tahsilatları saklar
-// Diğer tablolarla ilişkiler:
-// - icraFile (N:1) - Tahsilatın ait olduğu icra dosyası
+// ICRA PAYMENT MODELİ
+// Açıklama: İcra ödeme kayıtları
 // ============================================================================
 model IcraPayment {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
-  icraFileId    String    @map("icra_file_id")
-  amount        Decimal   @db.Decimal(15,2) @map("amount") // Tahsilat miktarı
-  paymentDate   DateTime  @map("payment_date") // Ödeme tarihi
-  description   String?   @map("description") // Açıklama
-  status        PaymentStatus @default(PENDING) @map("status") // Ödeme durumu
+  
+  // İcra dosya ID'si
+  fileId        String    @map("file_id")
+  
+  // Ödeme tarihi
+  paymentDate   DateTime  @map("payment_date")
+  
+  // Ödeme tutarı (TL)
+  amount        Decimal   @db.Decimal(12,2)
+  
+  // Ödeme türü - nakit, havale, çek, senet
+  paymentMethod String?   @map("payment_method")
+  
+  // Açıklama
+  description   String?
+  
+  // Makbuz numarası
+  receiptNumber String?   @map("receipt_number")
 
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
-
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  icraFile      IcraFile  @relation(fields: [icraFileId], references: [id])
+  // -----------------------------------------------------------------------------
+  
+  // İcra dosyası - Çoktan bire ilişki (N Payment : 1 IcraFile)
+  file          IcraFile  @relation(fields: [fileId], references: [id], onDelete: Cascade)
 
-  @@index([icraFileId]) // İcra dosyası ile arama
-  @@index([paymentDate]) // Tarih ile arama
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([fileId])
+  @@index([paymentDate])
+  
   @@map("icra_payments")
 }
 
 // ============================================================================
-// İCRA ARAMA KAYITLARI (ICRA_CALL_RECORDS) TABLOSU
-// Açıklama: Borçlu arama kayıtlarını saklar
-// Diğer tablolarla ilişkiler:
-// - icraFile (N:1) - Aramanın ait olduğu icra dosyası
-// - user (N:1) - Arayan avukat/operatör
+// ICRA CALL RECORD MODELİ
+// Açıklama: Borçlu arama kayıtları - Tahsilat için yapılan görüşmeler
 // ============================================================================
 model IcraCallRecord {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
-  icraFileId    String    @map("icra_file_id")
-  userId        String    @map("user_id")
-  callResult    CallResult @map("call_result") // Arama sonucu
-  callDirection CallDirection @default(OUTBOUND) @map("call_direction")
-  notes         String?   @map("notes") // Görüşme notları
-  paymentPromiseDate DateTime? @map("payment_promise_date") // Ödeme sözü tarihi
-  paymentKept   Boolean   @default(false) @map("payment_kept") // Ödeme yapıldı mı
   
-  createdAt     DateTime  @default(now()) @map("created_at")
-  deletedAt     DateTime? @map("deleted_at") // Soft delete
+  // İcra dosya ID'si
+  fileId        String    @map("file_id")
+  
+  // Arama yönü - outgoing, incoming
+  direction     CallDirection @default(OUTGOING)
+  
+  // Arama tarihi ve saati
+  calledAt      DateTime  @map("called_at")
+  
+  // Arama sonucu - cevap yok, meşgul, görüşüldü vb.
+  result        CallResult
+  
+  // Görüşülen kişi
+  contactName   String?   @map("contact_name")
+  
+  // Görüşülen kişi telefonu
+  contactPhone  String?   @map("contact_phone")
+  
+  // Görüşme notu
+  notes         String?
+  
+  // Ödeme sözü verildi mi?
+  promiseAmount Decimal?  @map("promise_amount") @db.Decimal(12,2)
+  
+  // Ödeme sözü tarihi
+  promiseDate   DateTime? @map("promise_date")
 
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  icraFile      IcraFile  @relation(fields: [icraFileId], references: [id])
-  user          User      @relation(fields: [userId], references: [id])
+  // -----------------------------------------------------------------------------
+  
+  // İcra dosyası - Çoktan bire ilişki (N Record : 1 IcraFile)
+  file          IcraFile  @relation(fields: [fileId], references: [id], onDelete: Cascade)
 
-  @@index([icraFileId]) // İcra dosyası ile arama
-  @@index([userId]) // Kullanıcı ile arama
-  @@index([callResult]) // Sonuç ile arama
-  @@index([paymentPromiseDate]) // Ödeme sözü tarihi ile arama
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([fileId])
+  @@index([calledAt])
+  
   @@map("icra_call_records")
-}
-
-// Arama sonucu enum'u
-enum CallResult {
-  ANSWERED           // Cevap verdi
-  NO_ANSWER          // Cevap vermedi
-  BUSY               // Meşgul
-  WRONG_NUMBER       // Yanlış numara
-  PAYMENT_PROMISE    // Ödeme sözü
-  REFUSED            // Reddetti
-  CALLBACK_REQUESTED // Geri arama istedi
 }
 
 // Arama yönü enum'u
 enum CallDirection {
-  OUTBOUND  // Çıkış araması
-  INBOUND    // Geliş araması
+  // Giden arama
+  OUTGOING
+  // Gelen arama
+  INCOMING
+}
+
+// Arama sonucu enum'u
+enum CallResult {
+  // Cevap yok
+  NO_ANSWER
+  // Meşgul
+  BUSY
+  // Kapandı
+  SWITCHED_OFF
+  // Görüşüldü
+  ANSWERED
+  // Numara yanlış
+  WRONG_NUMBER
+  // Diğer
+  OTHER
 }
 
 // ============================================================================
-// İCRA MAL VARLIĞI GEÇMİŞİ (ICRA_ASSET_HISTORY) TABLOSU
-// Açıklama: Mal varlığı tespit geçmişini saklar
-// Diğer tablolarla ilişkiler:
-// - icraFile (N:1) - Mal varlığının ait olduğu icra dosyası
+// ICRA ASSET HISTORY MODELİ
+// Açıklama: Mal varlığı tespit history'si - AI taramalarının sonuçları
 // ============================================================================
 model IcraAssetHistory {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
-  icraFileId    String    @map("icra_file_id")
-  assets        Json      @map("assets") // Mal varlıkları listesi
-  totalValue    Decimal   @db.Decimal(15,2) @map("total_value") // Toplam değer
-  notes         String?   @map("notes") // Notlar
   
-  createdAt     DateTime  @default(now()) @map("created_at")
+  // İcra dosya ID'si
+  fileId        String    @map("file_id")
+  
+  // Tarama tarihi
+  scannedAt     DateTime  @map("scanned_at")
+  
+  // AI modeli - Hangi model ile tarandı
+  aiModel       String?   @map("ai_model")
+  
+  // Tespit edilen varlıklar (JSON)
+  assets        Json
+  
+  // Toplam değer (TL)
+  totalValue    Decimal?  @map("total_value") @db.Decimal(14,2)
+  
+  // Güvenilirlik oranı - AI güvenilirlik yüzdesi
+  confidenceRate Decimal? @map("confidence_rate") @db.Decimal(5,2)
+  
+  // Tarama kaynağı - barkod, k pledgesearch, manual
+  source        String    @default("ai_scan")
+  
+  // Notlar
+  notes         String?
 
-  // --------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   // İLİŞKİLER
-  // --------------------------------------------------------------------
-  icraFile      IcraFile  @relation(fields: [icraFileId], references: [id])
+  // -----------------------------------------------------------------------------
+  
+  // İcra dosyası - Çoktan bire ilişki (N History : 1 IcraFile)
+  file          IcraFile  @relation(fields: [fileId], references: [id], onDelete: Cascade)
 
-  @@index([icraFileId]) // İcra dosyası ile arama
-  @@index([createdAt]) // Tarih ile arama
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([fileId])
+  @@index([scannedAt])
+  
   @@map("icra_asset_history")
 }
 
 // ============================================================================
-// BİLDİRİM ŞABLONU (NOTIFICATION_TEMPLATES) TABLOSU
-// Açıklama: Tekrar kullanılabilir bildirim şablonları
+// NOTIFICATION TEMPLATE MODELİ
+// Açıklama: Bildirim şablonları - Email, SMS, Push için
 // ============================================================================
 model NotificationTemplate {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
-  name          String    @map("name") // Şablon adı
-  title         String    @map("title") // Başlık (değişkenlerle: {{name}})
-  body          String    @map("body") // İçerik (değişkenlerle)
-  channels      Json      @map("channels") // Hangi kanallarda kullanılabilir
-  priority      String    @default("normal") @map("priority")
+  
+  // Şablon adı
+  name          String
+  
+  // Şablon türü - email, sms, push, whatsapp, telegram
+  type          String
+  
+  // Şablon başlığı (email için)
+  subject       String?
+  
+  // Şablon içeriği - {{name}}, {{date}} gibi placeholder'lar
+  content       String
+  
+  // Aktif mi?
   isActive      Boolean   @default(true) @map("is_active")
+  
+  // Şablon dili
+  language      String    @default("tr")
+  
+  // Kategori - tebligat, hatırlatıcı, pazarlama, sistem
+  category      String    @default("system")
+  
+  // Son kullanım tarihi (opsiyonel)
+  expiresAt     DateTime? @map("expires_at")
 
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
-
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
+  @@index([type])
+  @@index([isActive])
+  
   @@map("notification_templates")
 }
 
 // ============================================================================
-// BİLDİRİM GÖNDERİM LOG (NOTIFICATION_LOGS) TABLOSU
-// Açıklama: Gönderilen bildirimlerin geçmişini tutar
+// NOTIFICATION LOG MODELİ
+// Açıklama: Bildirim gönderim logları - Hangi bildirimler gönderildi
 // ============================================================================
 model NotificationLog {
+  // Benzersiz tanımlayıcı
   id            String    @id @default(uuid())
+  
+  // Kullanıcı ID'si
   userId        String    @map("user_id")
-  title         String    @map("title")
-  body          String    @map("body")
-  channels      Json      @map("channels") // Gönderilen kanallar
   
-  // Push
-  pushSent      Boolean   @default(false) @map("push_sent")
-  pushMessageId String?   @map("push_message_id")
-  pushError     String?   @map("push_error")
+  // Bildirim türü - push, sms, email, whatsapp, telegram
+  channel       String
   
-  // SMS
-  smsSent       Boolean   @default(false) @map("sms_sent")
-  smsMessageId  String?   @map("sms_message_id")
-  smsError      String?   @map("sms_error")
+  // Bildirim başlığı
+  title         String?
   
-  // Email
-  emailSent     Boolean   @default(false) @map("email_sent")
-  emailError    String?   @map("email_error")
+  // Bildirim içeriği
+  content       String?
   
-  // WhatsApp
-  whatsappSent Boolean   @default(false) @map("whatsapp_sent")
-  whatsappError String?   @map("whatsapp_error")
+  // Gönderim durumu - sent, failed, pending
+  status        String    @default("pending")
   
-  // Telegram
-  telegramSent Boolean   @default(false) @map("telegram_sent")
-  telegramError String?   @map("telegram_error")
+  // Provider message ID (SMS, Push vb.)
+  providerMessageId String? @map("provider_message_id")
   
-  priority      String    @default("normal") @map("priority")
+  // Gönderim zamanı
+  sentAt        DateTime? @map("sent_at")
   
-  createdAt     DateTime  @default(now()) @map("created_at")
+  // Okunma zamanı (push için)
+  readAt        DateTime? @map("read_at")
+  
+  // Hata mesajı (varsa)
+  errorMessage  String?   @map("error_message")
+  
+  // İlgili reminder ID (varsa)
+  reminderId    String?   @map("reminder_id")
+  
+  // İlgili notification ID (varsa)
+  notificationId String?  @map("notification_id")
 
+  // -----------------------------------------------------------------------------
+  // İNDEKSLER
+  // -----------------------------------------------------------------------------
+  
   @@index([userId])
-  @@index([createdAt])
+  @@index([channel])
+  @@index([status])
+  @@index([sentAt])
+  
   @@map("notification_logs")
 }
+
+// ============================================================================
+// SCHEMA SONU
+// ============================================================================
+// Bu şema PostgreSQL veritabanı için tasarlanmıştır
+// Prisma Client oluşturmak için: npx prisma generate
+// Migration için: npx prisma migrate dev
+// ============================================================================
