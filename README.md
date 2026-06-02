@@ -10,7 +10,7 @@
 
 [![Status](https://img.shields.io/badge/status-BETA-yellow?style=flat-square&logo=.Statuspage)](https://refik.app)
 [![Version](https://img.shields.io/badge/version-1.0.0-3B82F6?style=flat-square)](https://github.com/vadi360/Refik)
-[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+[![License](https://img.shields.io/badge/license-AGPLv3-green?style=flat-square)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-18+-68217A?style=flat-square&logo=Node.js)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/typescript-5.3-3178C6?style=flat-square&logo=TypeScript)](https://www.typescriptlang.org)
 [![NestJS](https://img.shields.io/badge/nestjs-10-E0234E?style=flat-square&logo=NestJS)](https://nestjs.com)
@@ -358,7 +358,14 @@ git push origin feature/yeni-ozellik
 
 ## 📄 Lisans
 
-**MIT License** - Detaylar için [LICENSE](LICENSE) dosyasına bakınız.
+**GNU AGPLv3** — Bkz. [LICENSE](LICENSE) dosyası
+
+Açık kaynak, ancak:
+- ❌ Ticari satış yasak
+- ❌ Üçüncü kişilere dağıtım yasak
+- ✅ Kendi sunucusunda kurulum serbest
+- ✅ Kendi kullanım için geliştirme serbest
+- ✅ Katkıda bulunma beklenir
 
 ---
 

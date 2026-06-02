@@ -1,21 +1,259 @@
-# MIT License
+GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3, 19 November 2007
 
-Copyright (c) 2026 Vadi360 — Refik (Avukat Pro)
+Copyright (C) 2026 Vadi360 — Refik (Avukat Pro)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Everyone is permitted to copy and distribute verbatim copies
+of this license document, but changing it is not allowed.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+                           _preamble_
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+The GNU Affero General Public License is a free, copyleft license
+for software and other kinds of works.
+
+The licenses for most software and other practical works are
+designed to take away your freedom to share and change the works.
+By contrast, our General Public Licenses are intended to guarantee
+your freedom to share and change all versions of a program--to make
+sure it remains free software for all its users.
+
+When we speak of free software, we are referring to freedom, not
+price. Our General Public Licenses are designed to make sure that you
+have the freedom to distribute copies of free software (and charge for
+them if you wish), that you receive source code or can get it if you
+want it, that you can change the software or use pieces of it in new
+free programs, and that you know you can do these things.
+
+Developers that use our General Public Licenses protect your rights
+with two steps: (1) assert copyright on the software, and (2) offer
+you this License which gives you legal permission to copy, distribute
+and/or modify the software.
+
+A secondary benefit of defending users' freedom is that
+improvements made in alternate versions of the program, if they
+are widespread, may well come to require the addition of such
+redistributability requirements.
+
+                          _terms_
+
+## 0. Definitions
+
+"This License" refers to version 3 of the GNU Affero General Public
+License.
+
+"Copyright" also means copyright-like laws that apply to other kinds
+of works, such as semiconductor masks.
+
+"The Program" refers to any copyrightable work licensed under this
+License. Each licensee is addressed as "you". "Licensees" and
+"recipients" may be individuals or organizations.
+
+To "modify" a work means to copy from or adapt all or part of the work
+in a fashion requiring copyright permission, other than the making of an
+exact copy. The resulting work is called a "modified version" of the
+earlier work or a work "based on" the earlier work.
+
+A "covered work" means either the unmodified Program or a work based
+on the Program.
+
+To "propagate" a work means to do anything with it that, without
+permission, would make you directly or secondarily liable for
+infringement under applicable copyright law, except executing it on a
+computer or modifying a private copy. Propagation includes copying,
+distribution (with or without modification), making available to the
+public, and in some countries other activities as well.
+
+To "convey" a work means any kind of propagation that enables other
+parties to make or receive copies. Mere interaction with a user through
+a computer network, with no transfer of a copy, is not conveying.
+
+An interactive user interface displays "Appropriate Legal Notices" to the
+extent that it includes a convenient prominently visible feature that
+(1) displays an appropriate copyright notice, and (2) tells the user
+that there is no warranty for the work (except to the extent that
+warranties are provided), that licensees may convey the work under an
+License, and how to view a copy of this License. If the interface
+presents a list of user commands or options, such as a menu, a prominent
+item in the list meets this criterion.
+
+## 1. Source Code
+
+The "source code" for a work means the preferred form of the work for
+making modifications to it. "Object code" means any non-source form of a
+work.
+
+The "System Libraries" of an executable work include anything, other
+than the work as a whole, that (a) is included in the normal form of
+packaging a Major Component, but which is not part of that Major
+Component, and (b) serves only to enable use of the work with that
+Major Component, or to implement a Standard Interface for which an
+implementation is available in source code form. A "Major Component", in
+this context, means a major essential component (kernel, window system,
+and so on) of the specific operating system (if any) on which the
+executable work runs, or a compiler used to produce the work, or an
+object code interpreter used to run it.
+
+The "Corresponding Source" for a work in object code form means all the
+source code needed to generate, install, and (for an executable work) run
+the object code and on which the work runs. However, it includes the
+work's design utilities, examples, templates, the scripts, interface
+definitions and control files, as well as the installation scripts.
+
+The Corresponding Source need not include anything that users can
+regenerate automatically from other parts of the Corresponding Source.
+
+The Corresponding Source for a work in source code form is that same work.
+
+## 2. Basic Permissions
+
+All rights granted under this License are granted for the term of
+copyright and are irrevocable for the duration of such copyright.
+This License explicitly affirms your unlimited permission to run the
+unmodified Program. The output from running a covered work is covered
+by this License only if the output, given its content, constitutes a
+covered work. This License acknowledges your rights or fair use, for
+example, it may not be used for trademark rights.
+
+You may make, run and propagate covered works that you do not
+convey, without conditions so long as your license otherwise remains
+in force. You may convey to others, for absolute no charge only, the
+exact propagating materials received by you, under this License, to
+enable you to make modifications to the work privately for your own
+use, to debug software which has been modified by you, to run portions
+of the work that you do not wish to release, and to make backups.
+
+Conveying under any other circumstances is permitted solely under the
+conditions stated below.
+
+## 3. Connecting Users and Servers
+
+A "User Installation" is an installation of the Program that is made
+available to a single individual user, on a private server or computer,
+for their own personal or professional use.
+
+A "User" is a single individual person. If a legal entity or
+organization wishes to use the Software, they must obtain a separate
+license or permission from Vadi360.
+
+When you are acting as a User, this License gives you the right to:
+- Install and run the software on your own servers
+- Modify the software for your own use
+- Run modified versions of the software for yourself or your organization
+- Share your modifications with others only under this License
+
+If you are running the software on a server to provide a service to
+multiple users (other than yourself), you must:
+- Make the complete source code of the modified software available to
+  all those users under this License
+- Make prominent notice that the software is available under AGPLv3
+- Ensure all users receive a copy of this License
+
+## 4. Collective Works
+
+A "Collective Work" is a work that combines the Program with other
+independent programs, in each case obtaining substantial contributions
+to the combined work, and communicating the combined work to users
+outside the system.
+
+To "operate a Collective Work" means to run the Program as part of a
+data center or server environment that serves multiple users.
+
+If you operate a Collective Work, you must make the source code of the
+collective work available to all those users under this License.
+
+## 5. Attribution and Distribution
+
+You must keep intact all notices that refer to this License and to the
+absence of any warranty. You must ensure all copies of the covered
+work you distribute include a prominent notice stating that the work
+is available under this License, and include a copy of the full license.
+
+For example:
+```
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public
+License along with this program. If not, see <https://www.gnu.org/licenses/>.
+```
+
+## 6. Prohibited Uses
+
+Under this License, you MUST NOT:
+- Sell the Software or make commercial use of it
+- Distribute the Software to third parties for commercial purposes
+- Use the Software as the basis for a commercial product or service
+- Assert proprietary claims over the Software or modifications
+- Remove or obscure any proprietary notices
+
+Under this License, you MAY:
+- Use the Software for your own legal practice or organization
+- Modify the Software for your own use
+- Run the Software on your own private servers
+- Contribute improvements back to the project
+
+## 7. Termination
+
+This License terminates automatically if you fail to comply with any
+material term. Your rights under this License end immediately upon
+such failure.
+
+If you institute litigation against any party for infringement of
+copyright, all such licenses will terminate at that time.
+All existing settlements will not be affected.
+
+## 8. No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## 9. Severability
+
+If any provision of this License is held to be invalid, illegal or
+unenforceable, such provision shall be reformed to the minimum extent
+necessary to make it valid, legal and enforceable. If such reformation
+is not possible, the provision shall be severed from this License, and
+the remaining provisions shall remain in full force and effect.
+
+## 10. Contact and Support
+
+For questions regarding this License, please contact:
+Vadi360 — info@refik.app
+
+                            _additional_terms_
+
+**Special Exception for Users:**
+
+Vadi360 grants an additional permission to Users of the Software:
+
+Users may run the Software on their own servers for their own
+professional use without being required to distribute source code,
+provided that:
+1. The User is a single attorney or a law firm with no more than
+   10 attorneys using the software
+2. The User does not use the Software to provide services to third
+   parties (e.g., SaaS to other law firms)
+
+Law firms with more than 10 attorneys or parties wishing to use this
+as a service to others must obtain a commercial license from Vadi360.
+
+---
+
+GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3, 19 November 2007
+
+Full license text available at: <https://www.gnu.org/licenses/agpl-3.0.txt>
+
+Copyright (C) 2026 Vadi360 — Refik (Avukat Pro)
